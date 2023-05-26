@@ -15,7 +15,7 @@ import Screen from './screen';
 
 export default function Muha(props) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF('/muha2.glb');
+  const { nodes, materials, animations } = useGLTF('muha/muha2.glb');
   const { actions } = useAnimations(animations, group);
   const { showUI, setShowUI, exit, setExit } = props;
   const [counter, setCounter] = useState(0);
