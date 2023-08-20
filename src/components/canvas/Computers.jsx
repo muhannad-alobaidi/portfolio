@@ -3,7 +3,7 @@
 /* eslint-disable react/no-unknown-property */
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Preload } from '@react-three/drei';
+import { OrbitControls, Preload, Environment } from '@react-three/drei';
 import Muha from '../Muha2';
 import { useState } from 'react';
 import CanvasLoader from '../Loader';
@@ -19,8 +19,9 @@ const ComputersCanvas = ({ showUI, setShowUI, exit, setExit }) => {
       camera={{ position: [10, 4, 0], fov: 75 }}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <ambientLight intensity={1} />
-      <pointLight intensity={1} />
+      <Environment files="/images/blue_photo_studio_2k.hdr" blur={0.5} />
+      <ambientLight intensity={0.1} />
+      <pointLight intensity={0.1} />
       <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight position={[-20, 50, 10]} angle={0.12} penumbra={1} />
       <Suspense fallback={<CanvasLoader />}>
@@ -32,6 +33,8 @@ const ComputersCanvas = ({ showUI, setShowUI, exit, setExit }) => {
           minZoom={0.2}
           maxPolarAngle={Math.PI / 3}
           minPolarAngle={Math.PI / 3}
+          autoRotate
+          autoRotateSpeed={1}
         />
         <Muha
           exit={exit}

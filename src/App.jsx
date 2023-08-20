@@ -15,7 +15,7 @@ import {
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative z-0 bg-primary">
+      <div className="relative z-0 grey-gradient">
         <div className="bg-hero-pattren bg-cover bg-no-repeat bg-center">
           <Navbar />
           <Hero />

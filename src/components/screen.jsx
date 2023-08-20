@@ -18,10 +18,11 @@ export default function Screen(props) {
 
   const { showUI, setShowUI } = props;
   const [hover, setHover] = useState(false);
-
+  const ref = useRef();
   const [clicked, setClicked] = useState(false);
   const screenRef = useRef();
   const { camera, scene } = useThree();
+  const [emissiveColor, setEmissiveColor] = useState(0x000000); // default to black, no emission
   const [material, setMaterial] = useState(materials['Material.074_30']);
 
   const handleClick = () => {
@@ -31,6 +32,12 @@ export default function Screen(props) {
   useEffect(() => {
     document.body.style.cursor = hover ? 'pointer' : 'auto';
   }, [hover]);
+
+  useEffect(() => {
+    if (!clicked) {
+      material.emissive.set(emissiveColor);
+    }
+  }, [emissiveColor]);
 
   useFrame(() => {
     TWEEN.update(); // update the TWEEN animation on every frame
@@ -95,8 +102,14 @@ export default function Screen(props) {
     >
       <mesh
         onClick={handleClick}
-        onPointerEnter={() => setHover(true)}
-        onPointerLeave={() => setHover(false)}
+        onPointerEnter={() => {
+          setHover(true);
+          setEmissiveColor(0xffffff);
+        }}
+        onPointerLeave={() => {
+          setHover(false);
+          setEmissiveColor(0x000000);
+        }}
         ref={screenRef}
         name="MY_SCREEN_MY_SCREEN_0"
         geometry={nodes.MY_SCREEN_MY_SCREEN_0.geometry}

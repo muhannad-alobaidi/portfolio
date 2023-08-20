@@ -19,6 +19,20 @@
   display: block;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.grey-gradient {
+  background: linear-gradient(45deg, rgb(20, 79, 120) 7%, rgb(37, 45, 63) 100%);
+}
+
 .black-gradient {
   background: #000000; /* fallback for old browsers */
   background: -webkit-linear-gradient(
