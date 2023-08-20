@@ -14,7 +14,7 @@ import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 
 export default function Screen(props) {
-  const { nodes, materials } = useGLTF('/muha2.glb');
+  const { nodes, materials } = useGLTF('/muha/muha.gltf');
 
   const { showUI, setShowUI } = props;
   const [hover, setHover] = useState(false);

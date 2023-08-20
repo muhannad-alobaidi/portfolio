@@ -10,6 +10,7 @@ import CanvasLoader from '../Loader';
 
 const ComputersCanvas = ({ showUI, setShowUI, exit, setExit }) => {
   const [zoom, setzoom] = useState(true);
+
   return (
     <Canvas
       className=" m-auto top-40"
