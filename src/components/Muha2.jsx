@@ -11121,4 +11121,4 @@ export default function Muha(props) {
   );
 }
 
-useGLTF.preload('/muha.gltf');
+useGLTF.preload('/muha/muha.gltf');

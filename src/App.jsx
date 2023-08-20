@@ -11,11 +11,13 @@ import {
   Works,
   StarsCanvas,
 } from './components';
+import Particals from './components/extaras/Particals';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="relative z-0 grey-gradient">
+        <Particals />
         <div className="bg-hero-pattren bg-cover bg-no-repeat bg-center">
           <Navbar />
           <Hero />

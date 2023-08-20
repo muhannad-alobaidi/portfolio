@@ -19,6 +19,14 @@
   display: block;
 }
 
+.perspective {
+  perspective: 500px;
+}
+
+.rotate-x {
+  transform: rotateX(3.3deg) !important;
+}
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
