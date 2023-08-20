@@ -18,6 +18,7 @@ const Particals = () => {
   return (
     <>
       <Particles
+        className=" relative w-[100%]"
         id="tsparticles"
         init={particlesInit}
         loaded={particlesLoaded}
@@ -38,28 +39,50 @@ const Particals = () => {
           },
           particles: {
             number: {
-              value: 60,
+              value: 8,
               density: {
                 enable: true,
-                value_area: 1500,
+                value_area: 800,
               },
             },
             line_linked: {
-              enable: true,
-              opacity: 0.02,
+              enable: false,
             },
             move: {
-              direction: 'right',
-              speed: 0.05,
+              speed: 1,
+              out_mode: 'out',
+            },
+            shape: {
+              type: ['image', 'circle'],
+              image: [
+                {
+                  src: '/react.cd2ab268.svg',
+                  height: 20,
+                  width: 23,
+                },
+                {
+                  src: '/k8s.2d579d24.svg',
+                  height: 20,
+                  width: 20,
+                },
+                {
+                  src: '/code.b3b4c4f4.png',
+                  height: 20,
+                  width: 20,
+                },
+              ],
+            },
+            color: {
+              value: '#CCC',
             },
             size: {
-              value: 1,
-            },
-            opacity: {
+              value: 30,
+              random: false,
               anim: {
                 enable: true,
-                speed: 1,
-                opacity_min: 0.05,
+                speed: 4,
+                size_min: 10,
+                sync: false,
               },
             },
           },

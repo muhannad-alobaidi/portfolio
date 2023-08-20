@@ -11,7 +11,7 @@ import {
   Works,
   StarsCanvas,
 } from './components';
-import Particals from './components/extaras/Particals';
+import Particals from './components/extaras/Skynight';
 
 function App() {
   return (
