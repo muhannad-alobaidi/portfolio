@@ -6,7 +6,7 @@ const ScreenElements = ({ setShowUi }) => {
   return (
     <div
       id="ScreenElements"
-      className=" absolute inset-0 top-[120px] max-w-7x1 mx-auto 
+      className=" absolute inset-0 top-[40px] md:top-[120px] max-w-7x1 mx-auto 
         flex flex-row items-start gap-5 perspective z-40 "
     >
       <motion.div
@@ -14,7 +14,7 @@ const ScreenElements = ({ setShowUi }) => {
         animate={{ opacity: 0.75, scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}
         transition={{ duration: 0.5 }}
-        className="m-auto  opacity-25  bg-gradient-to-b bg-white w-[840px]  h-[448px]  mt-[294px] z-10 rotate-x origin-center"
+        className="m-auto  opacity-25  bg-gradient-to-b bg-white w-[375px] md:w-[840px] h-[315px] md:h-[448px]  mt-[294px] z-10 rotate-x origin-center"
       >
         <motion.div
           initial={{ opacity: 0, scaleY: 0 }}
@@ -35,9 +35,9 @@ const ScreenElements = ({ setShowUi }) => {
             X
           </button>
         </motion.div>
-        <div className="h-[90%] overflow-scroll scrollbar-hide hide-scrollbar overflow-y-auto  w-full ">
-          <div className="h-auto bg-white-500/20 border border-grey-500 bg- w-[80%] m-auto">
-            <div className="h-fit w-full m-auto p-8 flex justify-center ">
+        <div className=" h-[85%] md:h-[90%] overflow-scroll scrollbar-hide hide-scrollbar overflow-y-auto  w-full ">
+          <div className="h-auto bg-white-500/20 md:border border-grey-500 bg- w-[80%] m-auto">
+            <div className="h-fit w-full m-auto p-1 md:p-8 flex justify-center ">
               <div className=" flex flex-col  gap-20  pr-0 flex-[1_1_49%]">
                 <ProjectModule
                   title="project 1"
@@ -53,7 +53,7 @@ const ScreenElements = ({ setShowUi }) => {
                 />
               </div>
               <div className=" h-full m-2 shadow-lg  flex-[1_1_1%]"></div>
-              <div className=" flex flex-col  gap-20 p-8 pr-0 flex-[1_1_49%]">
+              <div className=" flex flex-col  gap-20 p-1 md:p-8 pr-0 flex-[1_1_49%]">
                 <div className=" mt-[170px]  ">
                   <ProjectModule
                     title="project 1"
