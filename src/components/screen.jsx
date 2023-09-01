@@ -7,11 +7,13 @@ Command: npx gltfjsx@6.1.4 muha2.glb
 */
 
 import React, { useRef, useState, useEffect } from 'react';
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, Html } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3, Box3, Quaternion } from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
+
+import ScreenElements from './modules/ScreenElements';
 
 export default function Screen(props) {
   const { nodes, materials } = useGLTF('/muha/muha.gltf');
@@ -78,7 +80,11 @@ export default function Screen(props) {
     if (clicked) {
       console.log(showUI);
       setTimeout(() => {
-        setMaterial('');
+        const whiteMaterial = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+        });
+
+        setMaterial(whiteMaterial);
         setShowUI(true);
       }, 8000);
     }
@@ -100,6 +106,30 @@ export default function Screen(props) {
       rotation={[0, 0.07, -Math.PI / 2]}
       scale={[331.62, 331.62, 348.07]}
     >
+      <Html
+        occlude
+        as="div"
+        prepend
+        // sprite is a two-dimensional bitmap
+        sprite
+        distanceFactor={0}
+        // position is the distance from the origin
+        position={[4.1, 5, 0]}
+        zIndexRange={[100, 10]}
+        transform
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%',
+          color: 'black',
+          fontSize: '10px',
+          transformOrigin: 'center',
+        }}
+      >
+        {showUI && <ScreenElements setShowUi={setShowUI} />}
+      </Html>
       <mesh
         onClick={handleClick}
         onPointerEnter={() => {

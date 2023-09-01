@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.no-scroll {
+  overflow: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
