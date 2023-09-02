@@ -27,6 +27,8 @@ export default function Screen(props) {
   const [emissiveColor, setEmissiveColor] = useState(0x000000); // default to black, no emission
   const [material, setMaterial] = useState(materials['Material.074_30']);
 
+  const [originalCameraPosition, setOriginalCameraPosition] = useState();
+
   const handleClick = () => {
     setClicked(true);
   };
@@ -78,7 +80,6 @@ export default function Screen(props) {
 
   useEffect(() => {
     if (clicked) {
-      console.log(showUI);
       setTimeout(() => {
         const whiteMaterial = new THREE.MeshStandardMaterial({
           color: 0xffffff,
@@ -91,8 +92,22 @@ export default function Screen(props) {
   }, [clicked]);
 
   useEffect(() => {
+    setOriginalCameraPosition(camera.position.clone());
+  }, []);
+
+  useEffect(() => {
     if (!showUI) {
       setMaterial(materials['Material.074_30']);
+
+      // Smoothly move camera back to its original position
+      const tweenBack = new TWEEN.Tween(camera.position)
+        .to(originalCameraPosition, 1400) // duration of the tween animation in milliseconds
+        .easing(TWEEN.Easing.Quadratic.Out) // easing function to use
+        .start();
+
+      tweenBack.onUpdate(() => {
+        camera.lookAt(screenRef.current.position);
+      });
 
       setShowUI(false);
       setClicked(false);

@@ -10,9 +10,9 @@ const Navbar = () => {
   const [active, setactive] = useState('');
   return (
     <nav
-      className={`${styles.paddingX} w-full items-center py-5 fixed top-0 z-20 bg-transparen shadow-md backdrop-blur-md`}
+      className={`${styles.paddingX} w-full items-center py-5 fixed top-0 z-50 bg-transparen shadow-md backdrop-blur-md`}
     >
-      <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
+      <div className="w-full flex justify-between items-center  mx-auto">
         <Link
           to="/"
           className="flex items-center gap-2"
@@ -21,7 +21,7 @@ const Navbar = () => {
             window.scrollTo(0, 0);
           }}
         >
-          <img src={logo} alt="logo" className="w-9 h-9 object-cont7ain" />
+          <img src={logo} alt="logo" className="w-16 h-9 object-cont7ain" />
           <p className="text-white text-[18px] font-bold cursor-pointer">
             Muha <span className="sm:block hidden">WEB Developer</span>
           </p>

@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './logo.png';
 import backend from './backend.png';
 import creator from './creator.png';
 import mobile from './mobile.png';
@@ -26,9 +26,14 @@ import shopify from './company/shopify.png';
 import starbucks from './company/starbucks.png';
 import tesla from './company/tesla.png';
 
+import project1 from './projects/1.webp';
+import project2 from './projects/2.webp';
+import project3 from './projects/3.webp';
+import project4 from './projects/4.webp';
+
 import carrent from './carrent.png';
 import jobit from './jobit.png';
-import tripguide from './tripguide.png';
+import backImage from './icons8-return-30.png';
 
 export {
   logo,
@@ -58,5 +63,9 @@ export {
   tesla,
   carrent,
   jobit,
-  tripguide,
+  project1,
+  project2,
+  project3,
+  project4,
+  backImage,
 };

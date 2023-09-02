@@ -26,15 +26,17 @@ const About = () => {
         </div>
         <div>
           <p className=" mt-3 mb-3 text-gray-400">
-            Hi! I'm Muhannad Alobaidi. In 2019, I found my love for web
-            development. One day, I came across a cool website that made me
-            think, "I want to create something like that!" So, I started
-            learning how to code.
+            Hi! I'm Muhannad Alobaidi. Before diving into the world of web
+            development in 2019, I had been immersed in the gaming industry. The
+            skills I cultivated in game development laid the foundation for my
+            passion in web creation. That spark was ignited further when I
+            realized the potential to bring ideas to life on the web.
           </p>
           <p className=" mt-3 mb-3 text-gray-400">
-            Today, I build websites that are easy to use and look good. Every
-            new project is a chance for me to bring someone's idea to life on
-            the web. I'm always excited about what I can create next!
+            Today, I build websites that are not only aesthetically pleasing but
+            also user-friendly. Every new project is an opportunity for me to
+            transform a vision into a tangible digital experience. I'm always
+            eager and excited about the next creation I'll embark on!
           </p>
         </div>
       </div>

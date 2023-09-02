@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { styles } from '../styles';
 import { ComputersCanvas } from './canvas';
 import { useState, useEffect } from 'react';
@@ -24,17 +24,25 @@ const Hero = () => {
     <section className="relative flex justify-center  mb-[128px]  bg-cover  h-screen mx-auto">
       <div
         className={` ${styles.paddingX} 
-        absolute inset-0 top-[120px] max-w-7x1 mx-auto
+        absolute inset-0 top-[120px] max-w-[1440px] mx-auto
         flex flex-row items-start gap-5 `}
       >
         <div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 2 }}
+            className={` text-white`}
+          >
+            Hi, my name is
+          </motion.p>
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 2 }}
             className={`${styles.heroHeadText} text-white`}
           >
-            Hi, I&apos;am <span className="text-[#5ea9ff]">Muhannad</span>{' '}
+            <span className="text-[#5ea9ff]">Muhannad Alobaidi</span>{' '}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -42,13 +50,11 @@ const Hero = () => {
             transition={{ duration: 1, delay: 3 }}
             className={`${styles.heroSubText} text-white-100`}
           >
-            I&apos;m a web developer
+            Crafting the modern web, pixel by pixel.
           </motion.p>
         </div>
       </div>
-      <AnimatePresence>
-        {/*showUi && <ScreenElements setShowUi={setShowUi} />*/}
-      </AnimatePresence>
+      <div className=" h-[350px] absolute bottom-0 z-50 w-[100%] mb-28"></div>
       <ComputersCanvas
         exit={exit}
         setExit={setExit}
