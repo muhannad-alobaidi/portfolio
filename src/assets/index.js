@@ -20,6 +20,10 @@ import redux from './tech/redux.png';
 import tailwind from './tech/tailwind.png';
 import typescript from './tech/typescript.png';
 import threejs from './tech/threejs.svg';
+import nextjs from './tech/next-js.svg';
+import wordpress from './tech/wordpress.svg';
+import php from './tech/php.svg';
+import storybook from './tech/storybook.svg';
 
 import meta from './company/meta.png';
 import shopify from './company/shopify.png';
@@ -53,10 +57,14 @@ export {
   mongodb,
   nodejs,
   reactjs,
+  nextjs,
   redux,
   tailwind,
+  storybook,
   typescript,
   threejs,
+  wordpress,
+  php,
   meta,
   shopify,
   starbucks,

@@ -41,7 +41,11 @@ const About = () => {
         </div>
       </div>
       <Tilt options={defaultOptions}>
-        <img className=" rounded-full" src="/images/muhannad.jpg" alt="" />
+        <img
+          className=" rounded-full max-w-xs"
+          src="/images/muhannad.jpg"
+          alt=""
+        />
       </Tilt>
     </section>
   );

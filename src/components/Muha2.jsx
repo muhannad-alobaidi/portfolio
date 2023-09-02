@@ -26,7 +26,6 @@ export default function Muha(props) {
     anim.play();
     anim.setLoop(THREE.LoopRepeat);
     anim.clampWhenFinished = true;
-    console.log(0);
 
     return null;
   });
