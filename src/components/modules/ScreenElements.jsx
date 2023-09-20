@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import ProjectModule from './projectModule';
 import { useState } from 'react';
 import ProjectDetailsPage from './projectDetailsPage';
-import { project1, project2, project3, project4 } from '../../assets';
+import { project1, project2, project3, project4, project5 } from '../../assets';
 
 const ScreenElements = ({ setShowUi }) => {
   const [showDetails, setShowDetails] = useState({
@@ -57,43 +57,68 @@ const ScreenElements = ({ setShowUi }) => {
             <div className="h-fit w-full m-auto  flex justify-center ">
               <div className=" grid grid-cols-2 md:grid-cols-4 gap-3 p-1 md:p-4  pr-0 flex-[1_1_49%]">
                 <ProjectModule
+                  page="monitor"
                   title="project 1"
+                  image={project5}
+                  techStach={[
+                    'Reactjs',
+                    'Nextjs',
+                    'WordPress',
+                    'scss',
+                    'PHP',
+                    'HeadlessCMS',
+                  ]}
+                  client="Lagerblad"
+                  description="
+                          For this project, I built a website using WordPress as a headless CMS and Next.js for the frontend.
+                          I picked WordPress because it's user-friendly for content updates. Next.js made the site load quickly and improved its SEO.
+                          I also set up a custom WordPress API to connect the frontend and backend smoothly. I handled all parts of this project by myself, from start to finish. The end product is a fast, responsive website that's easy to update."
+                  gitHub=""
+                  previewLink="https://www.lagerbladfoods.fi/"
+                  setShowDetails={setShowDetails}
+                />
+                <ProjectModule
+                  page="monitor"
+                  title="project 2"
                   image={project1}
-                  techStach={['reactjs', 'nextjs', 'firebase', 'scss']}
+                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
                   client="DNA yo."
-                  description="some text"
+                  description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
                   gitHub="https://github.com/muhannad-alobaidi/client-project-4"
                   previewLink="https://oppaat.dna.fi/teknologiatrendit2023?ircp=694458037&deliveryid=229043761&utm_source=&utm_medium=&utm_campaign="
                   setShowDetails={setShowDetails}
                 />
                 <ProjectModule
-                  title="project 2"
+                  page="monitor"
+                  title="project 3"
                   image={project2}
-                  techStach={['html', 'css', 'js']}
-                  description="some text"
-                  client="<NAME>"
-                  previewLink="https://www.fazer.fi/olerealisti"
-                  gitHub="https://github.com/muhannad-alobaidi/client-project-2/tree/main/fazerRealisty"
+                  techStach={['Reactjs', 'Nextjs', 'SCSS']}
+                  description="Landing page for Fazer, leveraging the capabilities of Next.js. Known for its speed and efficiency, Next.js provided a foundation that ensured the page was both responsive and user-friendly. This project allowed me to dive deep into frontend development nuances, optimizing for both aesthetics and performance. The end result is a sleek, fast-loading page that effectively represents Fazer's brand and values."
+                  client="Fazer"
+                  previewLink="https://viljavisio.fazer.fi/"
+                  gitHub="https://github.com/muhannad-alobaidi/client-project-3/"
                   setShowDetails={setShowDetails}
                 />
 
                 <ProjectModule
-                  title="project 3"
-                  image={project3}
-                  techStach={['html', 'css', 'js']}
-                  description="some text"
-                  client="<NAME>"
-                  gitHub="https://github.com/muhannad-alobaidi/client-project-3/"
-                  previewLink=""
+                  page="monitor"
+                  title="project 4"
+                  image={project4}
+                  techStach={['html', 'css', 'WordPress']}
+                  description="A unique brand story page in WordPress that captures the essence of the company's journey. With an engaging on-scroll sequence, visitors are taken on a visual narrative, showing the brand's story step by step. This immersive storytelling technique not only showcases the company's goals but does so in a captivating manner, creating a memorable user experience that resonates with the brand's identity."
+                  client="SolarFood"
+                  gitHub=""
+                  previewLink="https://solarfoods.com/our-story/"
                   setShowDetails={setShowDetails}
                 />
                 <ProjectModule
-                  title="project 4"
-                  image={project4}
+                  page="monitor"
+                  title="project 5"
+                  image={project3}
                   techStach={['html', 'css', 'js']}
-                  client="name"
-                  description="some text"
-                  gitHub="https://github.com/muhannad-alobaidi/client-project-4"
+                  client="Fazer"
+                  description="This was one of my first projects, a landing page made with vanilla JavaScript. It features a cool effect when submitting a letter, showcasing the basics and the fun of pure JavaScript development."
+                  gitHub=""
                   previewLink="https://www.fazer.fi/olerealisti"
                   setShowDetails={setShowDetails}
                 />

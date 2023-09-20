@@ -35,6 +35,7 @@ const ComputersCanvas = ({ showUI, setShowUI, exit, setExit }) => {
           minPolarAngle={Math.PI / 3}
           autoRotate
           autoRotateSpeed={1}
+          enablePan={false}
         />
         <Muha
           exit={exit}

@@ -34,6 +34,7 @@ import project1 from './projects/1.webp';
 import project2 from './projects/2.webp';
 import project3 from './projects/3.webp';
 import project4 from './projects/4.webp';
+import project5 from './projects/5.png';
 
 import carrent from './carrent.png';
 import jobit from './jobit.png';
@@ -75,5 +76,6 @@ export {
   project2,
   project3,
   project4,
+  project5,
   backImage,
 };
