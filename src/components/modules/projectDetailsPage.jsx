@@ -1,7 +1,11 @@
 import { backImage } from '../../assets';
 function projectDetailsPage({ details, setShowDetails, page }) {
   return (
-    <div className=" flex gap-4 absolute w-[100%] h-[100%] top-0 z-20 bg-white p-2">
+    <div
+      className={`flex absolute w-[100%] h-[100%] top-0 z-20 bg-slate-400 ${
+        page === 'work' ? 'p-12 gap-12' : 'p-2 gap-4'
+      }   `}
+    >
       <div className="flex-[50%]  ">
         <img
           src={details.projectDetails?.img}
