@@ -29,14 +29,14 @@ const ScreenElements = ({ setShowUi }) => {
         animate={{ opacity: 0.75, scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}
         transition={{ duration: 0.5 }}
-        className="m-auto  opacity-25  bg-gradient-to-b bg-white  w-[100%] min-w-[350px] md:min-w-[544px] h-[304px]   mt-[60px] z-10  origin-center"
+        className="m-auto  opacity-25  bg-gradient-to-b   w-[100%] min-w-[350px] md:min-w-[544px] h-[304px]   mt-[60px] z-10  origin-center"
       >
         <motion.div
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ scaleY: 1, opacity: 1 }}
           exit={{ opacity: 0, scaleY: 0 }}
           transition={{ duration: 0.5, delay: 1 }}
-          className="flex relative  p-2 bg-transparent  w-[100%] backdrop-blur-lg  shadow-md z-50 justify-between  origin-top"
+          className="flex relative bg-white  p-2 bg-transparent  w-[100%] backdrop-blur-lg  shadow-md z-50 justify-between  origin-top"
         >
           <div className=" flex-[45%] ">
             <h2 className=" text-gray-900  ">Projects</h2>

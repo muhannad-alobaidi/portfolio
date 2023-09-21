@@ -8,7 +8,7 @@ const techStack = ({ img, name, delay }) => {
         transition={{ delay: 0.1 * delay }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className=" hover:drop-shadow-sm	 hover:border-white ease-in  flex flex-col justify-between items-center w-[88px] border border-gray-500 rounded-lg p-2 "
+        className=" hover:shadow-xl transition-all ease-in  flex flex-col justify-between items-center w-[88px] border border-gray-500 rounded-lg p-2 "
       >
         <img
           className="mb-1 h-[60px]"

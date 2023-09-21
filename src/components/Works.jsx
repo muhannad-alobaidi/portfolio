@@ -19,7 +19,10 @@ const Works = () => {
   });
   return (
     <div>
-      <div className=" m-auto mt-[250px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]">
+      <div
+        id="work"
+        className=" m-auto mt-[250px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
+      >
         <div className="h-auto  m-auto p-6   md:p-24 ">
           <div className=" w-[100%] mt-5 mb-5 flex items-center">
             <h2 className=" flex-[40%] text-2xl text-gray-200">Work</h2>{' '}

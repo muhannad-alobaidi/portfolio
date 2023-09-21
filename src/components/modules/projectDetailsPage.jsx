@@ -12,12 +12,12 @@ function projectDetailsPage({ details, setShowDetails, page }) {
           alt=""
           className=" rounded-md shadow-xl hover:shadow-2xl transition-all"
         />
-        <p className="mt-8"> Client: {details.projectDetails?.client}</p>
+        <p className="mt-4 mb-3"> Client: {details.projectDetails?.client}</p>
         <div className=" flex flex-wrap gap-2 mt-2">
           {details.projectDetails?.techStach?.map((d, i) => {
             return (
               <span
-                className="border shadow-sm hover:shadow-lg transition-all  rounded-sm text-gray-700 pr-[2px] pl-[2px]"
+                className=" px-2 pr-2 border shadow-sm hover:shadow-lg transition-all  rounded-sm text-gray-700 "
                 key={i}
               >
                 {d}
@@ -31,8 +31,8 @@ function projectDetailsPage({ details, setShowDetails, page }) {
           {details.projectDetails?.title}
         </h2>
         <p
-          className={`mt-2 mb-2  text-gray-700 ${
-            page === 'work' ? 'text-[16px]' : 'text-[9px]'
+          className={` text-gray-700 ${
+            page === 'work' ? 'text-[16px] mt-8 mb-8 ' : 'text-[9px] mt-4 mb-4 '
           }`}
         >
           {details.projectDetails?.description}
@@ -49,7 +49,7 @@ function projectDetailsPage({ details, setShowDetails, page }) {
           )}
           <a
             target="blank"
-            className="border shadow-sm hover:shadow-xl transition-all rounded-sm text-gray-600 p-1"
+            className="border shadow-sm hover:shadow-xl transition-all rounded-sm text-gray-600 p-1 pl-2 pr-2"
             href={details.projectDetails?.preview}
           >
             preview
