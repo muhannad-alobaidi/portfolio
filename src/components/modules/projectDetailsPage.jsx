@@ -17,7 +17,7 @@ function projectDetailsPage({ details, setShowDetails, page }) {
           {details.projectDetails?.techStach?.map((d, i) => {
             return (
               <span
-                className=" px-2 pr-2 border shadow-sm hover:shadow-lg transition-all  rounded-sm text-gray-700 "
+                className=" px-3 pr-3 bg-slate-500  shadow-sm hover:shadow-lg transition-all  rounded-xl text-zinc-300 "
                 key={i}
               >
                 {d}
@@ -27,12 +27,18 @@ function projectDetailsPage({ details, setShowDetails, page }) {
         </div>
       </div>
       <div className="flex-[50%]">
-        <h2 className="text-lg text-gray-700 ">
+        <h2
+          className={` text-gray-700 ${
+            page === 'work' ? 'text-2xl  ' : 'text-sm md:text-base  '
+          }`}
+        >
           {details.projectDetails?.title}
         </h2>
         <p
           className={` text-gray-700 ${
-            page === 'work' ? 'text-[16px] mt-8 mb-8 ' : 'text-[9px] mt-4 mb-4 '
+            page === 'work'
+              ? 'text-[16px] mt-8 mb-8 '
+              : 'text-[8px] md:text-[9px] mt-3 mb-3 md:mt-4 md:mb-4 '
           }`}
         >
           {details.projectDetails?.description}
@@ -49,7 +55,7 @@ function projectDetailsPage({ details, setShowDetails, page }) {
           )}
           <a
             target="blank"
-            className="border shadow-sm hover:shadow-xl transition-all rounded-sm text-gray-600 p-1 pl-2 pr-2"
+            className=" shadow-sm hover:shadow-xl transition-all rounded-2xl bg-slate-500 text-gray-300 p-1 pl-4 pr-4"
             href={details.projectDetails?.preview}
           >
             preview
@@ -62,7 +68,9 @@ function projectDetailsPage({ details, setShowDetails, page }) {
               show: false,
             }));
           }}
-          className=" hover:translate-x-[-5px] transition-all hover:scale-110 cursor-pointer absolute bottom-3 right-3 w-10 h-10"
+          className={` hover:translate-x-[-5px] transition-all hover:scale-110 cursor-pointer absolute right-3 w-10 h-10 ${
+            page != 'work' && ' bottom-3'
+          }`}
         >
           <img className=" w-[100%]" src={backImage} alt="" />
         </div>

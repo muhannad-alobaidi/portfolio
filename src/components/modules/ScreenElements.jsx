@@ -3,7 +3,14 @@ import { motion } from 'framer-motion';
 import ProjectModule from './projectModule';
 import { useState } from 'react';
 import ProjectDetailsPage from './projectDetailsPage';
-import { project1, project2, project3, project4, project5 } from '../../assets';
+import {
+  project1,
+  project2,
+  project3,
+  project4,
+  project5,
+  project6,
+} from '../../assets';
 
 const ScreenElements = ({ setShowUi }) => {
   const [showDetails, setShowDetails] = useState({
@@ -18,6 +25,7 @@ const ScreenElements = ({ setShowUi }) => {
       techStach: [],
     },
   });
+
   return (
     <div
       id="ScreenElements"
@@ -29,7 +37,7 @@ const ScreenElements = ({ setShowUi }) => {
         animate={{ opacity: 0.75, scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}
         transition={{ duration: 0.5 }}
-        className="m-auto  opacity-25  bg-gradient-to-b   w-[100%] min-w-[350px] md:min-w-[544px] h-[304px]   mt-[60px] z-10  origin-center"
+        className="m-auto  opacity-25  bg-gradient-to-b ml-[138px] md:ml-auto  w-[100%] min-w-[270px] md:min-w-[544px] h-[328px] md:h-[304px] mt-[60px] z-10  origin-center"
       >
         <motion.div
           initial={{ opacity: 0, scaleY: 0 }}
@@ -79,13 +87,13 @@ const ScreenElements = ({ setShowUi }) => {
                 />
                 <ProjectModule
                   page="monitor"
-                  title="project 2"
+                  title="DNA Trend report 2023"
                   image={project1}
                   techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
                   client="DNA yo."
                   description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
                   gitHub="https://github.com/muhannad-alobaidi/client-project-4"
-                  previewLink="https://oppaat.dna.fi/teknologiatrendit2023?ircp=694458037&deliveryid=229043761&utm_source=&utm_medium=&utm_campaign="
+                  previewLink="https://oppaat.dna.fi/teknologiatrendit2023"
                   setShowDetails={setShowDetails}
                 />
                 <ProjectModule
@@ -120,6 +128,17 @@ const ScreenElements = ({ setShowUi }) => {
                   description="This was one of my first projects, a landing page made with vanilla JavaScript. It features a cool effect when submitting a letter, showcasing the basics and the fun of pure JavaScript development."
                   gitHub=""
                   previewLink="https://www.fazer.fi/olerealisti"
+                  setShowDetails={setShowDetails}
+                />
+                <ProjectModule
+                  page="monitor"
+                  title="DNA Trend report 2024"
+                  image={project6}
+                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
+                  client="DNA yo."
+                  description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
+                  gitHub="https://github.com/muhannad-alobaidi/client-project-4"
+                  previewLink="https://oppaat.dna.fi/teknologiatrendit2024"
                   setShowDetails={setShowDetails}
                 />
               </div>

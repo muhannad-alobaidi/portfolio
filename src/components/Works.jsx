@@ -1,5 +1,13 @@
 import ProjectModule from './modules/projectModule';
-import { project1, project2, project3, project4, project5 } from '../assets';
+import {
+  project1,
+  project2,
+  project3,
+  project4,
+  project5,
+  project6,
+  project7,
+} from '../assets';
 
 import { useState } from 'react';
 import ProjectDetailsPage from './modules/projectDetailsPage';
@@ -21,11 +29,11 @@ const Works = () => {
     <div>
       <div
         id="work"
-        className=" m-auto mt-[250px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
+        className=" m-auto mt-[100px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
       >
         <div className="h-auto  m-auto p-6   md:p-24 ">
           <div className=" w-[100%] mt-5 mb-5 flex items-center">
-            <h2 className=" flex-[40%] text-2xl text-gray-200">Work</h2>{' '}
+            <h2 className=" flex-[40%] text-2xl text-gray-200">PROJECTS</h2>{' '}
             <span className=" h-[1px] bg-slate-500 w-[100%]" />
           </div>{' '}
           <div className="h-fit w-full m-auto  flex justify-center ">
@@ -41,6 +49,8 @@ const Works = () => {
                   'scss',
                   'PHP',
                   'HeadlessCMS',
+                  'API',
+                  'AJAX',
                 ]}
                 client="Lagerblad"
                 description="
@@ -56,7 +66,7 @@ const Works = () => {
                 title="project 2"
                 image={project1}
                 techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
-                client="DNA yo."
+                client="DNA Oy."
                 description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
                 gitHub="https://github.com/muhannad-alobaidi/client-project-4"
                 previewLink="https://oppaat.dna.fi/teknologiatrendit2023?ircp=694458037&deliveryid=229043761&utm_source=&utm_medium=&utm_campaign="
@@ -94,6 +104,36 @@ const Works = () => {
                 description="This was one of my first projects, a landing page made with vanilla JavaScript. It features a cool effect when submitting a letter, showcasing the basics and the fun of pure JavaScript development."
                 gitHub=""
                 previewLink="https://www.fazer.fi/olerealisti"
+                setShowDetails={setShowDetails}
+              />
+              <ProjectModule
+                page="work"
+                title="DNA Trend report 2024"
+                image={project6}
+                techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
+                client="DNA Oy."
+                description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
+                gitHub=""
+                previewLink="https://oppaat.dna.fi/teknologiatrendit2024"
+                setShowDetails={setShowDetails}
+              />
+              <ProjectModule
+                page="work"
+                title="SEK website renewal"
+                image={project7}
+                techStach={[
+                  'Reactjs',
+                  'Nextjs',
+                  'WordPress',
+                  'scss',
+                  'PHP',
+                  'HeadlessCMS',
+                  'API',
+                ]}
+                client="SEK Oy."
+                description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
+                gitHub=""
+                previewLink="https://www.sek.fi/"
                 setShowDetails={setShowDetails}
               />
             </div>

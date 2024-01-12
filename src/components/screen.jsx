@@ -12,6 +12,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3, Box3, Quaternion } from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
+import { useMediaQuery } from 'react-responsive';
 
 import ScreenElements from './modules/ScreenElements';
 
@@ -113,6 +114,10 @@ export default function Screen(props) {
       setClicked(false);
     }
   }, [showUI]);
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 1224px)',
+  });
 
   return (
     <group
