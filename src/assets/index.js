@@ -35,9 +35,10 @@ import meta from './company/meta.png';
 import shopify from './company/shopify.png';
 import starbucks from './company/starbucks.png';
 import tesla from './company/tesla.png';
-import linkedin from './company/linkedin.png';
-import email from './company/email.png';
-import phone from './company/phone.png';
+
+import linkedin from './someIcons/linkedin.png';
+import email from './someIcons/email.png';
+import phone from './someIcons/phone.png';
 
 import project1 from './projects/1.webp';
 import project2 from './projects/2.webp';
