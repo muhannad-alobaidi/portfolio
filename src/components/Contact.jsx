@@ -2,6 +2,7 @@
 
 import Lottie from 'lottie-react';
 import webdev from '../assets/webdev-animation.json';
+import { email, linkedin, phone } from '../assets';
 
 const Contact = () => {
   return (
@@ -19,7 +20,7 @@ const Contact = () => {
               className="flex gap-4 items-center leading-none font-[200]"
             >
               <img
-                src="/src/assets/someIcons/linkedin.png"
+                src={linkedin}
                 alt=""
                 height="24px"
                 width="24px"
@@ -36,7 +37,7 @@ const Contact = () => {
               className="flex gap-4 items-center leading-none font-[200]"
             >
               <img
-                src="/src/assets/someIcons/email.png"
+                src={email}
                 alt=""
                 height="24px"
                 width="24px"
@@ -48,7 +49,7 @@ const Contact = () => {
             </a>
             <div className="flex gap-4 items-center leading-none font-[200]">
               <img
-                src="/src/assets/someIcons/phone.png"
+                src={phone}
                 alt=""
                 height="24px"
                 width="24px"

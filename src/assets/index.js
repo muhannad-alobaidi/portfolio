@@ -35,6 +35,9 @@ import meta from './company/meta.png';
 import shopify from './company/shopify.png';
 import starbucks from './company/starbucks.png';
 import tesla from './company/tesla.png';
+import linkedin from './company/linkedin.png';
+import email from './company/email.png';
+import phone from './company/phone.png';
 
 import project1 from './projects/1.webp';
 import project2 from './projects/2.webp';
@@ -100,4 +103,7 @@ export {
   project9,
   project10,
   backImage,
+  linkedin,
+  email,
+  phone,
 };
