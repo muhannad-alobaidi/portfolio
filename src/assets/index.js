@@ -24,7 +24,7 @@ import nextjs from './tech/next-js.svg';
 import wordpress from './tech/wordpress.svg';
 import php from './tech/php.svg';
 import storybook from './tech/storybook.svg';
-import aws from './tech/aws.png';
+import aws from './tech/AWS.png';
 import cs from './tech/c-sharp.png';
 import dotnet from './tech/dotnet.png';
 import express from './tech/express.png';
