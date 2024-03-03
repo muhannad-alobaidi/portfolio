@@ -2,7 +2,7 @@ const Experience = () => {
   return (
     <div>
       <div
-        id="work"
+        id="exprience"
         className=" m-auto mt-[100px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
       >
         <div className="h-auto p-6 w-[100%] ">
