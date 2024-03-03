@@ -13,7 +13,6 @@ const techStack = ({ img, name, delay }) => {
         <img
           className="mb-1 h-[60px]"
           height={60}
-          width={60}
           src={img}
           alt=""
         />

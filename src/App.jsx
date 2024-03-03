@@ -16,7 +16,7 @@ import Particals from './components/extaras/Skynight';
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative z-0 grey-gradient">
+      <div className="relative z-0 grey-gradient pb-20">
         <Particals />
         <div className="bg-hero-pattren bg-cover bg-no-repeat bg-center">
           <Navbar />
@@ -26,9 +26,7 @@ function App() {
         <Tech />
         <Experience />
         <Works />
-        {/*  <Feedbacks /> */}
         <div className="relative z-0">
-          {/*  <StarsCanvas /> */}
           <Contact />
         </div>
       </div>

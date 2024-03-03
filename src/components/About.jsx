@@ -17,7 +17,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className=" m-auto mt-[250px] mb-[128px] p-6 md:p-24 items-center flex flex-col md:flex-row w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
+      className=" m-auto mt-[250px] mb-[128px] p-6 md:p-24 items-center flex flex-col md:flex-row w-[100%] max-w-[1200px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
     >
       <div className="text-section flex flex-col ">
         <div className=" mt-5 mb-5 flex items-center">
@@ -33,10 +33,15 @@ const About = () => {
             realized the potential to bring ideas to life on the web.
           </p>
           <p className=" mt-3 mb-3 text-gray-400">
-            Today, I build websites that are not only aesthetically pleasing but
-            also user-friendly. Every new project is an opportunity for me to
-            transform a vision into a tangible digital experience. I'm always
-            eager and excited about the next creation I'll embark on!
+            Today, I Specializing in the development of websites and web
+            applications, I focus on crafting not just visually appealing and
+            user-friendly front-end experiences but also Knowlagable of the
+            back-end and cloud computing. Each project serves as a canvas where
+            I transform a vision into a tangible digital reality. I thrive on
+            the challenge of integrating seamless user interfaces with powerful
+            back-end systems. Eager and excited, I look forward to every new
+            creation, knowing it's a chance to harmonize front-end aesthetics
+            with back-end excellence.
           </p>
         </div>
       </div>

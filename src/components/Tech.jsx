@@ -16,6 +16,13 @@ import {
   wordpress,
   storybook,
   php,
+  cs,
+  dotnet,
+  express,
+  aws,
+  docker,
+  kobernetes,
+  sql,
 } from '../assets';
 
 const Tech = () => {
@@ -34,6 +41,7 @@ const Tech = () => {
           <TechStack delay={2} img={css} name="CSS" />
           <TechStack delay={3} img={javascript} name="JavaScript" />
           <TechStack delay={4} img={reactjs} name="Reactjs" />
+          <TechStack delay={4} img={reactjs} name="ReactNative" />
           <TechStack delay={5} img={nextjs} name="Nextjs" />
           <TechStack delay={6} img={redux} name="Redux" />
           <TechStack delay={7} img={nodejs} name="Nodejs" />
@@ -44,6 +52,13 @@ const Tech = () => {
           <TechStack delay={12} img={php} name="PHP" />
           <TechStack delay={13} img={figma} name="Figma" />
           <TechStack delay={14} img={storybook} name="Storybook" />
+          <TechStack delay={14} img={aws} name="AWS" />
+          <TechStack delay={14} img={cs} name="C#" />
+          <TechStack delay={14} img={dotnet} name=".NET" />
+          <TechStack delay={14} img={express} name="Express.js" />
+          <TechStack delay={14} img={docker} name="Docker" />
+          <TechStack delay={14} img={kobernetes} name="kobernetes" />
+          <TechStack delay={14} img={sql} name="SQL" />
         </div>
       </div>
     </section>

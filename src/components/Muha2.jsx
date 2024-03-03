@@ -18,8 +18,6 @@ export default function Muha(props) {
   const { actions } = useAnimations(animations, group);
   const { showUI, setShowUI, exit, setExit } = props;
 
-  const [counter, setCounter] = useState(0);
-
   useFrame((state, delta) => {
     const anim = actions.typing;
     anim.timeScale = 0.5;

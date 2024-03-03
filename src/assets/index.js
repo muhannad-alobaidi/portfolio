@@ -24,6 +24,12 @@ import nextjs from './tech/next-js.svg';
 import wordpress from './tech/wordpress.svg';
 import php from './tech/php.svg';
 import storybook from './tech/storybook.svg';
+import aws from './tech/aws.png';
+import cs from './tech/c-sharp.png';
+import dotnet from './tech/dotnet.png';
+import express from './tech/express.png';
+import kobernetes from './tech/Kubernetes.png';
+import sql from './tech/sql.svg';
 
 import meta from './company/meta.png';
 import shopify from './company/shopify.png';
@@ -37,6 +43,9 @@ import project4 from './projects/4.webp';
 import project5 from './projects/5.png';
 import project6 from './projects/6.png';
 import project7 from './projects/7.png';
+import project8 from './projects/cargo.png';
+import project9 from './projects/finnair-logo.png';
+import project10 from './projects/myPortfolio.png';
 
 import carrent from './carrent.png';
 import jobit from './jobit.png';
@@ -67,6 +76,12 @@ export {
   typescript,
   threejs,
   wordpress,
+  sql,
+  kobernetes,
+  cs,
+  dotnet,
+  express,
+  aws,
   php,
   meta,
   shopify,
@@ -81,5 +96,8 @@ export {
   project5,
   project6,
   project7,
+  project8,
+  project9,
+  project10,
   backImage,
 };
