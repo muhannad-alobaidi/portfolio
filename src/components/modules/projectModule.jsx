@@ -32,19 +32,7 @@ function projectModule({
     >
       <h3 className="text-gray-400 p-1 ">{title}</h3>
       <img className=" p-1" src={image} alt="" />
-      <div className=" flex-wrap p-1 flex  text-[6px] gap-y-1 gap-x-1">
-        {page === 'monitor' &&
-          techStach?.map((d, i) => {
-            return (
-              <span
-                className="border border-grey-600 rounded-sm text-gray-700 pr-[2px] pl-[2px]"
-                key={i}
-              >
-                {d}
-              </span>
-            );
-          })}
-      </div>
+      
     </div>
   );
 }

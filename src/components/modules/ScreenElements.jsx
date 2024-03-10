@@ -10,6 +10,8 @@ import {
   project4,
   project5,
   project6,
+  project7,
+  project10,
 } from '../../assets';
 
 const ScreenElements = ({ setShowUi }) => {
@@ -66,21 +68,22 @@ const ScreenElements = ({ setShowUi }) => {
               <div className=" grid grid-cols-2 md:grid-cols-4 gap-3 p-1 md:p-4  pr-0 flex-[1_1_49%]">
                 <ProjectModule
                   page="monitor"
-                  title="project 1"
+                  title="LagerBlad Foods"
                   image={project5}
                   techStach={[
                     'Reactjs',
                     'Nextjs',
                     'WordPress',
-                    'scss',
+                    'SCSS',
                     'PHP',
                     'HeadlessCMS',
+                    'Rest API',
+                    'AJAX',
+                    'GIT',
                   ]}
                   client="Lagerblad"
                   description="
-                          For this project, I built a website using WordPress as a headless CMS and Next.js for the frontend.
-                          I picked WordPress because it's user-friendly for content updates. Next.js made the site load quickly and improved its SEO.
-                          I also set up a custom WordPress API to connect the frontend and backend smoothly. I handled all parts of this project by myself, from start to finish. The end product is a fast, responsive website that's easy to update."
+                    For this project, I built a website using WordPress as a headless CMS and Next.js for the frontend"
                   gitHub=""
                   previewLink="https://www.lagerbladfoods.fi/"
                   setShowDetails={setShowDetails}
@@ -89,30 +92,38 @@ const ScreenElements = ({ setShowUi }) => {
                   page="monitor"
                   title="DNA Trend report 2023"
                   image={project1}
-                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
+                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'SCSS', 'GIT']}
                   client="DNA yo."
                   description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
-                  gitHub="https://github.com/muhannad-alobaidi/client-project-4"
+                  gitHub=""
                   previewLink="https://oppaat.dna.fi/teknologiatrendit2023"
                   setShowDetails={setShowDetails}
                 />
                 <ProjectModule
                   page="monitor"
-                  title="project 3"
+                  title="Fazer Landing page"
                   image={project2}
-                  techStach={['Reactjs', 'Nextjs', 'SCSS']}
+                  techStach={['Reactjs', 'Nextjs', 'SCSS', 'GIT']}
                   description="Landing page for Fazer, leveraging the capabilities of Next.js. Known for its speed and efficiency, Next.js provided a foundation that ensured the page was both responsive and user-friendly. This project allowed me to dive deep into frontend development nuances, optimizing for both aesthetics and performance. The end result is a sleek, fast-loading page that effectively represents Fazer's brand and values."
                   client="Fazer"
                   previewLink="https://viljavisio.fazer.fi/"
-                  gitHub="https://github.com/muhannad-alobaidi/client-project-3/"
+                  gitHub=""
                   setShowDetails={setShowDetails}
                 />
 
                 <ProjectModule
                   page="monitor"
-                  title="project 4"
+                  title="SolarFoods Website"
                   image={project4}
-                  techStach={['html', 'css', 'WordPress']}
+                  techStach={[
+                    'HTML',
+                    'CSS',
+                    'WordPress',
+                    'JQuery',
+                    'PHP',
+                    'NPM',
+                    'GIT',
+                  ]}
                   description="A unique brand story page in WordPress that captures the essence of the company's journey. With an engaging on-scroll sequence, visitors are taken on a visual narrative, showing the brand's story step by step. This immersive storytelling technique not only showcases the company's goals but does so in a captivating manner, creating a memorable user experience that resonates with the brand's identity."
                   client="SolarFood"
                   gitHub=""
@@ -121,9 +132,9 @@ const ScreenElements = ({ setShowUi }) => {
                 />
                 <ProjectModule
                   page="monitor"
-                  title="project 5"
+                  title="Fazer Landing Page"
                   image={project3}
-                  techStach={['html', 'css', 'js']}
+                  techStach={['HTML', 'CSS', 'JS', 'JQuery']}
                   client="Fazer"
                   description="This was one of my first projects, a landing page made with vanilla JavaScript. It features a cool effect when submitting a letter, showcasing the basics and the fun of pure JavaScript development."
                   gitHub=""
@@ -134,11 +145,43 @@ const ScreenElements = ({ setShowUi }) => {
                   page="monitor"
                   title="DNA Trend report 2024"
                   image={project6}
-                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'scss']}
+                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'SCSS']}
                   client="DNA yo."
                   description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
-                  gitHub="https://github.com/muhannad-alobaidi/client-project-4"
+                  gitHub=""
                   previewLink="https://oppaat.dna.fi/teknologiatrendit2024"
+                  setShowDetails={setShowDetails}
+                />
+                <ProjectModule
+                  page="monitor"
+                  title="This portfolio site"
+                  image={project10}
+                  techStach={['Reactjs', 'Vite', 'ReacrFiber 3d', 'Blender']}
+                  client="Myself"
+                  description="My hamble portfolio I hope you like it :)"
+                  gitHub=""
+                  previewLink="/"
+                  setShowDetails={setShowDetails}
+                />
+                <ProjectModule
+                  page="monitor"
+                  title="SEK website renewal"
+                  image={project7}
+                  techStach={[
+                    'Reactjs',
+                    'Nextjs',
+                    'WordPress',
+                    'SCSS',
+                    'PHP',
+                    'HeadlessCMS',
+                    'API',
+                    'GIT',
+                    'TypeScript',
+                  ]}
+                  client="SEK Oy."
+                  description="Renewal for the company website Transformong from Wprdpress to Headless CMS approach."
+                  gitHub=""
+                  previewLink="https://www.sek.fi/"
                   setShowDetails={setShowDetails}
                 />
               </div>
@@ -150,7 +193,6 @@ const ScreenElements = ({ setShowUi }) => {
               setShowDetails={setShowDetails}
             />
           )}
-          {console.log(showDetails)}
         </div>
       </motion.div>
     </div>

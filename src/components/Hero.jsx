@@ -54,7 +54,6 @@ const Hero = () => {
           </motion.p>
         </div>
       </div>
-      <div className=" h-[350px] absolute bottom-0 z-50 w-[100%] mb-[-150px]"></div>
       <ComputersCanvas
         exit={exit}
         setExit={setExit}

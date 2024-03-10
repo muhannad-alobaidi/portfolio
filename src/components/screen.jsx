@@ -9,10 +9,9 @@ Command: npx gltfjsx@6.1.4 muha2.glb
 import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF, Html } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Vector3, Box3, Quaternion } from 'three';
+import { Vector3, Quaternion } from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
-import { useMediaQuery } from 'react-responsive';
 
 import ScreenElements from './modules/ScreenElements';
 
@@ -21,10 +20,9 @@ export default function Screen(props) {
 
   const { showUI, setShowUI } = props;
   const [hover, setHover] = useState(false);
-  const ref = useRef();
   const [clicked, setClicked] = useState(false);
   const screenRef = useRef();
-  const { camera, scene } = useThree();
+  const { camera } = useThree();
   const [emissiveColor, setEmissiveColor] = useState(0x000000); // default to black, no emission
   const [material, setMaterial] = useState(materials['Material.074_30']);
 
@@ -89,35 +87,27 @@ export default function Screen(props) {
         setMaterial(whiteMaterial);
         setShowUI(true);
       }, 8000);
+
+      setOriginalCameraPosition(camera.position.clone());
     }
   }, [clicked]);
 
   useEffect(() => {
-    setOriginalCameraPosition(camera.position.clone());
-  }, []);
+    if (showUI) return;
 
-  useEffect(() => {
-    if (!showUI) {
-      setMaterial(materials['Material.074_30']);
+    console.log(originalCameraPosition);
 
-      // Smoothly move camera back to its original position
-      const tweenBack = new TWEEN.Tween(camera.position)
-        .to(originalCameraPosition, 1400) // duration of the tween animation in milliseconds
-        .easing(TWEEN.Easing.Quadratic.Out) // easing function to use
-        .start();
+    setMaterial(materials['Material.074_30']);
 
-      tweenBack.onUpdate(() => {
-        camera.lookAt(screenRef.current.position);
-      });
+    // Smoothly move camera back to its original position
+    const tweenBack = new TWEEN.Tween(camera.position)
+      .to(originalCameraPosition) // duration of the tween animation in milliseconds
+      .easing(TWEEN.Easing.Quadratic.Out) // easing function to use
+      .start();
 
-      setShowUI(false);
-      setClicked(false);
-    }
+    setShowUI(false);
+    setClicked(false);
   }, [showUI]);
-
-  const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-width: 1224px)',
-  });
 
   return (
     <group
@@ -150,6 +140,38 @@ export default function Screen(props) {
       >
         {showUI && <ScreenElements setShowUi={setShowUI} />}
       </Html>
+
+      {!clicked && (
+        <Html
+          occlude
+          as="div"
+          prepend
+          // sprite is a two-dimensional bitmap
+          sprite
+          distanceFactor={0}
+          // position is the distance from the origin
+          position={[0, 0, -0.8]}
+          zIndexRange={[100, 10]}
+          transform
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+            width: '100%',
+            color: 'black',
+            fontSize: '10px',
+            transformOrigin: 'center',
+          }}
+        >
+          <div>
+            <span className=" text-[6px] text-gray-400 p-1 border rounded-md ">
+              Click screen
+            </span>
+          </div>
+        </Html>
+      )}
+
       <mesh
         onClick={handleClick}
         onPointerEnter={() => {

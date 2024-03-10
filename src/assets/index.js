@@ -31,11 +31,6 @@ import express from './tech/express.png';
 import kobernetes from './tech/Kubernetes.png';
 import sql from './tech/sql.svg';
 
-import meta from './company/meta.png';
-import shopify from './company/shopify.png';
-import starbucks from './company/starbucks.png';
-import tesla from './company/tesla.png';
-
 import linkedin from './someIcons/linkedin.png';
 import email from './someIcons/email.png';
 import phone from './someIcons/phone.png';
@@ -87,10 +82,6 @@ export {
   express,
   aws,
   php,
-  meta,
-  shopify,
-  starbucks,
-  tesla,
   carrent,
   jobit,
   project1,

@@ -15,10 +15,6 @@ import {
   git,
   figma,
   docker,
-  meta,
-  starbucks,
-  tesla,
-  shopify,
   carrent,
   jobit,
   threejs,
@@ -121,7 +117,7 @@ const experiences = [
   {
     title: 'React.js Developer',
     company_name: 'Starbucks',
-    icon: starbucks,
+    icon: '',
     iconBg: '#383E56',
     date: 'March 2020 - April 2021',
     points: [
@@ -134,7 +130,7 @@ const experiences = [
   {
     title: 'React Native Developer',
     company_name: 'Tesla',
-    icon: tesla,
+    icon: '',
     iconBg: '#E6DEDD',
     date: 'Jan 2021 - Feb 2022',
     points: [
@@ -147,7 +143,7 @@ const experiences = [
   {
     title: 'Web Developer',
     company_name: 'Shopify',
-    icon: shopify,
+    icon: '',
     iconBg: '#383E56',
     date: 'Jan 2022 - Jan 2023',
     points: [
@@ -160,7 +156,7 @@ const experiences = [
   {
     title: 'Full stack Developer',
     company_name: 'Meta',
-    icon: meta,
+    icon: '',
     iconBg: '#E6DEDD',
     date: 'Jan 2023 - Present',
     points: [

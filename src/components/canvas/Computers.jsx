@@ -26,10 +26,10 @@ const ComputersCanvas = ({ showUI, setShowUI, exit, setExit }) => {
       <spotLight position={[-20, 50, 10]} angle={0.12} penumbra={1} />
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
-          enableZoom={zoom}
+          enableZoom={false}
           zoomSpeed={0.1}
           maxDistance={15}
-          minDistance={10}
+          minDistance={11}
           minZoom={0.2}
           maxPolarAngle={Math.PI / 3}
           minPolarAngle={Math.PI / 3}
