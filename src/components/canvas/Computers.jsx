@@ -13,7 +13,7 @@ const ComputersCanvas = ({ showUI, setShowUI, exit, setExit }) => {
 
   return (
     <Canvas
-      className=" m-auto top-40"
+      className=" m-auto top-56"
       frameloop="demand"
       shadows
       camera={{ position: [10, 4, 0], fov: 75 }}
