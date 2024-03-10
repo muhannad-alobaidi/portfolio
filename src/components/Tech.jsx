@@ -45,6 +45,7 @@ const Tech = () => {
           <TechStack delay={5} img={nextjs} name="Nextjs" />
           <TechStack delay={6} img={redux} name="Redux" />
           <TechStack delay={7} img={nodejs} name="Nodejs" />
+          <TechStack delay={14} img={express} name="Express.js" />
           <TechStack delay={8} img={typescript} name="TypeScript" />
           <TechStack delay={9} img={tailwind} name="Tailwind" />
           <TechStack delay={10} img={git} name="Git" />
@@ -55,7 +56,6 @@ const Tech = () => {
           <TechStack delay={14} img={aws} name="AWS" />
           <TechStack delay={14} img={cs} name="C#" />
           <TechStack delay={14} img={dotnet} name=".NET" />
-          <TechStack delay={14} img={express} name="Express.js" />
           <TechStack delay={14} img={docker} name="Docker" />
           <TechStack delay={14} img={kobernetes} name="kobernetes" />
           <TechStack delay={14} img={sql} name="SQL" />
