@@ -33,7 +33,7 @@ const Tech = () => {
     >
       <div className="text-section w-[100%] gap-10 flex flex-col ">
         <div className=" mt-5 mb-5 flex items-center">
-          <h2 className=" flex-[40%] text-2xl text-gray-200">Tech-stack</h2>{' '}
+          <h2 className=" flex-[40%] text-3xl text-gray-200">TECH-STACK</h2>{' '}
           <span className=" h-[1px] bg-slate-500 w-[100%]" />
         </div>
         <div className=" flex flex-wrap gap-5 justify-center">

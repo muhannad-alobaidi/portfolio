@@ -20,11 +20,11 @@ const Works = () => {
         className=" m-auto mt-[100px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
       >
         <div className="h-auto p-6 w-[100%] ">
-          <div className=" w-[100%] mt-5 mb-5 flex items-center">
-            <h2 className=" flex-[40%] text-2xl text-gray-200">PROJECTS</h2>{' '}
+          <div className=" w-[100%] mt-5 mb-5 flex items-center px-4 gap-4">
+            <h2 className="text-3xl text-gray-200">PROJECTS</h2>{' '}
             <span className=" h-[1px] bg-slate-500 w-[100%]" />
           </div>{' '}
-          <div className="h-fit w-full m-auto  flex  ">
+          <div className="h-fit w-full m-auto">
             <div className="  gap-16 p-1 md:p-4  pr-0 flex flex-col justify-start ">
               <ProjectModule
                 page="work"
@@ -43,7 +43,7 @@ const Works = () => {
                 ]}
                 client="Lagerblad"
                 description="
-                          For this project, I built a website using WordPress as a headless CMS and Next.js for the frontend.
+                         For this project, I built a website using WordPress as a headless CMS and Next.js for the front end.
                           "
                 gitHub=""
                 previewLink="https://www.lagerbladfoods.fi/"
@@ -51,11 +51,11 @@ const Works = () => {
               <div className=" w-[100%] h-[1px] bg-slate-500" />
               <ProjectModule
                 page="work"
-                title="DNA Trend report 2023"
+                title="DNA Trend Report 2023"
                 image={project1}
                 techStach={['Reactjs', 'Nextjs', 'Firebase', 'SCSS', 'GIT']}
                 client="DNA Oy."
-                description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development."
+                description="For this assignment, I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development."
                 gitHub=""
                 previewLink="https://oppaat.dna.fi/teknologiatrendit2023?ircp=694458037&deliveryid=229043761&utm_source=&utm_medium=&utm_campaign="
               />
@@ -95,7 +95,7 @@ const Works = () => {
 
               <ProjectModule
                 page="work"
-                title="DNA Trend report 2024"
+                title="DNA Trend Report 2024"
                 image={project6}
                 techStach={['Reactjs', 'Nextjs', 'Firebase', 'SCSS']}
                 client="DNA Oy."
@@ -121,7 +121,7 @@ const Works = () => {
                   'TypeScript',
                 ]}
                 client="SEK Oy."
-                description="Renewal for the company website Transformong from Wprdpress to Headless CMS approach."
+                description="Renewal for the company website Transformong from WordPress to Headless CMS approach."
                 gitHub=""
                 previewLink="https://www.sek.fi/"
               />
@@ -141,7 +141,7 @@ const Works = () => {
                   'GIT',
                 ]}
                 client="Finnair"
-                description="Working on maintain, updating and adding new features for the Cargo 360 website."
+                description="Working on maintaining, updating, and adding new features for the Cargo 360 website."
                 gitHub=""
                 previewLink="https://cargo.finnair.com/coolterminal360/"
               />
@@ -162,7 +162,7 @@ const Works = () => {
                   'GIT',
                 ]}
                 client="Finnair"
-                description="Working on maintain, updating and adding new features for the Nodejs based application for building HTML banners for Finnair advertising."
+                description="Working on maintaining, updating, and adding new features for the Nodejs-based application for building HTML banners for Finnair advertising."
                 gitHub=""
                 previewLink=""
               />

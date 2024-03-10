@@ -6,8 +6,8 @@ const Experience = () => {
         className=" m-auto mt-[100px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
       >
         <div className="h-auto p-6 w-[100%] ">
-          <div className=" w-[100%] mt-5 mb-5 flex items-center">
-            <h2 className=" flex-[40%] text-2xl text-gray-200">Experience</h2>{' '}
+          <div className=" w-[100%] mt-5 mb-5 flex items-center px-4 gap-4">
+            <h2 className="  text-3xl text-gray-200">EXPERIENCE</h2>{' '}
             <span className=" h-[1px] bg-slate-500 w-[100%]" />
           </div>{' '}
           <div className="h-fit w-full m-auto  flex  ">
@@ -17,7 +17,7 @@ const Experience = () => {
                   <span>SEP 2021 - PRESENT</span>
                 </div>
                 <div className="flex-[70%] flex flex-col gap-4">
-                  <h2 className="text-2xl">Junior Web developer - SEK Oy</h2>
+                  <h2 className="text-2xl">Web developer - SEK Oy</h2>
                   <p className="font-[300] text-[14px]">
                     {' '}
                     Build, style, and ship high-quality websites, design

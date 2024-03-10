@@ -8,8 +8,12 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className=" m-auto mt-[250px] p-6 md:p-24 items-center flex flex-col md:flex-row w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999] "
+      className=" m-auto mt-[250px] p-6 md:p-24 items-center  flex-col md:flex-row w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999] "
     >
+      <div className=" mt-5 mb-5 flex items-center gap-4">
+        <h2 className="  text-3xl text-gray-200">CONTACT</h2>{' '}
+        <span className=" h-[1px] bg-slate-500 w-[100%]" />
+      </div>
       <div className="text-section flex flex-col items-center md:flex-row">
         <div className=" mt-5 mb-5 flex  items-center w-full ">
           <div className="flex gap-4 flex-col">
