@@ -18,15 +18,25 @@ export default function Muha(props) {
   const { actions } = useAnimations(animations, group);
   const { showUI, setShowUI, exit, setExit } = props;
 
-  useFrame((state, delta) => {
+  useEffect(() => {
+    // Play the animation once when the component mounts
     const anim = actions.typing;
-    anim.timeScale = 0.5;
-    anim.play();
-    anim.setLoop(THREE.LoopRepeat);
-    anim.clampWhenFinished = true;
+    if (anim) {
+      anim.timeScale = 0.5;
+      anim.setLoop(THREE.LoopRepeat); // Ensure loop is set up properly
+      anim.clampWhenFinished = true; // Stop at the last frame
+      anim.play();
+    }
 
-    return null;
-  });
+    console.log('run');
+
+    // Cleanup function to stop the animation when the component unmounts
+    return () => {
+      if (anim) {
+        anim.stop();
+      }
+    };
+  }, [actions.typing]);
 
   return (
     <group ref={group} {...props} dispose={null}>

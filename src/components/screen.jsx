@@ -95,8 +95,6 @@ export default function Screen(props) {
   useEffect(() => {
     if (showUI) return;
 
-    console.log(originalCameraPosition);
-
     setMaterial(materials['Material.074_30']);
 
     // Smoothly move camera back to its original position
