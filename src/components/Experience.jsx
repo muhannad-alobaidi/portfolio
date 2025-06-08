@@ -14,16 +14,61 @@ const Experience = () => {
             <div className="  gap-16 p-1 md:p-4  pr-0 flex flex-col justify-start ">
               <div className="flex ">
                 <div className="flex-[30%]">
-                  <span>SEP 2021 - PRESENT</span>
+                  <span>NOV 2024 - PRESENT</span>
+                </div>
+                <div className="flex-[70%] flex flex-col gap-4">
+                  <h2 className="text-2xl">Front End Developer - SEK Oy</h2>
+                  <p className="font-[300] text-[14px]">
+                    Build and maintain high-quality websites, AI tools, and
+                    digital experiences for a diverse array of projects for
+                    clients and in-house projects. Leading the front-end
+                    development process from concept to delivery. Utilising
+                    modern web technologies to create responsive, accessible,
+                    and performant web applications.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    {[
+                      'JaveScript',
+                      'TypeScript',
+                      'HTML',
+                      'CSS',
+                      'ReactJS',
+                      'NextJs',
+                      'WordPress',
+                      'PHP',
+                      'NodeJs',
+                      'Headless CMS',
+                      'AWS',
+                      'AI',
+                      'GIT',
+                      'StoryBook',
+                      'Tailwind',
+                      'Accessibility',
+                      'SEO',
+                      'Performance',
+                      'Python',
+                      'Django',
+                    ].map(item => (
+                      <span
+                        className="border border-grey-600 rounded-lg p-2 leading-none border-zinc-500 font-[100] text-white"
+                        key={item}
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex ">
+                <div className="flex-[30%]">
+                  <span>SEP 2021 - NOV 2024</span>
                 </div>
                 <div className="flex-[70%] flex flex-col gap-4">
                   <h2 className="text-2xl">Web developer - SEK Oy</h2>
                   <p className="font-[300] text-[14px]">
-                    {' '}
                     Build, style, and ship high-quality websites, design
                     systems, and digital experiences for a diverse array of
-                    projects for clients including Finnair, DNA, Fazer, Sako,
-                    Lagerblad Foods, SolarFoods, and more.
+                    projects for clients.
                   </p>
                   <div className="flex flex-wrap gap-4">
                     {[
@@ -60,10 +105,14 @@ const Experience = () => {
                   <h2 className="text-2xl"> Web developer trainee - SEK Oy</h2>
                   <p className="font-[300] text-[14px]">
                     {' '}
-                    Build, style, and ship high-quality landing pages, and
-                    updating & maintaining existing websites and systems for a
-                    diverse array of projects for clients including Finnair,
-                    DNA, Fazer, Fennia, Nixu, and more.
+                    Assisted in the development and maintenance of websites,
+                    focusing on front-end technologies. Gained hands-on
+                    experience in web development best practices and tools.
+                    building Landing pages, and small websites for clients using
+                    venila HTML, CSS, and JavaScript. Collaborated with senior
+                    developers to learn and apply modern web development
+                    techniques and tools. Update and maintain existing Nodejs
+                    application.
                   </p>
                   <div className="flex flex-wrap gap-4">
                     {[
