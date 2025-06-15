@@ -50,7 +50,8 @@ const Hero = () => {
             transition={{ duration: 1, delay: 3 }}
             className={`${styles.heroSubText} text-white-100`}
           >
-            Elevating Digital Expression: Crafting Code, Shaping Experiences.
+            I am a Frontend Developer, <br className="sm:block hidden" />
+            specializing in creating interactive web applications.
           </motion.p>
         </div>
       </div>

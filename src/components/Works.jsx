@@ -1,5 +1,5 @@
 import ProjectModule from './modules/projectModule-projects';
-import { project4, project5, project7, project10 } from '../assets';
+import { project4, project5, project7, project10, project11 } from '../assets';
 
 const Works = () => {
   return (
@@ -15,6 +15,29 @@ const Works = () => {
           </div>{' '}
           <div className="h-fit w-full m-auto">
             <div className="  gap-16 p-1 md:p-4  pr-0 flex flex-col justify-start ">
+              <ProjectModule
+                page="work"
+                title="Salomaa"
+                image={project11}
+                techStach={[
+                  'WordPress',
+                  'tailwindcss',
+                  'PHP',
+                  'JavaScript',
+                  'HTML',
+                  'CSS',
+                  'GIT',
+                  'GSAP',
+                  'Swiper',
+                ]}
+                client="Salomaa"
+                description="
+                        Full website renewal for Salomaa, a Finnish company specializing in high-quality food products. The project involved a complete overhaul of the website, including design, functionality, and user experience enhancements. The new site features a modern design, improved navigation, and optimized performance to better serve the company's customers and showcase its products effectively.
+                          "
+                gitHub=""
+                previewLink="https://www.salomaa.fi/"
+              />
+              <div className=" w-[100%] h-[1px] bg-slate-500" />
               <ProjectModule
                 page="work"
                 title="LagerBlad Foods"
@@ -91,7 +114,6 @@ const Works = () => {
                 gitHub=""
                 previewLink="/"
               />
-              <div className=" w-[100%] h-[1px] bg-slate-500" />
             </div>
           </div>
         </div>

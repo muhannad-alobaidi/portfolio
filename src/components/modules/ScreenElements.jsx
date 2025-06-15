@@ -4,14 +4,11 @@ import ProjectModule from './projectModule';
 import { useState } from 'react';
 import ProjectDetailsPage from './projectDetailsPage';
 import {
-  project1,
-  project2,
-  project3,
   project4,
   project5,
-  project6,
   project7,
   project10,
+  project11,
 } from '../../assets';
 
 const ScreenElements = ({ setShowUi }) => {
@@ -67,6 +64,28 @@ const ScreenElements = ({ setShowUi }) => {
             <div className="h-fit w-full m-auto  flex justify-center ">
               <div className=" grid grid-cols-2 md:grid-cols-4 gap-3 p-1 md:p-4  pr-0 flex-[1_1_49%]">
                 <ProjectModule
+                  page="work"
+                  title="Salomaa"
+                  image={project11}
+                  techStach={[
+                    'WordPress',
+                    'tailwindcss',
+                    'PHP',
+                    'JavaScript',
+                    'HTML',
+                    'CSS',
+                    'GIT',
+                    'GSAP',
+                    'Swiper',
+                  ]}
+                  client="Salomaa"
+                  description="
+                                        Full website renewal for Salomaa, a Finnish company specializing in high-quality food products. The project involved a complete overhaul of the website, including design, functionality, and user experience enhancements. The new site features a modern design, improved navigation, and optimized performance to better serve the company's customers and showcase its products effectively.
+                                          "
+                  gitHub=""
+                  previewLink="https://www.salomaa.fi/"
+                />
+                <ProjectModule
                   page="monitor"
                   title="LagerBlad Foods"
                   image={project5}
@@ -90,29 +109,6 @@ const ScreenElements = ({ setShowUi }) => {
                 />
                 <ProjectModule
                   page="monitor"
-                  title="DNA Trend report 2023"
-                  image={project1}
-                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'SCSS', 'GIT']}
-                  client="DNA yo."
-                  description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
-                  gitHub=""
-                  previewLink="https://oppaat.dna.fi/teknologiatrendit2023"
-                  setShowDetails={setShowDetails}
-                />
-                <ProjectModule
-                  page="monitor"
-                  title="Fazer Landing page"
-                  image={project2}
-                  techStach={['Reactjs', 'Nextjs', 'SCSS', 'GIT']}
-                  description="Landing page for Fazer, leveraging the capabilities of Next.js. Known for its speed and efficiency, Next.js provided a foundation that ensured the page was both responsive and user-friendly. This project allowed me to dive deep into frontend development nuances, optimizing for both aesthetics and performance. The end result is a sleek, fast-loading page that effectively represents Fazer's brand and values."
-                  client="Fazer"
-                  previewLink="https://viljavisio.fazer.fi/"
-                  gitHub=""
-                  setShowDetails={setShowDetails}
-                />
-
-                <ProjectModule
-                  page="monitor"
                   title="SolarFoods Website"
                   image={project4}
                   techStach={[
@@ -130,28 +126,7 @@ const ScreenElements = ({ setShowUi }) => {
                   previewLink="https://solarfoods.com/our-story/"
                   setShowDetails={setShowDetails}
                 />
-                <ProjectModule
-                  page="monitor"
-                  title="Fazer Landing Page"
-                  image={project3}
-                  techStach={['HTML', 'CSS', 'JS', 'JQuery']}
-                  client="Fazer"
-                  description="This was one of my first projects, a landing page made with vanilla JavaScript. It features a cool effect when submitting a letter, showcasing the basics and the fun of pure JavaScript development."
-                  gitHub=""
-                  previewLink="https://www.fazer.fi/olerealisti"
-                  setShowDetails={setShowDetails}
-                />
-                <ProjectModule
-                  page="monitor"
-                  title="DNA Trend report 2024"
-                  image={project6}
-                  techStach={['Reactjs', 'Nextjs', 'Firebase', 'SCSS']}
-                  client="DNA yo."
-                  description="For this assignment,  I developed a landing page dedicated to DNA's annual trend report. Utilizing Next.js for frontend development, the site not only showcases the trends but also integrates an interactive quiz for users. Upon quiz completion, user responses are stored in Firebase, and real-time results are visually represented on a chart. This project was an enjoyable experience, allowing me to blend design with functionality, ensuring that users not only gain insight into DNA's trends but also engage actively through the quiz feature."
-                  gitHub=""
-                  previewLink="https://oppaat.dna.fi/teknologiatrendit2024"
-                  setShowDetails={setShowDetails}
-                />
+
                 <ProjectModule
                   page="monitor"
                   title="This portfolio site"

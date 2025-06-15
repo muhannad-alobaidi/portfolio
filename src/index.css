@@ -15,6 +15,11 @@
   font-family: 'Poppins', sans-serif;
   scroll-behavior: smooth;
   color-scheme: dark;
+  overscroll-behavior: none !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 .hash-span {

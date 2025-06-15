@@ -8,6 +8,25 @@ import { logo, menu, close } from '../assets';
 
 const Navbar = () => {
   const [active, setactive] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className="w-full flex justify-center items-center">
       <nav
@@ -30,12 +49,12 @@ const Navbar = () => {
               src={active ? close : menu}
               alt="menu"
               className="w-[28px] h-[28px] object-contain cursor-pointer"
-              onClick={() => setactive(!active)}
+              onClick={() => setactive(active ? '' : 'menu')}
             />
           </div>
           <ul
             className={`${
-              active ? 'flex' : 'hidden'
+              isMobile && active ? 'flex' : 'hidden'
             } flex-col gap-4 p-12 pl-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px]  bg-slate-600 bg-opacity-20 z-50 shadow-lg backdrop-blur-lg rounded-lg mt-6 border border-gray-600 `}
           >
             {navLinks.map(nav => (

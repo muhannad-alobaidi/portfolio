@@ -45,6 +45,7 @@ import project7 from './projects/7.png';
 import project8 from './projects/cargo.png';
 import project9 from './projects/finnair-logo.png';
 import project10 from './projects/myPortfolio.png';
+import project11 from './projects/salomaa.png';
 
 import carrent from './carrent.png';
 import jobit from './jobit.png';
@@ -94,6 +95,7 @@ export {
   project8,
   project9,
   project10,
+  project11,
   backImage,
   linkedin,
   email,
