@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-
 import Lottie from 'lottie-react';
 import webdev from '../assets/webdev-animation.json';
 import { email, linkedin, phone } from '../assets';

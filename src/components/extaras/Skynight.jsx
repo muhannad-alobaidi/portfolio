@@ -1,37 +1,33 @@
-import Particles from 'react-particles';
-import { loadSlim } from 'tsparticles-slim';
-import { useCallback } from 'react';
+import { useEffect, useState } from 'react';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
+import { loadSlim } from '@tsparticles/slim';
 
 const Particals = () => {
-  const particlesInit = useCallback(async engine => {
-    console.log(engine);
-    // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-    // starting from v2 you can add only the features you need reducing the bundle size
-    //await loadFull(engine);
-    await loadSlim(engine);
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async engine => {
+      await loadSlim(engine);
+    }).then(() => setInit(true));
   }, []);
-  const particlesLoaded = useCallback(async container => {
-    console.log(container);
-  }, []);
+
+  if (!init) return null;
 
   return (
     <Particles
       id="tsparticles"
-      init={particlesInit}
-      loaded={particlesLoaded}
       options={{
         fpsLimit: 120,
         interactivity: {
           events: {
-            onclick: {
+            onClick: {
               enable: true,
               mode: 'push',
             },
           },
           modes: {
             push: {
-              particles_nb: 1,
+              quantity: 1,
             },
           },
         },
@@ -40,29 +36,30 @@ const Particals = () => {
             value: 60,
             density: {
               enable: true,
-              value_area: 1500,
+              area: 1500,
             },
           },
-          line_linked: {
+          links: {
             enable: true,
             opacity: 0.02,
           },
           move: {
             direction: 'right',
+            enable: true,
             speed: 0.05,
           },
           size: {
             value: 1,
           },
           opacity: {
-            anim: {
+            value: { min: 0.05, max: 1 },
+            animation: {
               enable: true,
               speed: 1,
-              opacity_min: 0.05,
+              sync: false,
             },
           },
         },
-
         detectRetina: true,
       }}
     />

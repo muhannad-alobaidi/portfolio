@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-
 import TechStack from './modules/techStackelement';
 import {
   reactjs,

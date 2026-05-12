@@ -43,7 +43,7 @@ const ScreenElements = ({ setShowUi }) => {
           animate={{ scaleY: 1, opacity: 1 }}
           exit={{ opacity: 0, scaleY: 0 }}
           transition={{ duration: 0.5, delay: 1 }}
-          className="flex relative bg-white  p-2 bg-transparent  w-[100%] backdrop-blur-lg  shadow-md z-50 justify-between  origin-top"
+          className="flex relative p-2 bg-transparent  w-[100%] backdrop-blur-lg  shadow-md z-50 justify-between  origin-top"
         >
           <div className=" flex-[45%] ">
             <h2 className=" text-gray-900  ">Projects</h2>
@@ -53,7 +53,7 @@ const ScreenElements = ({ setShowUi }) => {
               onClick={() => {
                 setShowUi(false);
               }}
-              className="pl-2 pr-2 bg-transperent opacity-80 text-gray-800 border border-gray-500 rounded-sm "
+              className="pl-2 pr-2 bg-transparent opacity-80 text-gray-800 border border-gray-500 rounded-sm "
             >
               X
             </button>
