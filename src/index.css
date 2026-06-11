@@ -32,6 +32,16 @@
   overflow: hidden;
 }
 
+/* igloo-style full-canvas experience: the page is three snap stops */
+html {
+  scroll-snap-type: y mandatory;
+}
+.snap-section {
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
 @layer base {
   * {
     margin: 0;

@@ -1,18 +1,15 @@
 import { BrowserRouter } from 'react-router-dom';
-import { Hero, Navbar } from './components';
+import { Navbar } from './components';
 import Particals from './components/extaras/Skynight';
-import BrainSection from './components/brain/BrainSection';
+import ScrollExperience from './components/ScrollExperience';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative z-0 grey-gradient pb-20">
+      <div className="relative z-0 grey-gradient">
         <Particals />
-        <div>
-          <Navbar />
-          <Hero />
-        </div>
-        <BrainSection />
+        <Navbar />
+        <ScrollExperience />
       </div>
     </BrowserRouter>
   );

@@ -27,7 +27,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="hidden w-full  justify-center items-center">
       {/* converts the filled logo raster into a glowing neon outline:
           dilated alpha minus the original alpha leaves only the contour */}
       <svg className="absolute w-0 h-0" aria-hidden="true">

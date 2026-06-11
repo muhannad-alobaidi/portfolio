@@ -1,6 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { createBrain } from './brainEngine';
 import { BRAIN_GRAPH } from './brainData';
+import ContactParticles from './ContactParticles';
+
+// icons of the glyph nodes (contact channels), in node order
+const GLYPH_ICONS = (
+  BRAIN_GRAPH.children.find(c => (c.children || []).some(n => n.particleIcon)) || {
+    children: [],
+  }
+).children
+  .filter(n => n.particleIcon)
+  .map(n => n.particleIcon);
 
 /*
   Full-screen interactive "neural index": the jarvis brain core with nodes
@@ -13,10 +23,21 @@ const BrainSection = () => {
   const cardRef = useRef(null);
   const brainRef = useRef(null);
   const [hovered, setHovered] = useState(null);
-  const [viewPath, setViewPath] = useState(['NEURAL INDEX']);
+  // null in the main view / mid-flight; {label, buttons:[...]} when focused
+  const [focus, setFocus] = useState(null);
+  // engine -> GPU glyph overlay, written every frame
+  const glyphTracker = useRef({
+    active: false,
+    alpha: 0,
+    scale: 1,
+    anchors: [],
+    hot: -1,
+    kick: 0,
+  });
 
   useEffect(() => {
     const brain = createBrain(canvasRef.current, {
+      glyphTracker,
       onHover: (node, x, y, moveOnly) => {
         const card = cardRef.current;
         if (card && node) {
@@ -38,8 +59,8 @@ const BrainSection = () => {
         }
         if (!moveOnly) setHovered(node);
       },
-      onViewChange: labels => {
-        setViewPath(labels);
+      onFocusChange: info => {
+        setFocus(info);
         setHovered(null);
       },
       onActivate: node => {
@@ -57,29 +78,45 @@ const BrainSection = () => {
     return () => brain.dispose();
   }, []);
 
-  const inSub = viewPath.length > 1;
-
   return (
     <section
-      id="brain"
-      className="relative w-full h-screen overflow-hidden select-none"
+      id="brain-scene"
+      className="relative w-full h-full overflow-hidden select-none"
     >
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full touch-pan-y cursor-grab [&.dragging]:cursor-grabbing [&.hovering]:cursor-pointer"
       />
 
-      {/* back control — only inside a sub-brain */}
-      {inSub && (
-        <div className="absolute top-24 max-lg:top-auto max-lg:bottom-10 left-6 flex items-center gap-3 font-mono text-[11px] tracking-[2px] text-neon/80 z-10">
-          <button
-            onClick={() => brainRef.current && brainRef.current.back()}
-            className="px-3 py-1 border border-neon/40 text-neon hover:bg-neon/10 hover:shadow-[0_0_12px_rgba(75,232,255,0.4)] transition-all"
-          >
-            ◂ {viewPath[viewPath.length - 1]}
-          </button>
+      {/* GPU particle glyphs for the contact nodes, anchored by the engine */}
+      {GLYPH_ICONS.length > 0 && (
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
+          <ContactParticles tracker={glyphTracker} icons={GLYPH_ICONS} />
         </div>
       )}
+
+      {/* focus controls: BACK sits on the line toward the main core, and the
+          sibling buttons sit in the actual directions of their nodes */}
+      {focus &&
+        focus.buttons.map(b => (
+          <button
+            key={b.kind}
+            onClick={() => {
+              const brain = brainRef.current;
+              if (!brain) return;
+              if (b.kind === 'back') brain.back();
+              else brain.focusNode(b.target);
+            }}
+            className="absolute z-10 -translate-x-1/2 -translate-y-1/2 px-3 py-1.5 font-mono text-[11px] tracking-[2px] border border-neon/40 text-neon bg-[#020e16]/70 backdrop-blur-sm hover:bg-neon/10 hover:shadow-[0_0_14px_rgba(75,232,255,0.4)] transition-all"
+            style={{ left: b.x, top: b.y }}
+          >
+            {b.kind === 'back'
+              ? `◂ ${b.label}`
+              : b.kind === 'prev'
+                ? `◂ ${b.label}`
+                : `${b.label} ▸`}
+          </button>
+        ))}
 
       {/* hover details card */}
       <div
