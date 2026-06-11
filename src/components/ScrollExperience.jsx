@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import HeroParticles from './hero/HeroParticles';
+import LogoParticles from './hero/LogoParticles';
 import PCSection from './PCSection';
 import BrainSection from './brain/BrainSection';
 
@@ -70,6 +71,29 @@ const ScrollExperience = () => {
         style={layer(p > 1.05, brainO, active === 2, 3)}
       >
         <BrainSection />
+      </div>
+
+      {/* corner monogram: a logo-sized echo of the hero swarm, alive on
+          the PC/brain sections. Mounted only past the hero so it
+          re-assembles from particles on every return; click = back home */}
+      <div
+        className="fixed top-2 left-2 md:top-3 md:left-4 w-28 h-10 md:w-36 md:h-13 transition-opacity duration-700"
+        style={{
+          zIndex: 4,
+          opacity: p > 0.6 ? 1 : 0,
+          pointerEvents: p > 0.6 ? 'auto' : 'none',
+        }}
+      >
+        {p > 0.35 && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            title="back to top"
+            aria-label="Muhannad Alobaidi — back to top"
+            className="w-full h-full cursor-pointer opacity-90 hover:opacity-100 hover:scale-105 transition-[opacity,transform] duration-300"
+          >
+            <LogoParticles />
+          </button>
+        )}
       </div>
 
       {/* invisible scroll proxy: 3 snap stops */}
