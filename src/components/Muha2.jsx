@@ -11,12 +11,21 @@ import { useFrame, useThree } from '@react-three/fiber';
 
 import * as THREE from 'three';
 import Screen from './screen';
+import { TOWER_HIDDEN } from './towerHidden';
 
 export default function Muha(props) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF('/muha/muha.gltf');
   const { actions } = useAnimations(animations, group);
   const { showUI, setShowUI, exit, setExit, setScreenRect } = props;
+
+  // hide the PC tower (case + internals) — only monitor/keyboard/mouse stay
+  useEffect(() => {
+    if (!group.current) return;
+    group.current.traverse(o => {
+      if (TOWER_HIDDEN.has(o.name)) o.visible = false;
+    });
+  }, [nodes]);
 
   useEffect(() => {
     // Play the animation once when the component mounts
