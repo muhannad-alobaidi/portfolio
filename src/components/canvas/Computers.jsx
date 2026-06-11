@@ -5,6 +5,7 @@ import { Suspense, memo, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Preload, Environment } from '@react-three/drei';
 import Muha from '../Muha2';
+import Macbook from './Macbook';
 import { useState } from 'react';
 import CanvasLoader from '../Loader';
 
@@ -59,6 +60,7 @@ const ComputersCanvas = ({ showUI, setShowUI, exit, setExit, setScreenRect }) =>
           setShowUI={setShowUI}
           setScreenRect={setScreenRect}
         />
+        <Macbook />
       </Suspense>
       <Preload all />
     </Canvas>
