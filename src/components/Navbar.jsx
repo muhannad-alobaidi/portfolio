@@ -28,6 +28,27 @@ const Navbar = () => {
 
   return (
     <div className="w-full flex justify-center items-center">
+      {/* converts the filled logo raster into a glowing neon outline:
+          dilated alpha minus the original alpha leaves only the contour */}
+      <svg className="absolute w-0 h-0" aria-hidden="true">
+        <filter id="neon-outline">
+          <feMorphology
+            operator="dilate"
+            radius="1.4"
+            in="SourceAlpha"
+            result="thick"
+          />
+          <feComposite in="thick" in2="SourceAlpha" operator="out" result="ring" />
+          <feFlood floodColor="#4be8ff" result="col" />
+          <feComposite in="col" in2="ring" operator="in" result="outline" />
+          <feGaussianBlur in="outline" stdDeviation="2.2" result="glow" />
+          <feMerge>
+            <feMergeNode in="glow" />
+            <feMergeNode in="glow" />
+            <feMergeNode in="outline" />
+          </feMerge>
+        </filter>
+      </svg>
       <nav
         className={`${styles.paddingX} w-full lg:w-1/2 items-center py-5 fixed top-0 z-50 bg-[#04101a]/40 shadow-lg backdrop-blur-md rounded-full mt-6 border border-neon/15`}
       >
@@ -40,7 +61,11 @@ const Navbar = () => {
               window.scrollTo(0, 0);
             }}
           >
-            <img src={logo} alt="logo" className="w-16 h-9 object-cont7ain" />
+            <img
+              src={logo}
+              alt="logo"
+              className="w-16 h-9 object-contain filter-[url(#neon-outline)]"
+            />
           </Link>
           {/* Mobile Navigation */}
           <div className="sm:hidden flex flex-1 justify-end items-center">

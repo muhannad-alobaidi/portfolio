@@ -58,7 +58,7 @@ const Hero = () => {
           >
             Muhannad
             <br />
-            <span className="text-neon [text-shadow:0_0_24px_rgba(75,232,255,0.45)]">
+            <span className="text-transparent [-webkit-text-stroke:.5px_#4be8ff] filter-[drop-shadow(0_0_12px_rgba(75,232,255,0.2))_drop-shadow(0_0_30px_rgba(75,232,255,0.1))]">
               Alobaidi
             </span>
           </motion.h1>

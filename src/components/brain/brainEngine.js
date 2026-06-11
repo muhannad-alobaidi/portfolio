@@ -14,7 +14,7 @@ function normalize(verts) {
     return [v[0] / l, v[1] / l, v[2] / l];
   });
 }
-function edgesFor(verts) {
+function edgesFor(verts, tol = 1.05) {
   let min = Infinity;
   const d = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
   for (let i = 0; i < verts.length; i++)
@@ -23,7 +23,7 @@ function edgesFor(verts) {
   const edges = [];
   for (let i = 0; i < verts.length; i++)
     for (let j = i + 1; j < verts.length; j++)
-      if (d(verts[i], verts[j]) < min * 1.05) edges.push([i, j]);
+      if (d(verts[i], verts[j]) < min * tol) edges.push([i, j]);
   return edges;
 }
 function icosahedron() {
@@ -46,6 +46,20 @@ function octahedron() {
   return [
     [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1],
   ];
+}
+// frequency-2 geodesic sphere: icosahedron vertices + normalized edge
+// midpoints — a fine 42-vertex / 120-edge web for the root core
+function geodesic() {
+  const base = icosahedron();
+  const verts = base.slice();
+  for (const [i, j] of edgesFor(base)) {
+    verts.push([
+      (base[i][0] + base[j][0]) / 2,
+      (base[i][1] + base[j][1]) / 2,
+      (base[i][2] + base[j][2]) / 2,
+    ]);
+  }
+  return normalize(verts);
 }
 
 function rot3(p, ax, ay, az) {
@@ -200,6 +214,24 @@ export function createBrain(canvas, opts = {}) {
     { R: 131, tiltX: 1.95, tiltY: 1.2, speed: 0.00018 },
   ];
   const RING_SEG = 64;
+
+  // ---- root-view-only embellishments (sub-brains keep the plain core) ----
+  const GEO_SHELL = {
+    verts: geodesic(),
+    R: 136,
+    sx: 0.00007,
+    sy: -0.00011,
+    sz: 0.00004,
+    alpha: 0.32,
+    width: 0.75,
+    dots: false,
+  };
+  GEO_SHELL.edges = edgesFor(GEO_SHELL.verts, 1.13);
+  const ROOT_RINGS = [
+    { R: 147, tiltX: 0.2, tiltY: 2.2, speed: -0.00034 },
+    { R: 159, tiltX: 2.7, tiltY: 0.35, speed: 0.00012 },
+  ];
+  const axons = []; // transient filaments between the inner shells
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -570,11 +602,14 @@ export function createBrain(canvas, opts = {}) {
       vRX *= 0.96;
       vRY *= 0.96;
     }
+    const root = path.length <= 1;
     const beat = Math.sin(phase / 420);
-    const breath = 1 + (0.035 + 0.11 * activity) * beat;
+    // the main brain runs larger; sub-brains keep the original scale
+    const breath = (1 + (0.035 + 0.11 * activity) * beat) * (root ? 1.3 : 1);
 
     cx.lineCap = 'round';
-    for (const r of RINGS) {
+    const ringSet = root ? RINGS.concat(ROOT_RINGS) : RINGS;
+    for (const r of ringSet) {
       const spin = phase * r.speed;
       let prev = null;
       for (let i = 0; i <= RING_SEG; i++) {
@@ -597,9 +632,31 @@ export function createBrain(canvas, opts = {}) {
         }
         prev = [sx2, sy2];
       }
+      if (root) {
+        // bright beads travelling each ring
+        for (let k = 0; k < 2; k++) {
+          const a = spin * 36 + (k * Math.PI) + Math.sin(t / 2300 + k) * 0.3;
+          const p = rot3(
+            [Math.cos(a), Math.sin(a), 0],
+            r.tiltX + uRX,
+            r.tiltY + spin + uRY,
+            spin * 0.7
+          );
+          const [bx, by, bz] = project(p, r.R * breath);
+          const depth = (bz + 1) / 2;
+          cx.fillStyle = `rgba(255,255,255,${(0.35 + 0.6 * depth) * graphAlpha})`;
+          cx.shadowColor = `rgba(${CYAN},0.9)`;
+          cx.shadowBlur = 10 * DPR * depth;
+          cx.beginPath();
+          cx.arc(bx, by, (0.9 + 1.3 * depth) * DPR, 0, 7);
+          cx.fill();
+          cx.shadowBlur = 0;
+        }
+      }
     }
 
-    for (const sh of SHELLS) {
+    const shellSet = root ? SHELLS.concat([GEO_SHELL]) : SHELLS;
+    for (const sh of shellSet) {
       const rx = phase * sh.sx + uRX,
         ry = phase * sh.sy + uRY,
         rz = phase * sh.sz;
@@ -627,6 +684,40 @@ export function createBrain(canvas, opts = {}) {
         }
         cx.shadowBlur = 0;
       }
+    }
+
+    // transient axon filaments weaving the inner shells together (root only)
+    if (root) {
+      if (Math.random() < 0.035 + activity * 0.05) {
+        axons.push({
+          a: Math.floor(Math.random() * SHELLS[1].verts.length),
+          b: Math.floor(Math.random() * SHELLS[0].verts.length),
+          life: 1,
+        });
+      }
+      for (let i = axons.length - 1; i >= 0; i--) {
+        const ax = axons[i];
+        ax.life -= 0.012;
+        if (ax.life <= 0) {
+          axons.splice(i, 1);
+          continue;
+        }
+        const pa = SHELLS[1].proj[ax.a];
+        const pb = SHELLS[0].proj[ax.b];
+        if (!pa || !pb) continue;
+        const fade = Math.sin(ax.life * Math.PI); // ease in, ease out
+        const g = cx.createLinearGradient(pa[0], pa[1], pb[0], pb[1]);
+        g.addColorStop(0, `rgba(${CYAN},${0.34 * fade * graphAlpha})`);
+        g.addColorStop(1, `rgba(${CYAN},${0.05 * fade * graphAlpha})`);
+        cx.strokeStyle = g;
+        cx.lineWidth = 0.8 * DPR;
+        cx.beginPath();
+        cx.moveTo(pa[0], pa[1]);
+        cx.lineTo(pb[0], pb[1]);
+        cx.stroke();
+      }
+    } else if (axons.length) {
+      axons.length = 0;
     }
 
     for (let i = synapses.length - 1; i >= 0; i--) {
@@ -796,11 +887,13 @@ export function createBrain(canvas, opts = {}) {
 
     // nodes
     cx.textAlign = 'center';
+    const isRoot = path.length <= 1;
+    const labelPx = isRoot ? 14.5 : 11; // main-brain labels read larger
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i];
       const hot = i === hoverN;
       const [x, y] = nodePos(i, t);
-      let labelLift = 16;
+      let labelLift = isRoot ? 21 : 16;
       // particle-glyph nodes render as an igloo-style swarm instead of a dot
       if (clusters[i] && drawCluster(clusters[i], i, x, y, t, hot)) {
         labelLift = 52;
@@ -818,7 +911,7 @@ export function createBrain(canvas, opts = {}) {
       }
 
       cx.fillStyle = `rgba(255,255,255,${graphAlpha})`;
-      cx.font = `600 ${11 * DPR}px Consolas, monospace`;
+      cx.font = `600 ${labelPx * DPR}px Consolas, monospace`;
       cx.shadowColor = hot ? `rgb(${AMBER})` : `rgba(${CYAN},0.9)`;
       cx.shadowBlur = (hot ? 16 : 10) * DPR;
       // clamp so long labels on edge nodes stay on-canvas
