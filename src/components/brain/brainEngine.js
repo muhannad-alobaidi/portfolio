@@ -64,6 +64,53 @@ function rot3(p, ax, ay, az) {
 const easeInOutCubic = t =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
+// igloo-style particle glyphs: sample an icon image into normalized target
+// points; particles spring onto them and the cursor blows through the swarm
+const iconPointsCache = new Map();
+function iconPoints(src) {
+  let entry = iconPointsCache.get(src);
+  if (!entry) {
+    entry = { points: null };
+    iconPointsCache.set(src, entry);
+    const img = new Image();
+    img.onload = () => {
+      const s = 44;
+      const c = document.createElement('canvas');
+      c.width = c.height = s;
+      const g = c.getContext('2d');
+      const r = Math.min(s / img.width, s / img.height);
+      g.drawImage(
+        img,
+        (s - img.width * r) / 2,
+        (s - img.height * r) / 2,
+        img.width * r,
+        img.height * r
+      );
+      const data = g.getImageData(0, 0, s, s).data;
+      // glyphs come either alpha-keyed or dark-on-light
+      let hasAlpha = false;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] < 250) {
+          hasAlpha = true;
+          break;
+        }
+      }
+      const pts = [];
+      for (let y = 0; y < s; y++) {
+        for (let x = 0; x < s; x++) {
+          const i4 = (y * s + x) * 4;
+          const lum = (data[i4] + data[i4 + 1] + data[i4 + 2]) / 3;
+          const solid = hasAlpha ? data[i4 + 3] > 140 : lum < 150;
+          if (solid) pts.push([x / s - 0.5, y / s - 0.5]);
+        }
+      }
+      entry.points = pts;
+    };
+    img.src = src;
+  }
+  return entry;
+}
+
 // neon-tinted logo sprites, cached per image url across engine instances
 const logoCache = new Map();
 function neonSprite(src, color) {
@@ -116,6 +163,7 @@ export function createBrain(canvas, opts = {}) {
   let path = []; // breadcrumb of nodes from root
   let nodes = [];
   let orbiters = []; // logo sprites circling the core in this view
+  let clusters = []; // per-node particle glyphs (nodes with particleIcon)
 
   // ---------- activity engine ----------
   let activity = 0.12;
@@ -248,10 +296,95 @@ export function createBrain(canvas, opts = {}) {
       speedMul: 0.7 + Math.random() * 0.6, // random pace per logo
       seed: Math.random() * 7,
     }));
+    clusters = nodes.map(n =>
+      n.particleIcon ? { entry: iconPoints(n.particleIcon), particles: null } : null
+    );
     pulses.length = 0;
     armedTapN = -1;
     onViewChange(path.map(p => p.label), node);
     onHover(null, 0, 0);
+  }
+
+  // ---------- igloo-style particle node glyphs ----------
+  const CLUSTER_MAX = 240;
+  function buildCluster(cl) {
+    const pts = cl.entry.points;
+    const keep = Math.min(1, CLUSTER_MAX / pts.length);
+    cl.particles = [];
+    for (const [nx, ny] of pts) {
+      if (Math.random() > keep) continue;
+      cl.particles.push({
+        nx,
+        ny,
+        nz: (Math.random() - 0.5) * 0.18, // shallow depth -> 3D parallax
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        seed: Math.random() * 7,
+        init: true,
+      });
+    }
+  }
+  function kickCluster(cl, mag) {
+    if (!cl || !cl.particles) return;
+    for (const p of cl.particles) {
+      p.vx += (Math.random() - 0.5) * mag * DPR;
+      p.vy += (Math.random() - 0.5) * mag * DPR;
+    }
+  }
+  function drawCluster(cl, i, ax, ay, t, hot) {
+    if (!cl.particles) {
+      if (cl.entry.points) buildCluster(cl);
+      else return false; // icon still loading -> caller draws the plain dot
+    }
+    const S = 84 * DPR * Math.min(1.3, zoom);
+    // gentle idle turn + drag parallax, like the jarvis head
+    const yaw = Math.sin(t / 2600 + i * 2.1) * 0.3 + uRY * 0.7;
+    const pitch = Math.sin(t / 3300 + i) * 0.14 + uRX * 0.7;
+    const bright = hot ? 1 : 0.72;
+    const cols = [];
+    for (let b = 0; b < 6; b++)
+      cols.push(
+        `rgba(${hot ? AMBER : CYAN},${Math.min(1, (0.2 + 0.16 * b) * bright) * graphAlpha})`
+      );
+    const R = 46 * DPR;
+    const R2 = R * R;
+    const spring = 0.024;
+    const damp = 0.86;
+    for (const p of cl.particles) {
+      const q = rot3([p.nx, p.ny, p.nz], pitch, yaw, 0);
+      const persp = 3 / (3 - q[2] * 2);
+      const tx = ax + q[0] * S * persp;
+      const ty = ay + q[1] * S * persp;
+      if (p.init) {
+        // swarm in from scattered chaos on first sight
+        p.x = tx + (Math.random() - 0.5) * 260 * DPR;
+        p.y = ty + (Math.random() - 0.5) * 260 * DPR;
+        p.init = false;
+      }
+      p.vx += (tx - p.x) * spring + (Math.random() - 0.5) * 0.07 * DPR;
+      p.vy += (ty - p.y) * spring + (Math.random() - 0.5) * 0.07 * DPR;
+      // the cursor blows through the swarm; it always reforms
+      const dx = p.x - mouseX;
+      const dy = p.y - mouseY;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < R2 && d2 > 0.01) {
+        const d = Math.sqrt(d2);
+        const f = ((R - d) / R) * 3.4 * DPR;
+        p.vx += (dx / d) * f;
+        p.vy += (dy / d) * f;
+      }
+      p.vx *= damp;
+      p.vy *= damp;
+      p.x += p.vx;
+      p.y += p.vy;
+      const depth = (q[2] + 1) / 2;
+      cx.fillStyle = cols[Math.min(5, (depth * 6) | 0)];
+      const sz = (0.9 + depth) * 1.5 * DPR;
+      cx.fillRect(p.x - sz / 2, p.y - sz / 2, sz, sz);
+    }
+    return true;
   }
 
   // project all orbiting logos, split into behind/in-front of the core
@@ -391,6 +524,7 @@ export function createBrain(canvas, opts = {}) {
         if (node.children && node.children.length) diveInto(hoverN);
         else {
           // leaf: ripple + delegate (links, etc.)
+          kickCluster(clusters[hoverN], 9); // particle glyphs burst apart
           const [x, y] = nodePos(hoverN, performance.now());
           ripples.push({ x, y, r: 10 * DPR, max: 70 * DPR, a: 0.9 });
           for (let i = 0; i < 7; i++)
@@ -591,7 +725,8 @@ export function createBrain(canvas, opts = {}) {
     if (!trans) {
       for (let i = 0; i < nodes.length; i++) {
         const [x, y] = nodePos(i, t);
-        if (Math.hypot(mouseX - x, mouseY - y) < 36 * DPR) {
+        const radius = clusters[i] ? 54 : 36; // particle glyphs are larger
+        if (Math.hypot(mouseX - x, mouseY - y) < radius * DPR) {
           hoverN = i;
           break;
         }
@@ -665,16 +800,22 @@ export function createBrain(canvas, opts = {}) {
       const n = nodes[i];
       const hot = i === hoverN;
       const [x, y] = nodePos(i, t);
-      const ringPulse = (1 + Math.sin(t / 600 + i * 5) * 0.18) * (hot ? 1.7 : 1);
-      cx.strokeStyle = hot ? `rgba(${AMBER},${0.95 * graphAlpha})` : `rgba(${CYAN},${0.85 * graphAlpha})`;
-      cx.lineWidth = (hot ? 2 : 1.4) * DPR;
-      cx.beginPath();
-      cx.arc(x, y, 7 * DPR * ringPulse, 0, 7);
-      cx.stroke();
-      cx.fillStyle = hot ? `rgba(${AMBER},${graphAlpha})` : `rgba(${CYAN},${0.95 * graphAlpha})`;
-      cx.beginPath();
-      cx.arc(x, y, (hot ? 3.6 : 2.6) * DPR, 0, 7);
-      cx.fill();
+      let labelLift = 16;
+      // particle-glyph nodes render as an igloo-style swarm instead of a dot
+      if (clusters[i] && drawCluster(clusters[i], i, x, y, t, hot)) {
+        labelLift = 52;
+      } else {
+        const ringPulse = (1 + Math.sin(t / 600 + i * 5) * 0.18) * (hot ? 1.7 : 1);
+        cx.strokeStyle = hot ? `rgba(${AMBER},${0.95 * graphAlpha})` : `rgba(${CYAN},${0.85 * graphAlpha})`;
+        cx.lineWidth = (hot ? 2 : 1.4) * DPR;
+        cx.beginPath();
+        cx.arc(x, y, 7 * DPR * ringPulse, 0, 7);
+        cx.stroke();
+        cx.fillStyle = hot ? `rgba(${AMBER},${graphAlpha})` : `rgba(${CYAN},${0.95 * graphAlpha})`;
+        cx.beginPath();
+        cx.arc(x, y, (hot ? 3.6 : 2.6) * DPR, 0, 7);
+        cx.fill();
+      }
 
       cx.fillStyle = `rgba(255,255,255,${graphAlpha})`;
       cx.font = `600 ${11 * DPR}px Consolas, monospace`;
@@ -685,7 +826,7 @@ export function createBrain(canvas, opts = {}) {
       cx.fillText(
         n.label,
         Math.max(lw + 4 * DPR, Math.min(W - lw - 4 * DPR, x)),
-        y - 16 * DPR
+        y - labelLift * DPR
       );
       cx.shadowBlur = 0;
     }
