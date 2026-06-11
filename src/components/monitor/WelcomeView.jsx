@@ -62,7 +62,7 @@ const Card = ({ project, onOpen }) => (
 
 const WelcomeView = ({ openProject }) => {
   return (
-    <div className="h-full overflow-y-auto hide-scrollbar bg-[#0d1424]">
+    <div className="h-full overflow-y-auto overscroll-contain hide-scrollbar bg-[#0d1424]">
       <div className="max-w-[980px] mx-auto px-4 @3xl:px-8 py-4 @3xl:py-8">
         <p className="font-mono text-[9px] @3xl:text-[10px] text-[#46587a] mb-2">
           README.md — preview

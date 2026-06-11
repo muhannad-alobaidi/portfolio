@@ -32,6 +32,14 @@
   overflow: hidden;
 }
 
+/* while the monitor UI is open the root scroller is frozen too, and the
+   snap stops are disabled — wheel/keys/touch can't drag the page to
+   another section behind the overlay */
+html.no-scroll {
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
 /* igloo-style full-canvas experience: the page is three snap stops */
 html {
   scroll-snap-type: y mandatory;
@@ -263,16 +271,6 @@ html {
     rgba(255, 255, 255, 0.016) 0 1px,
     transparent 1px 3px
   );
-}
-
-/* idle monitor: code drifting up while the hands type */
-@keyframes idleScroll {
-  to {
-    transform: translateY(-50%);
-  }
-}
-.idle-code {
-  animation: idleScroll 18s linear infinite;
 }
 
 /* canvas- styles */

@@ -62,7 +62,7 @@ const Explorer = ({ open, activeTab, openProject, openReadme }) => {
         </span>
       </div>
 
-      <div className="flex-1 overflow-y-auto hide-scrollbar pb-3">
+      <div className="flex-1 overflow-y-auto overscroll-contain hide-scrollbar pb-3">
         {FOLDERS.map(folder => {
           const items = projectsInFolder(folder);
           const isOpen = openFolders.has(folder);

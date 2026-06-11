@@ -110,10 +110,10 @@ const ProjectView = ({ project }) => {
     <div className="h-full bg-[#0d1424]">
       {/* wide: split editor — code left, preview right */}
       <div className="hidden @5xl:flex h-full">
-        <div className="w-[42%] h-full overflow-y-auto hide-scrollbar bg-[#0b1120] border-r border-[#1b2a42]">
+        <div className="w-[42%] h-full overflow-y-auto overscroll-contain hide-scrollbar bg-[#0b1120] border-r border-[#1b2a42]">
           <CodeBlock project={project} />
         </div>
-        <div className="flex-1 h-full overflow-y-auto hide-scrollbar">
+        <div className="flex-1 h-full overflow-y-auto overscroll-contain hide-scrollbar">
           <div className="max-w-[760px] mx-auto px-6 py-5">
             <Details project={project} />
           </div>
@@ -121,7 +121,7 @@ const ProjectView = ({ project }) => {
       </div>
 
       {/* narrow: preview first, source behind a toggle */}
-      <div className="@5xl:hidden h-full overflow-y-auto hide-scrollbar">
+      <div className="@5xl:hidden h-full overflow-y-auto overscroll-contain hide-scrollbar">
         <div className="px-3 @3xl:px-6 py-3 @3xl:py-5">
           <Details project={project} />
           <button

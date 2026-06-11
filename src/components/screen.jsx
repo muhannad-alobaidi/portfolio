@@ -7,31 +7,24 @@ Command: npx gltfjsx@6.1.4 muha2.glb
 */
 
 import React, { useRef, useState, useEffect } from 'react';
-import { useGLTF, Html } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import * as THREE from 'three';
+import screenIdleClip from '../assets/screen.mp4';
 
 const FLY_IN_DURATION = 2.4; // seconds, camera flight toward the screen
 const FLY_BACK_DURATION = 2; // seconds, camera flight back out
 
-/* abstract "code" for the idle screensaver — width/indent/color per line */
-const IDLE_LINES = [
-  { i: 0, w: 34, c: '#c792ea66' },
-  { i: 6, w: 52, c: '#7fb4ff59' },
-  { i: 6, w: 40, c: '#9ece8c59' },
-  { i: 12, w: 28, c: '#4be8ff66' },
-  { i: 12, w: 46, c: '#7fb4ff4d' },
-  { i: 6, w: 22, c: '#6e7f9b59' },
-  { i: 0, w: 14, c: '#6e7f9b59' },
-  { i: 0, w: 44, c: '#c792ea59' },
-  { i: 6, w: 56, c: '#9ece8c4d' },
-  { i: 6, w: 30, c: '#4be8ff59' },
-  { i: 12, w: 50, c: '#7fb4ff59' },
-  { i: 12, w: 24, c: '#f2987b59' },
-  { i: 6, w: 38, c: '#6e7f9b4d' },
-  { i: 0, w: 18, c: '#6e7f9b59' },
-];
+/*
+  Idle screen clip, played (muted, looped) on the panel while idle —
+  mapped to the screen's UVs, so it sticks to the glass as the model
+  rotates. GIFs can't animate as WebGL textures, hence the mp4.
+*/
+const SCREEN_VIDEO_URL = screenIdleClip;
+// if the clip shows flipped or rotated on the panel, tune these two:
+const VIDEO_FLIP_Y = false;
+const VIDEO_ROTATION = 0; // radians, e.g. Math.PI / 2
 
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -48,6 +41,7 @@ export default function Screen(props) {
   const { nodes, materials } = useGLTF('/muha/muha.gltf');
 
   const { showUI, setShowUI, setScreenRect } = props;
+
   const [hover, setHover] = useState(false);
   const [clicked, setClicked] = useState(false);
   const screenRef = useRef();
@@ -55,6 +49,58 @@ export default function Screen(props) {
   const controls = useThree((state) => state.controls);
   const [emissiveColor, setEmissiveColor] = useState(0x000000); // default to black, no emission
   const [material, setMaterial] = useState(materials['Material.074_30']);
+  const videoRef = useRef(null);
+  const [videoMaterial, setVideoMaterial] = useState(null);
+
+  // build a VideoTexture material once the idle clip can play; a missing
+  // file just fires `error` and the screen keeps its original material
+  useEffect(() => {
+    const video = document.createElement('video');
+    videoRef.current = video;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.src = SCREEN_VIDEO_URL;
+
+    let mat = null;
+    const onCanPlay = () => {
+      if (mat) return;
+      video.play().catch(() => {});
+      const tex = new THREE.VideoTexture(video);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.flipY = VIDEO_FLIP_Y;
+      tex.center.set(0.5, 0.5);
+      tex.rotation = VIDEO_ROTATION;
+      mat = new THREE.MeshBasicMaterial({
+        map: tex,
+        toneMapped: false,
+        side: THREE.FrontSide,
+        color: 0xdddddd, // slightly dimmed; brightens on hover
+      });
+      setVideoMaterial(mat);
+    };
+    video.addEventListener('canplay', onCanPlay);
+    video.load();
+
+    return () => {
+      video.removeEventListener('canplay', onCanPlay);
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+      if (mat) {
+        mat.map.dispose();
+        mat.dispose();
+      }
+      videoRef.current = null;
+    };
+  }, []);
+
+  // put the clip on the panel whenever the monitor is idle
+  useEffect(() => {
+    if (videoMaterial && !clicked) setMaterial(videoMaterial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [videoMaterial]);
 
   // single in-flight camera animation, advanced from useFrame
   const flight = useRef(null); // { fromPos, toPos, fromLook, toLook, t, duration, onArrive }
@@ -175,7 +221,10 @@ export default function Screen(props) {
       top: window.scrollY + gl.domElement.getBoundingClientRect().top,
       behavior: 'smooth',
     });
+    // lock the page from the moment of the click — the camera flight and
+    // the monitor UI both assume the section stays put underneath
     document.body.classList.add('no-scroll');
+    document.documentElement.classList.add('no-scroll');
 
     setClicked(true);
     startFlight(
@@ -184,6 +233,7 @@ export default function Screen(props) {
       FLY_IN_DURATION,
       () => {
         // light the panel up as the backdrop for the DOM overlay
+        videoRef.current?.pause();
         setMaterial(
           new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false })
         );
@@ -204,8 +254,12 @@ export default function Screen(props) {
   }, [hover, clicked]);
 
   useEffect(() => {
-    if (!clicked && material.emissive) {
+    if (clicked) return;
+    if (material.emissive) {
       material.emissive.set(emissiveColor);
+    } else if (material.map) {
+      // video screen: nudge the brightness up on hover instead
+      material.color.set(emissiveColor ? 0xffffff : 0xdddddd);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emissiveColor]);
@@ -225,7 +279,8 @@ export default function Screen(props) {
     if (original.emissive) original.emissive.set(0x000000); // clear stale hover glow
     setEmissiveColor(0x000000);
     setHover(false);
-    setMaterial(original);
+    if (videoRef.current) videoRef.current.play().catch(() => {});
+    setMaterial(videoMaterial || original);
     startFlight(home.current.pos, home.current.look, FLY_BACK_DURATION, () => {
       if (controls) {
         controls.enabled = true;
@@ -267,64 +322,6 @@ export default function Screen(props) {
       rotation={[0, 0.07, -Math.PI / 2]}
       scale={[331.62, 331.62, 348.07]}
     >
-      {!clicked && (
-        <Html
-          occlude
-          as="div"
-          prepend
-          // let clicks on the hint pass through to the screen mesh
-          pointerEvents="none"
-          // sprite is a two-dimensional bitmap
-          sprite
-          distanceFactor={0}
-          // position is the distance from the origin
-          position={[0, 0, -0.8]}
-          zIndexRange={[100, 10]}
-          transform
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            width: '100%',
-            color: 'black',
-            fontSize: '10px',
-            transformOrigin: 'center',
-          }}
-        >
-          <div className="w-[96px] h-[56px] rounded-[3px] overflow-hidden bg-[#050b14]/95 border border-[#1a2c44] flex flex-col">
-            {/* fake window strip */}
-            <div className="flex items-center gap-[2px] px-[3px] h-[7px] bg-[#0a1322] border-b border-[#16243a] shrink-0">
-              <span className="w-[2.5px] h-[2.5px] rounded-full bg-[#ff5f57]" />
-              <span className="w-[2.5px] h-[2.5px] rounded-full bg-[#febc2e]" />
-              <span className="w-[2.5px] h-[2.5px] rounded-full bg-[#28c840]" />
-              <span className="ml-[3px] text-[3.5px] font-mono text-[#5d7290] leading-none">
-                muha-code — typing…
-              </span>
-            </div>
-            {/* code drifting up while the hands type */}
-            <div className="flex-1 overflow-hidden px-[5px] py-[3px]">
-              <div className="idle-code">
-                {[...IDLE_LINES, ...IDLE_LINES].map((l, i) => (
-                  <div
-                    key={i}
-                    className="h-[2px] rounded-full mb-[2.5px]"
-                    style={{
-                      width: `${l.w}px`,
-                      marginLeft: `${l.i}px`,
-                      background: l.c,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="text-center text-[4px] font-mono tracking-[1px] text-[#4be8ff]/90 pb-[2px] shrink-0">
-              ▸ CLICK TO WAKE
-            </div>
-          </div>
-        </Html>
-      )}
-
       <mesh
         onClick={handleClick}
         onPointerEnter={() => {

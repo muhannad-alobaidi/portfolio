@@ -38,7 +38,7 @@ const Tab = ({ label, lang, active, onSelect, onClose }) => (
 
 const EditorTabs = ({ tabs, activeTab, onSelect, onClose }) => {
   return (
-    <div className="flex items-stretch h-8 shrink-0 bg-[#0a101d] border-b border-[#1b2a42] overflow-x-auto hide-scrollbar">
+    <div className="flex items-stretch h-8 shrink-0 bg-[#0a101d] border-b border-[#1b2a42] overflow-x-auto overscroll-contain hide-scrollbar">
       {tabs.map(id => {
         if (id === 'readme') {
           return (

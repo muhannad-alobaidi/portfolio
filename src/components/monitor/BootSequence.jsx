@@ -49,7 +49,6 @@ const BootSequence = ({ onDone }) => {
       });
     }, 16);
     return () => clearInterval(iv);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -12,14 +12,19 @@ const PCSection = () => {
   const [exit, setExit] = useState(false);
   const [screenRect, setScreenRect] = useState(null);
 
+  // hard scroll lock while zoomed in: freeze body AND the root scroller
+  // (the actual snap container), keeping the scroll position pinned so
+  // navigating inside the monitor can't snap the page to another section
   useEffect(() => {
-    if (showUi) {
-      document.body.classList.add('no-scroll');
-    } else {
-      document.body.classList.remove('no-scroll');
-    }
+    if (!showUi) return;
+    const y = window.scrollY;
+    document.body.classList.add('no-scroll');
+    document.documentElement.classList.add('no-scroll');
+    window.scrollTo(0, y); // guard against the root clamping while locked
     return () => {
       document.body.classList.remove('no-scroll');
+      document.documentElement.classList.remove('no-scroll');
+      window.scrollTo(0, y); // re-engage the snap exactly where we left
     };
   }, [showUi]);
 

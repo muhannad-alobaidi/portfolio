@@ -291,7 +291,7 @@ const Terminal = ({ signal, openProject, openReadme, closeUi, defaultCollapsed }
         <div
           ref={bodyRef}
           onClick={() => inputRef.current?.focus()}
-          className="h-[96px] @3xl:h-[120px] @6xl:h-[140px] overflow-y-auto hide-scrollbar px-3 pb-2 font-mono text-[9.5px] @3xl:text-[11px] leading-[1.65] cursor-text"
+          className="h-[96px] @3xl:h-[120px] @6xl:h-[140px] overflow-y-auto overscroll-contain hide-scrollbar px-3 pb-2 font-mono text-[9.5px] @3xl:text-[11px] leading-[1.65] cursor-text"
         >
           {lines.map((l, i) => (
             <div key={i} className="whitespace-pre-wrap break-words">
