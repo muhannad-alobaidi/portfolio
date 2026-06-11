@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <div className="w-full flex justify-center items-center">
       <nav
-        className={`${styles.paddingX} w-full lg:w-1/2 items-center py-5 fixed top-0 z-50 bg-slate-600/10 shadow-lg backdrop-blur-md rounded-full mt-6 border border-gray-600`}
+        className={`${styles.paddingX} w-full lg:w-1/2 items-center py-5 fixed top-0 z-50 bg-[#04101a]/40 shadow-lg backdrop-blur-md rounded-full mt-6 border border-neon/15`}
       >
         <div className="w-full flex justify-between items-center  mx-auto">
           <Link
@@ -54,7 +54,7 @@ const Navbar = () => {
           <ul
             className={`${
               isMobile && active ? 'flex' : 'hidden'
-            } flex-col gap-4 p-12 pl-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px]  bg-slate-600/20 z-50 shadow-lg backdrop-blur-lg rounded-lg mt-6 border border-gray-600 `}
+            } flex-col gap-4 p-12 pl-6 absolute top-20 right-0 mx-4 my-2 min-w-[140px]  bg-[#04101a]/70 z-50 shadow-lg backdrop-blur-lg rounded-lg mt-6 border border-neon/15 `}
           >
             {navLinks.map(nav => (
               <li

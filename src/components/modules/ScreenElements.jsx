@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { motion } from 'framer-motion';
 import ProjectModule from './projectModule';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ProjectDetailsPage from './projectDetailsPage';
 import {
   project4,
@@ -24,47 +24,54 @@ const ScreenElements = ({ setShowUi }) => {
       techStach: [],
     },
   });
+  const scrollRef = useRef(null);
+
+  // the details panel renders at the top of the scroll container; make sure
+  // it is in view even if the grid was scrolled down
+  useEffect(() => {
+    if (showDetails.show && scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+    }
+  }, [showDetails.show]);
 
   return (
     <div
       id="ScreenElements"
-      className=" absolute inset-0 top-[0] md:top-[0] max-w-7x1 mx-auto 
-        flex flex-row items-start gap-5 perspective z-50 "
+      className="relative w-full h-full overflow-hidden z-50 @container"
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.75, scale: 1 }}
-        exit={{ opacity: 0, scale: 0 }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
-        className="m-auto  opacity-25  bg-gradient-to-b ml-[138px] md:ml-auto  w-[100%] min-w-[270px] md:min-w-[544px] h-[328px] md:h-[304px] mt-[60px] z-10  origin-center"
+        className="w-full h-full flex flex-col origin-center"
       >
         <motion.div
           initial={{ opacity: 0, scaleY: 0 }}
           animate={{ scaleY: 1, opacity: 1 }}
           exit={{ opacity: 0, scaleY: 0 }}
-          transition={{ duration: 0.5, delay: 1 }}
-          className="flex relative p-2 bg-transparent  w-[100%] backdrop-blur-lg  shadow-md z-50 justify-between  origin-top"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex items-center justify-between p-2 bg-transparent w-full backdrop-blur-lg shadow-md z-50 origin-top"
         >
-          <div className=" flex-[45%] ">
-            <h2 className=" text-gray-900  ">Projects</h2>
-          </div>
-          <div className=" flex-[50%] ">
-            <button
-              onClick={() => {
-                setShowUi(false);
-              }}
-              className="pl-2 pr-2 bg-transparent opacity-80 text-gray-800 border border-gray-500 rounded-sm "
-            >
-              X
-            </button>
-          </div>
+          <h2 className=" text-gray-900  ">Projects</h2>
+          <button
+            onClick={() => {
+              setShowUi(false);
+            }}
+            className="px-3 py-1 min-w-10 min-h-10 bg-transparent opacity-80 text-gray-800 border border-gray-500 rounded-sm "
+          >
+            X
+          </button>
         </motion.div>
-        <div className=" relative h-[83%] md:h-[88%] overflow-scroll scrollbar-hide hide-scrollbar overflow-y-auto  w-full ">
-          <div className="h-auto  bg-white-500/20  bg- w-[80%] m-auto">
+        <div
+          ref={scrollRef}
+          className=" relative flex-1 hide-scrollbar overflow-y-auto  w-full "
+        >
+          <div className="h-auto w-[92%] m-auto">
             <div className="h-fit w-full m-auto  flex justify-center ">
-              <div className=" grid grid-cols-2 md:grid-cols-4 gap-3 p-1 md:p-4  pr-0 flex-[1_1_49%]">
+              <div className=" grid grid-cols-2 @2xl:grid-cols-4 gap-3 p-1 @2xl:p-4">
                 <ProjectModule
-                  page="work"
+                  page="monitor"
                   title="Salomaa"
                   image={project11}
                   techStach={[
@@ -84,6 +91,7 @@ const ScreenElements = ({ setShowUi }) => {
                                           "
                   gitHub=""
                   previewLink="https://www.salomaa.fi/"
+                  setShowDetails={setShowDetails}
                 />
                 <ProjectModule
                   page="monitor"

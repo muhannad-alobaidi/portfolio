@@ -17,7 +17,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className=" m-auto mt-[250px] mb-[128px] p-6 md:p-24 items-center flex flex-col md:flex-row w-[100%] max-w-[1200px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
+      className=" m-auto mt-[250px] mb-[128px] p-6 md:p-24 items-center flex flex-col md:flex-row w-[100%] max-w-[1200px] gap-10 border border-neon/15 rounded-lg backdrop-blur-[4px] z-[999]"
     >
       <div className="text-section flex flex-col ">
         <div className=" mt-5 mb-5 flex items-center gap-4">

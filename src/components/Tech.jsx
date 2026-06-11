@@ -27,7 +27,7 @@ const Tech = () => {
   return (
     <section
       id="Tech"
-      className=" m-auto mt-[250px] mb-[128px] p-6   md:p-24 items-center flex w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
+      className=" m-auto mt-[250px] mb-[128px] p-6   md:p-24 items-center flex w-[100%] max-w-[1024px] gap-10 border border-neon/15 rounded-lg backdrop-blur-[4px] z-[999]"
     >
       <div className="text-section w-[100%] gap-10 flex flex-col ">
         <div className=" mt-5 mb-5 flex items-center">

@@ -16,7 +16,7 @@ export default function Muha(props) {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF('/muha/muha.gltf');
   const { actions } = useAnimations(animations, group);
-  const { showUI, setShowUI, exit, setExit } = props;
+  const { showUI, setShowUI, exit, setExit, setScreenRect } = props;
 
   useEffect(() => {
     // Play the animation once when the component mounts
@@ -2371,6 +2371,7 @@ export default function Muha(props) {
                 setExit={setExit}
                 showUI={showUI}
                 setShowUI={setShowUI}
+                setScreenRect={setScreenRect}
               />
               <group
                 name="NVIDIA_LOGO"

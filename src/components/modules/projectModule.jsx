@@ -27,10 +27,10 @@ function projectModule({
         }));
       }}
       className={`hover:shadow-2xl shadow-sm transition-all cursor-pointer flex flex-col gap-1 p-0 border ${
-        page == 'work' ? 'border-gray-500' : 'border-gray-200'
+        page == 'work' ? 'border-gray-500' : 'border-gray-300'
       }  rounded-sm`}
     >
-      <h3 className="text-gray-400 p-1 ">{title}</h3>
+      <h3 className="text-gray-700 p-1 ">{title}</h3>
       <img className=" p-1" src={image} alt="" />
       
     </div>

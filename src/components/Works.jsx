@@ -6,7 +6,7 @@ const Works = () => {
     <div>
       <div
         id="work"
-        className=" m-auto mt-[100px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-gray-500 rounded-lg backdrop-blur-[4px] z-[999]"
+        className=" m-auto mt-[100px] mb-[128px]  items-center flex flex-col w-[100%] max-w-[1024px] gap-10 border border-neon/15 rounded-lg backdrop-blur-[4px] z-[999]"
       >
         <div className="h-auto p-6 w-[100%] ">
           <div className=" w-[100%] mt-5 mb-5 flex items-center px-4 gap-4">

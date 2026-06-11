@@ -9,103 +9,238 @@ Command: npx gltfjsx@6.1.4 muha2.glb
 import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF, Html } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import { Vector3, Quaternion } from 'three';
-import * as TWEEN from '@tweenjs/tween.js';
+import { Vector3 } from 'three';
 import * as THREE from 'three';
 
-import ScreenElements from './modules/ScreenElements';
+const FLY_IN_DURATION = 2.4; // seconds, camera flight toward the screen
+const FLY_BACK_DURATION = 2; // seconds, camera flight back out
+
+const easeInOutCubic = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+const rectsDiffer = (a, b) =>
+  !a ||
+  !b ||
+  Math.abs(a.left - b.left) > 0.5 ||
+  Math.abs(a.top - b.top) > 0.5 ||
+  Math.abs(a.width - b.width) > 0.5 ||
+  Math.abs(a.height - b.height) > 0.5;
 
 export default function Screen(props) {
   const { nodes, materials } = useGLTF('/muha/muha.gltf');
 
-  const { showUI, setShowUI } = props;
+  const { showUI, setShowUI, setScreenRect } = props;
   const [hover, setHover] = useState(false);
   const [clicked, setClicked] = useState(false);
   const screenRef = useRef();
-  const { camera } = useThree();
+  const { camera, gl } = useThree();
+  const controls = useThree((state) => state.controls);
   const [emissiveColor, setEmissiveColor] = useState(0x000000); // default to black, no emission
   const [material, setMaterial] = useState(materials['Material.074_30']);
 
-  const [originalCameraPosition, setOriginalCameraPosition] = useState();
+  // single in-flight camera animation, advanced from useFrame
+  const flight = useRef(null); // { fromPos, toPos, fromLook, toLook, t, duration, onArrive }
+  const lookAt = useRef(new Vector3());
+  const home = useRef(null); // camera position/target saved at click time
+  const uiWasShown = useRef(false);
+  const lastRect = useRef(null);
 
-  const handleClick = () => {
+  // project the screen quad into viewport pixels, so the DOM overlay in
+  // Hero can be placed exactly over the monitor. Uses the geometry's LOCAL
+  // bounding box (the quad is flat, so its 8 corners collapse onto the 4
+  // true panel corners) — a world AABB of the slightly-yawed panel would
+  // overshoot by ~10% at this close distance.
+  const computeScreenRect = () => {
+    const mesh = screenRef.current;
+    if (!mesh) return null;
+
+    camera.updateMatrixWorld(true);
+    camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+
+    mesh.updateWorldMatrix(true, false);
+    if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+    const { min, max } = mesh.geometry.boundingBox;
+    const corners = [
+      new Vector3(min.x, min.y, min.z),
+      new Vector3(min.x, min.y, max.z),
+      new Vector3(min.x, max.y, min.z),
+      new Vector3(min.x, max.y, max.z),
+      new Vector3(max.x, min.y, min.z),
+      new Vector3(max.x, min.y, max.z),
+      new Vector3(max.x, max.y, min.z),
+      new Vector3(max.x, max.y, max.z),
+    ].map((c) => c.applyMatrix4(mesh.matrixWorld));
+
+    const canvasRect = gl.domElement.getBoundingClientRect();
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    for (const corner of corners) {
+      corner.project(camera);
+      const x = canvasRect.left + ((corner.x + 1) / 2) * canvasRect.width;
+      const y = canvasRect.top + ((1 - corner.y) / 2) * canvasRect.height;
+      minX = Math.min(minX, x);
+      maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y);
+      maxY = Math.max(maxY, y);
+    }
+
+    return { left: minX, top: minY, width: maxX - minX, height: maxY - minY };
+  };
+
+  const startFlight = (toPos, toLook, duration, onArrive) => {
+    const fromLook = new Vector3();
+    // while focused (or mid-flight) lookAt.current is the authoritative look
+    // point — seeding from controls.target here would snap the view on the
+    // first fly-back frame
+    if (flight.current || clicked) {
+      fromLook.copy(lookAt.current);
+    } else if (controls) {
+      fromLook.copy(controls.target);
+    } else {
+      camera
+        .getWorldDirection(fromLook)
+        .multiplyScalar(10)
+        .add(camera.position);
+    }
+    flight.current = {
+      fromPos: camera.position.clone(),
+      toPos: toPos.clone(),
+      fromLook,
+      toLook: toLook.clone(),
+      t: 0,
+      duration,
+      onArrive,
+    };
+  };
+
+  const handleClick = (event) => {
+    event.stopPropagation();
+    if (clicked) return;
+
+    const mesh = screenRef.current;
+
+    // world-space center and size of the screen
+    const box = new THREE.Box3().setFromObject(mesh);
+    const center = box.getCenter(new Vector3());
+    const size = box.getSize(new Vector3());
+
+    // the panel's true front: the quad's vertex normals are exactly local
+    // +Y, so this is the direction the screen faces in world space
+    const normal = new Vector3(0, 1, 0)
+      .transformDirection(mesh.matrixWorld)
+      .normalize();
+    // ignore clicks that arrive from behind the monitor
+    if (normal.dot(new Vector3().subVectors(camera.position, center)) < 0) {
+      return;
+    }
+
+    // distance at which the whole screen fits in view, with a small margin
+    const dims = [size.x, size.y, size.z].sort((a, b) => a - b);
+    const [height, width] = [dims[1], dims[2]];
+    const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
+    const fitDistance = Math.max(
+      height / 2 / Math.tan(halfFov),
+      width / 2 / (Math.tan(halfFov) * camera.aspect)
+    );
+
+    home.current = {
+      pos: camera.position.clone(),
+      look: controls ? controls.target.clone() : new Vector3(),
+    };
+    if (controls) controls.enabled = false; // stop the auto-rotate fighting the flight
+
+    // freeze page scroll now (not when the flight arrives) and line the
+    // canvas up with the viewport so the overlay can't open off-screen
+    window.scrollTo({
+      top: window.scrollY + gl.domElement.getBoundingClientRect().top,
+      behavior: 'smooth',
+    });
+    document.body.classList.add('no-scroll');
+
     setClicked(true);
+    startFlight(
+      center.clone().add(normal.multiplyScalar(fitDistance * 1.15)),
+      center,
+      FLY_IN_DURATION,
+      () => {
+        // light the panel up as the backdrop for the DOM overlay
+        setMaterial(
+          new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false })
+        );
+        setShowUI(true);
+      }
+    );
   };
 
   useEffect(() => {
-    document.body.style.cursor = hover ? 'pointer' : 'auto';
-  }, [hover]);
+    // the panel sits flush in the monitor body and is invisible from behind;
+    // front-side raycasting stops hover/click affordances showing through
+    // the monitor's back shell
+    materials['Material.074_30'].side = THREE.FrontSide;
+  }, [materials]);
 
   useEffect(() => {
-    if (!clicked) {
+    document.body.style.cursor = hover && !clicked ? 'pointer' : 'auto';
+  }, [hover, clicked]);
+
+  useEffect(() => {
+    if (!clicked && material.emissive) {
       material.emissive.set(emissiveColor);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emissiveColor]);
 
-  useFrame(() => {
-    TWEEN.update(); // update the TWEEN animation on every frame
+  // close button sets showUI back to false -> fly the camera home
+  useEffect(() => {
+    if (showUI) {
+      uiWasShown.current = true;
+      return;
+    }
+    if (!uiWasShown.current || !home.current) return;
+    uiWasShown.current = false;
 
-    if (clicked) {
-      const screenPosition = new Vector3();
-      const screenQuaternion = new Quaternion();
-      screenRef.current.getWorldPosition(screenPosition);
-      screenRef.current.getWorldQuaternion(screenQuaternion);
+    if (setScreenRect) setScreenRect(null);
+    lastRect.current = null;
+    const original = materials['Material.074_30'];
+    if (original.emissive) original.emissive.set(0x000000); // clear stale hover glow
+    setEmissiveColor(0x000000);
+    setHover(false);
+    setMaterial(original);
+    startFlight(home.current.pos, home.current.look, FLY_BACK_DURATION, () => {
+      if (controls) {
+        controls.enabled = true;
+        controls.update();
+      }
+      setClicked(false);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showUI]);
 
-      const cameraTargetPosition = new Vector3(
-        screenPosition.x,
-        screenPosition.y,
-        screenPosition.z - 2
-      );
+  useFrame((_, delta) => {
+    const f = flight.current;
+    if (f) {
+      f.t = Math.min(1, f.t + Math.min(delta, 0.05) / f.duration);
+      const e = easeInOutCubic(f.t);
 
-      const cameraPosition = new Vector3(
-        cameraTargetPosition.x,
-        cameraTargetPosition.y,
-        -cameraTargetPosition.z + 2
-      );
+      camera.position.lerpVectors(f.fromPos, f.toPos, e);
+      lookAt.current.lerpVectors(f.fromLook, f.toLook, e);
+      camera.lookAt(lookAt.current);
 
-      const tween = new TWEEN.Tween(camera.position)
-        .to(cameraPosition, 1400) // duration of the tween animation in milliseconds
-        .easing(TWEEN.Easing.Quadratic.Out) // easing function to use
-        .start();
-
-      // update the camera lookAt target as well
-      tween.onUpdate(() => {
-        camera.lookAt(cameraTargetPosition);
-      });
-
-      // re-render the component on every frame until the animation completes
+      if (f.t >= 1) {
+        flight.current = null;
+        if (f.onArrive) f.onArrive();
+      }
+    } else if (clicked && showUI && setScreenRect) {
+      // keep the DOM overlay glued to the monitor (handles window resizes)
+      const rect = computeScreenRect();
+      if (rect && rectsDiffer(lastRect.current, rect)) {
+        lastRect.current = rect;
+        setScreenRect(rect);
+      }
     }
   });
-
-  useEffect(() => {
-    if (clicked) {
-      setTimeout(() => {
-        const whiteMaterial = new THREE.MeshStandardMaterial({
-          color: 0xffffff,
-        });
-
-        setMaterial(whiteMaterial);
-        setShowUI(true);
-      }, 8000);
-
-      setOriginalCameraPosition(camera.position.clone());
-    }
-  }, [clicked]);
-
-  useEffect(() => {
-    if (showUI) return;
-
-    setMaterial(materials['Material.074_30']);
-
-    // Smoothly move camera back to its original position
-    const tweenBack = new TWEEN.Tween(camera.position)
-      .to(originalCameraPosition) // duration of the tween animation in milliseconds
-      .easing(TWEEN.Easing.Quadratic.Out) // easing function to use
-      .start();
-
-    setShowUI(false);
-    setClicked(false);
-  }, [showUI]);
 
   return (
     <group
@@ -114,36 +249,13 @@ export default function Screen(props) {
       rotation={[0, 0.07, -Math.PI / 2]}
       scale={[331.62, 331.62, 348.07]}
     >
-      <Html
-        occlude
-        as="div"
-        prepend
-        // sprite is a two-dimensional bitmap
-        sprite
-        distanceFactor={0}
-        // position is the distance from the origin
-        position={[4.1, 5, 0]}
-        zIndexRange={[100, 10]}
-        transform
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-          width: '100%',
-          color: 'black',
-          fontSize: '10px',
-          transformOrigin: 'center',
-        }}
-      >
-        {showUI && <ScreenElements setShowUi={setShowUI} />}
-      </Html>
-
       {!clicked && (
         <Html
           occlude
           as="div"
           prepend
+          // let clicks on the hint pass through to the screen mesh
+          pointerEvents="none"
           // sprite is a two-dimensional bitmap
           sprite
           distanceFactor={0}

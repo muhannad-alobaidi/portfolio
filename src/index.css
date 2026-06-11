@@ -3,15 +3,15 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #050816;
-  --color-secondary: #aaa6c3;
-  --color-tertiary: #151030;
-  --color-black-100: #100d25;
-  --color-black-200: #090325;
-  --color-white-100: #f3f3f3;
-  --shadow-card: 0px 35px 120px -15px #211e35;
+  --color-primary: #02070d;
+  --color-secondary: #8fb8c9;
+  --color-tertiary: #07131d;
+  --color-black-100: #050d15;
+  --color-black-200: #02070d;
+  --color-white-100: #eaf6fb;
+  --color-neon: #4be8ff;
+  --shadow-card: 0px 35px 120px -15px rgba(7, 25, 38, 0.9);
   --breakpoint-xs: 450px;
-  --background-image-hero-pattern: url('./assets/herobg.png');
 }
 
 @layer base {
@@ -40,11 +40,17 @@
     font-family: 'Poppins', sans-serif;
     scroll-behavior: smooth;
     color-scheme: dark;
-    overscroll-behavior: none !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
+  }
+
+  /* only on the root scroller: prevents bounce/pull-to-refresh without
+     swallowing wheel events over overflow-hidden children (the canvases) */
+  html,
+  body {
+    overscroll-behavior-y: none;
   }
 }
 
@@ -72,8 +78,14 @@
   scrollbar-width: none;
 }
 
+/* the page backdrop: deep near-black ocean with faint cyan nebulas, to
+   match the neural-core theme */
 .grey-gradient {
-  background: linear-gradient(45deg, rgb(20, 79, 120) 7%, rgb(37, 45, 63) 100%);
+  background:
+    radial-gradient(ellipse 90% 55% at 18% -5%, rgba(75, 232, 255, 0.10), transparent 60%),
+    radial-gradient(ellipse 70% 45% at 85% 30%, rgba(75, 232, 255, 0.05), transparent 65%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(34, 109, 135, 0.12), transparent 70%),
+    linear-gradient(165deg, #04101a 0%, #02070d 48%, #010409 100%);
 }
 
 .black-gradient {

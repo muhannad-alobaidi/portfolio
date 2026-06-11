@@ -3,7 +3,7 @@ function projectDetailsPage({ details, setShowDetails, page }) {
   return (
     <div
       className={`flex absolute w-[100%] h-fit top-0 z-20 bg-slate-400 ${
-        page === 'work' ? 'p-12 gap-12' : 'p-2 gap-4'
+        page === 'work' ? 'p-12 gap-12' : 'p-2 gap-4 min-h-full'
       }   `}
     >
       <div className="flex-[50%]  ">
@@ -29,7 +29,7 @@ function projectDetailsPage({ details, setShowDetails, page }) {
       <div className="flex-[50%]">
         <h2
           className={` text-gray-700 ${
-            page === 'work' ? 'text-2xl  ' : 'text-sm md:text-base  '
+            page === 'work' ? 'text-2xl  ' : 'text-sm @2xl:text-base  '
           }`}
         >
           {details.projectDetails?.title}
@@ -38,7 +38,7 @@ function projectDetailsPage({ details, setShowDetails, page }) {
           className={` text-gray-700 ${
             page === 'work'
               ? 'text-[16px] mt-8 mb-8 '
-              : 'text-[8px] md:text-[9px] mt-3 mb-3 md:mt-4 md:mb-4 '
+              : 'text-[11px] @2xl:text-xs mt-3 mb-3 @2xl:mt-4 @2xl:mb-4 '
           }`}
         >
           {details.projectDetails?.description}
