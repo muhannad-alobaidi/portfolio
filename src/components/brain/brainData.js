@@ -112,10 +112,17 @@ export const BRAIN_GRAPH = {
       stat: '2019 — present',
       children: [
         {
+          label: 'LEAD FRONTEND',
+          sub: 'Baity',
+          info: 'Lead Frontend developer & Flutter developer — leading web frontend work and building cross-platform mobile apps.',
+          stat: 'NOV 2025 — PRESENT',
+          tags: ['Flutter', 'Dart', 'Mobile', 'Frontend', 'Leadership'],
+        },
+        {
           label: 'FRONTEND DEV',
           sub: 'SEK Oy',
           info: 'Building and maintaining high-quality websites, AI tools and digital experiences. Leading front-end development from concept to delivery.',
-          stat: 'NOV 2024 — PRESENT',
+          stat: 'NOV 2024 — NOV 2025',
           tags: ['React', 'Next.js', 'TypeScript', 'AI', 'AWS', 'Accessibility', 'SEO'],
         },
         {
