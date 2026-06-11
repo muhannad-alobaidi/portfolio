@@ -193,6 +193,88 @@ html {
   -webkit-text-fill-color: transparent;
 }
 
+/* ── monitor IDE (what's on the screen) ─────────────────────────── */
+
+/* cascading code reveal in the fake editor */
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.code-line {
+  animation: lineIn 0.3s ease both;
+}
+
+/* hard terminal-style cursor blink */
+@keyframes caretBlink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+.caret-blink {
+  animation: caretBlink 1.1s steps(1) infinite;
+}
+
+/* white pop when the fake OS finishes booting */
+@keyframes bootFlash {
+  from {
+    opacity: 0.75;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.boot-flash {
+  animation: bootFlash 0.45s ease-out forwards;
+  pointer-events: none;
+}
+
+/* glass over the whole panel: diagonal glare, vignette, faint scanlines */
+.screen-glass {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 70;
+  background:
+    linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.045) 0%,
+      rgba(255, 255, 255, 0.012) 20%,
+      transparent 34%
+    ),
+    radial-gradient(ellipse at center, transparent 60%, rgba(2, 8, 18, 0.3) 100%);
+}
+.screen-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.016) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+/* idle monitor: code drifting up while the hands type */
+@keyframes idleScroll {
+  to {
+    transform: translateY(-50%);
+  }
+}
+.idle-code {
+  animation: idleScroll 18s linear infinite;
+}
+
 /* canvas- styles */
 .canvas-loader {
   font-size: 10px;

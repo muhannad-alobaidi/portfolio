@@ -33,6 +33,9 @@ import project5 from './projects/5.png';
 import project7 from './projects/7.png';
 import project10 from './projects/myPortfolio.png';
 import project11 from './projects/salomaa.png';
+import baityApp from './projects/baity-app.svg';
+import baityWebsite from './projects/baity-website.svg';
+import baityDashboard from './projects/baity-dashboard.svg';
 
 import backImage from './icons8-return-30.png';
 
@@ -66,6 +69,9 @@ export {
   project7,
   project10,
   project11,
+  baityApp,
+  baityWebsite,
+  baityDashboard,
   backImage,
   linkedin,
   email,

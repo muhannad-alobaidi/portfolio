@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ComputersCanvas } from './canvas';
-import ScreenElements from './modules/ScreenElements';
+import MonitorUI from './monitor/MonitorUI';
 import { useState, useEffect } from 'react';
 
 /*
@@ -52,7 +52,7 @@ const PCSection = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="z-60 bg-white/95 rounded-sm shadow-2xl"
+            className="z-60 rounded-[4px] bg-[#070b14] ring-1 ring-[#4be8ff]/20 shadow-[0_0_90px_rgba(75,232,255,0.14),0_25px_80px_rgba(0,0,0,0.6)]"
             style={{
               position: 'fixed',
               left: screenRect.left,
@@ -61,7 +61,7 @@ const PCSection = () => {
               height: screenRect.height,
             }}
           >
-            <ScreenElements setShowUi={setShowUi} />
+            <MonitorUI setShowUi={setShowUi} />
           </motion.div>
         )}
       </AnimatePresence>

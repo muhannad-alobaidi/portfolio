@@ -15,6 +15,24 @@ import * as THREE from 'three';
 const FLY_IN_DURATION = 2.4; // seconds, camera flight toward the screen
 const FLY_BACK_DURATION = 2; // seconds, camera flight back out
 
+/* abstract "code" for the idle screensaver — width/indent/color per line */
+const IDLE_LINES = [
+  { i: 0, w: 34, c: '#c792ea66' },
+  { i: 6, w: 52, c: '#7fb4ff59' },
+  { i: 6, w: 40, c: '#9ece8c59' },
+  { i: 12, w: 28, c: '#4be8ff66' },
+  { i: 12, w: 46, c: '#7fb4ff4d' },
+  { i: 6, w: 22, c: '#6e7f9b59' },
+  { i: 0, w: 14, c: '#6e7f9b59' },
+  { i: 0, w: 44, c: '#c792ea59' },
+  { i: 6, w: 56, c: '#9ece8c4d' },
+  { i: 6, w: 30, c: '#4be8ff59' },
+  { i: 12, w: 50, c: '#7fb4ff59' },
+  { i: 12, w: 24, c: '#f2987b59' },
+  { i: 6, w: 38, c: '#6e7f9b4d' },
+  { i: 0, w: 18, c: '#6e7f9b59' },
+];
+
 const easeInOutCubic = (t) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
@@ -274,10 +292,35 @@ export default function Screen(props) {
             transformOrigin: 'center',
           }}
         >
-          <div>
-            <span className=" text-[6px] text-gray-400 p-1 border rounded-md ">
-              Click screen
-            </span>
+          <div className="w-[96px] h-[56px] rounded-[3px] overflow-hidden bg-[#050b14]/95 border border-[#1a2c44] flex flex-col">
+            {/* fake window strip */}
+            <div className="flex items-center gap-[2px] px-[3px] h-[7px] bg-[#0a1322] border-b border-[#16243a] shrink-0">
+              <span className="w-[2.5px] h-[2.5px] rounded-full bg-[#ff5f57]" />
+              <span className="w-[2.5px] h-[2.5px] rounded-full bg-[#febc2e]" />
+              <span className="w-[2.5px] h-[2.5px] rounded-full bg-[#28c840]" />
+              <span className="ml-[3px] text-[3.5px] font-mono text-[#5d7290] leading-none">
+                muha-code — typing…
+              </span>
+            </div>
+            {/* code drifting up while the hands type */}
+            <div className="flex-1 overflow-hidden px-[5px] py-[3px]">
+              <div className="idle-code">
+                {[...IDLE_LINES, ...IDLE_LINES].map((l, i) => (
+                  <div
+                    key={i}
+                    className="h-[2px] rounded-full mb-[2.5px]"
+                    style={{
+                      width: `${l.w}px`,
+                      marginLeft: `${l.i}px`,
+                      background: l.c,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="text-center text-[4px] font-mono tracking-[1px] text-[#4be8ff]/90 pb-[2px] shrink-0">
+              ▸ CLICK TO WAKE
+            </div>
           </div>
         </Html>
       )}

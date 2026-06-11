@@ -162,8 +162,29 @@ export const BRAIN_GRAPH = {
       label: 'PROJECTS',
       sub: 'selected work',
       info: 'A few things shipped into the world — most open in a new tab.',
-      stat: '5 highlighted',
+      stat: '8 highlighted',
       children: [
+        {
+          label: 'BAITY APP',
+          sub: 'flutter mobile',
+          info: 'Cross-platform mobile app for the Baity real-estate platform — Flutter on iOS and Android, Arabic-first with full RTL.',
+          stat: 'in production',
+          tags: ['Flutter', 'Dart', 'REST API', 'ASP.NET'],
+        },
+        {
+          label: 'BAITY WEBSITE',
+          sub: 'vue · nuxt',
+          info: 'The public face of the Baity platform — Nuxt SSR, bilingual AR/EN, built by the frontend team I lead.',
+          stat: 'in production',
+          tags: ['Vue', 'Nuxt', 'TypeScript', 'SSR'],
+        },
+        {
+          label: 'BAITY DASHBOARD',
+          sub: 'admin platform',
+          info: 'The control room of the Baity platform — listings, agents, analytics and role-based access on Vue/Nuxt.',
+          stat: 'in production',
+          tags: ['Vue', 'Nuxt', 'REST API', 'Charts'],
+        },
         {
           label: 'SALOMAA',
           sub: 'full site renewal',
