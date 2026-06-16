@@ -72,6 +72,40 @@ html {
   }
 }
 
+/* neon scrollbar to match the brain theme — deep-space track, glowing
+   cyan thumb. (.hide-scrollbar areas override this and stay hidden.) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4be7ff93 #060f17;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #060f17;
+}
+::-webkit-scrollbar-thumb {
+  /* border of track color insets the thumb, faking a rounded neon capsule */
+  border: 2px solid #060f17;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #4be8ff 0%, #1f7d97 100%);
+  box-shadow: inset 0 0 6px rgba(180, 245, 255, 0.6);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #84f0ff 0%, #4be8ff 100%);
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.8);
+}
+::-webkit-scrollbar-corner {
+  background: #060f17;
+}
+/* hide the up/down (and left/right) arrow buttons */
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .hash-span {
   margin-top: -100px;
   padding-bottom: 100px;

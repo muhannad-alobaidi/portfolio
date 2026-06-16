@@ -22,6 +22,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0",
     "react-tilt": "^1.0.2",
+    "tech-stack-icons": "^3.7.1",
     "three": "^0.180.0"
   },
   "devDependencies": {

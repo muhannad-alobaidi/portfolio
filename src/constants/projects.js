@@ -4,10 +4,13 @@
   `folder` and `lang` drive the fake filesystem and syntax highlighting,
   the rest feeds the preview panel, code view and terminal.
 
-  TODO(muhannad): the three Baity entries use generated mockup images
-  (src/assets/projects/baity-*.svg) and no public links yet — drop real
-  screenshots into src/assets/projects and fill `links.preview` when the
-  product URLs can be shared.
+  TODO(muhannad): the Baity App + Dashboard entries still use generated
+  mockup images (src/assets/projects/baity-app.svg, baity-dashboard.svg)
+  and have no public links — drop real screenshots into src/assets/projects
+  and fill `links.preview` when those URLs can be shared. (The Baity
+  Website + both Finnair entries now use real captured screenshots.)
+  NOTE(muhannad): confirm the finnair.com `tech` list + scope — it reflects
+  agency (SEK) campaign/marketing work, not the in-house booking platform.
 */
 import {
   project4,
@@ -16,8 +19,10 @@ import {
   project10,
   project11,
   baityApp,
-  baityWebsite,
   baityDashboard,
+  baityWebsiteShot,
+  finnairShot,
+  finnairCargoShot,
 } from '../assets';
 
 export const LANG_META = {
@@ -76,8 +81,8 @@ export const PROJECTS = [
       'Design system shared with the dashboard',
     ],
     tech: ['Vue', 'Nuxt', 'TypeScript', 'Tailwind', 'SSR', 'REST API'],
-    image: baityWebsite,
-    links: { preview: '', github: '' },
+    image: baityWebsiteShot,
+    links: { preview: 'https://ibaity.com/', github: '' },
     devHost: 'baity.local:3000',
   },
   {
@@ -129,6 +134,60 @@ export const PROJECTS = [
     links: { preview: 'https://www.salomaa.fi/', github: '' },
     devHost: 'salomaa.local:8888',
   },
+  {
+    id: 'finnair-cargo',
+    file: 'finnair-cargo.php',
+    folder: 'client-work',
+    lang: 'php',
+    type: 'web',
+    title: 'Finnair Cargo',
+    client: 'Finnair Cargo · via SEK',
+    role: 'Web Developer',
+    year: '2023',
+    status: 'live',
+    blurb: 'COOL terminal site + 360° interactive tour.',
+    description:
+      'Frontend work on Finnair Cargo (cargo.finnair.com) and its showpiece — the “COOL Terminal 360°”, an interactive walk-through of Helsinki’s COOL cargo hub built with Marzipano. Navigable panoramic scenes with story hotspots, plus design and content updates, new components and bug fixes across the WordPress site.',
+    highlights: [
+      'Interactive 360° terminal tour built with Marzipano',
+      'Panoramic scenes with explorable story hotspots',
+      'New components, design & content updates',
+      'Cross-browser fixes across the WordPress site',
+    ],
+    tech: ['WordPress', 'PHP', 'JavaScript', 'Marzipano', 'GSAP', 'HTML', 'CSS'],
+    image: finnairCargoShot,
+    links: {
+      preview: 'https://cargo.finnair.com/coolterminal360/',
+      github: '',
+    },
+    devHost: 'finnair-cargo.local:8888',
+  },
+  {
+    id: 'finnair',
+    file: 'finnair.jsx',
+    folder: 'client-work',
+    lang: 'jsx',
+    type: 'web',
+    title: 'Finnair.com',
+    client: 'Finnair · via SEK',
+    role: 'Web Developer',
+    year: '2023',
+    status: 'live',
+    blurb: 'Contributions to Finnair’s main web presence.',
+    description:
+      'Contributed to Finnair’s main web presence while at SEK — Finnair’s long-standing creative partner. Built and maintained interactive marketing and campaign pages and reusable UI components, focused on responsive layouts, cross-browser consistency and accessibility for one of the Nordics’ most-visited airline sites.',
+    highlights: [
+      'Interactive marketing & campaign pages',
+      'Reusable, responsive UI components',
+      'Cross-browser & accessibility passes',
+      'Part of a long-running Finnair × SEK partnership',
+    ],
+    tech: ['JavaScript', 'React', 'SCSS', 'HTML', 'CSS', 'GSAP'],
+    image: finnairShot,
+    links: { preview: 'https://www.finnair.com/', github: '' },
+    devHost: 'finnair.local:3000',
+  },
+
   {
     id: 'lagerblad',
     file: 'lagerblad.tsx',
@@ -196,7 +255,14 @@ export const PROJECTS = [
       'Next.js + TypeScript frontend',
       'Component-driven architecture',
     ],
-    tech: ['Next.js', 'TypeScript', 'React', 'WordPress', 'Headless CMS', 'SCSS'],
+    tech: [
+      'Next.js',
+      'TypeScript',
+      'React',
+      'WordPress',
+      'Headless CMS',
+      'SCSS',
+    ],
     image: project7,
     links: { preview: 'https://www.sek.fi/', github: '' },
     devHost: 'sek.local:3000',
@@ -221,7 +287,14 @@ export const PROJECTS = [
       'GPU particle hero section',
       'Recursive: you are viewing it on its own screen',
     ],
-    tech: ['React', 'Vite', 'React Three Fiber', 'three.js', 'Blender', 'Tailwind'],
+    tech: [
+      'React',
+      'Vite',
+      'React Three Fiber',
+      'three.js',
+      'Blender',
+      'Tailwind',
+    ],
     image: project10,
     links: { preview: '/', github: '' },
     devHost: 'localhost:5173',

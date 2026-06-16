@@ -20,9 +20,17 @@ import storybook from './tech/storybook.svg';
 import aws from './tech/AWS.png';
 import cs from './tech/c-sharp.png';
 import dotnet from './tech/dotnet.png';
-import express from './tech/express.png';
-import kobernetes from './tech/Kubernetes.png';
 import sql from './tech/sql.svg';
+// added via tech-stack-icons (extracted to SVG)
+import vue from './tech/vue.svg';
+import nuxt from './tech/nuxt.svg';
+import flutter from './tech/flutter.svg';
+import dart from './tech/dart.svg';
+import python from './tech/python.svg';
+import django from './tech/django.svg';
+import mongodb from './tech/mongodb.svg';
+import reactnative from './tech/reactnative.svg';
+import gsap from './tech/gsap.svg';
 
 import linkedin from './someIcons/linkedin.png';
 import email from './someIcons/email.png';
@@ -36,6 +44,9 @@ import project11 from './projects/salomaa.png';
 import baityApp from './projects/baity-app.svg';
 import baityWebsite from './projects/baity-website.svg';
 import baityDashboard from './projects/baity-dashboard.svg';
+import baityWebsiteShot from './projects/baity-website.jpg';
+import finnairShot from './projects/finnair.jpg';
+import finnairCargoShot from './projects/finnair-cargo.jpg';
 
 import backImage from './icons8-return-30.png';
 
@@ -65,12 +76,19 @@ export {
   typescript,
   wordpress,
   sql,
-  kobernetes,
   cs,
   dotnet,
-  express,
   aws,
   php,
+  vue,
+  nuxt,
+  flutter,
+  dart,
+  python,
+  django,
+  mongodb,
+  reactnative,
+  gsap,
   project4,
   project5,
   project7,
@@ -79,6 +97,9 @@ export {
   baityApp,
   baityWebsite,
   baityDashboard,
+  baityWebsiteShot,
+  finnairShot,
+  finnairCargoShot,
   backImage,
   linkedin,
   email,

@@ -70,6 +70,11 @@ const BrainSection = () => {
         setFocus(info);
         setHovered(null);
       },
+      // lock page scroll while a node is open (focused or mid-flight) so the
+      // snap-scroll can't yank the viewer off the brain
+      onEngagedChange: engaged => {
+        document.body.classList.toggle('no-scroll', engaged);
+      },
       onActivate: node => {
         if (!node.href) return;
         if (/^https?:/i.test(node.href)) {

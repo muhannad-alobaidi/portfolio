@@ -166,6 +166,10 @@ export function createBrain(canvas, opts = {}) {
   const onHover = opts.onHover || (() => {});
   const onFocusChange = opts.onFocusChange || (() => {});
   const onActivate = opts.onActivate || (() => {});
+  // fired whenever the brain leaves / returns to the main view (covers the
+  // flight transitions too) so the host can lock page scroll while engaged
+  const onEngagedChange = opts.onEngagedChange || (() => {});
+  let lastEngaged = false;
   // when provided, glyph nodes (particleIcon) are rendered by an external
   // GPU particle overlay; the engine just streams anchors into this ref
   const glyphTracker = opts.glyphTracker || null;
@@ -951,6 +955,13 @@ export function createBrain(canvas, opts = {}) {
       camZ = 1;
     }
 
+    // notify the host when we enter/leave the main view (lock page scroll)
+    const engaged = mode !== 'main';
+    if (engaged !== lastEngaged) {
+      lastEngaged = engaged;
+      onEngagedChange(engaged);
+    }
+
     if (Math.random() < 0.004 + activity * 0.1) {
       const { nodes } = activeNodes();
       spawnPulse(undefined, nodes.length);
@@ -1096,6 +1107,10 @@ export function createBrain(canvas, opts = {}) {
       focusIdx = -1;
       pulses.length = 0;
       armedTapN = -1;
+      if (lastEngaged) {
+        lastEngaged = false;
+        onEngagedChange(false);
+      }
       onFocusChange(null);
       onHover(null, 0, 0);
       wakeSurge();
@@ -1104,6 +1119,7 @@ export function createBrain(canvas, opts = {}) {
     focusNode: flySide,
     dispose() {
       disposed = true;
+      if (lastEngaged) onEngagedChange(false); // never leave the page locked
       cancelAnimationFrame(rafId);
       ro.disconnect();
       io.disconnect();
