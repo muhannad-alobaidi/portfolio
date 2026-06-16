@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { createBrain } from './brainEngine';
 import { BRAIN_GRAPH } from './brainData';
 import ContactParticles from './ContactParticles';
+import AboutDossier from './AboutDossier';
+
+// the ABOUT node's rich dossier payload (portrait/bio/hobbies/CV)
+const ABOUT_DOSSIER = (
+  BRAIN_GRAPH.children.find(c => c.dossier) || {}
+).dossier;
 
 // icons of the glyph nodes (contact channels), in node order
 const GLYPH_ICONS = (
@@ -95,6 +102,16 @@ const BrainSection = () => {
         </div>
       )}
 
+      {/* ABOUT focused -> the identity dossier */}
+      <AnimatePresence>
+        {focus && focus.label === 'ABOUT' && (
+          <AboutDossier
+            data={ABOUT_DOSSIER}
+            onExit={() => brainRef.current && brainRef.current.back()}
+          />
+        )}
+      </AnimatePresence>
+
       {/* focus controls: BACK sits on the line toward the main core, and the
           sibling buttons sit in the actual directions of their nodes */}
       {focus &&
@@ -153,6 +170,11 @@ const BrainSection = () => {
               <span className="block text-neon/60 mt-2 text-[9px] tracking-[2px]">
                 ⤵ CLICK TO DIVE · {hovered.children.length} NODE
                 {hovered.children.length === 1 ? '' : 'S'}
+              </span>
+            )}
+            {hovered.dossier && (
+              <span className="block text-neon/60 mt-2 text-[9px] tracking-[2px]">
+                ⤵ CLICK TO OPEN DOSSIER
               </span>
             )}
             {hovered.href && (

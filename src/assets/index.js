@@ -39,6 +39,13 @@ import baityDashboard from './projects/baity-dashboard.svg';
 
 import backImage from './icons8-return-30.png';
 
+// about / identity
+import portraitArt from './B8C0FF60-B21A-46CA-A72C-2C41AD34AE3C.png'; // caricature
+import portraitPhoto from './76.jpg'; // clean headshot
+import photoSuit from './198.jpg';
+import photoHood from './147.jpg';
+import gymPixel from './3989.png'; // pixel-art gym character
+
 export {
   logo,
   menu,
@@ -76,4 +83,9 @@ export {
   linkedin,
   email,
   phone,
+  portraitArt,
+  portraitPhoto,
+  photoSuit,
+  photoHood,
+  gymPixel,
 };

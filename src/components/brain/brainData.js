@@ -38,9 +38,26 @@ export const BRAIN_GRAPH = {
     {
       label: 'ABOUT',
       sub: 'the human',
-      info: 'Muhannad Alobaidi — computer engineer turned full-stack & mobile developer. I turn visions into tangible digital reality, pairing frontend craft with mobile, backend, cloud and AI engineering. Speaks English, Arabic and Finnish.',
+      info: 'Muhannad Alobaidi — computer engineer turned full-stack & mobile developer. Click to open the dossier: portrait, story, off-hours and CV.',
       stat: 'full-stack · mobile · AI',
       tags: ['Frontend', 'Mobile', 'Backend', 'Cloud', 'AI'],
+      // rich content rendered by the AboutDossier panel when this node is focused
+      dossier: {
+        role: 'Full-stack & Mobile Developer',
+        bio: [
+          "I'm Muhannad — a computer engineer who fell for the craft of building things people actually use. From game studios in Baghdad to leading frontend at Baity, I've spent years turning ideas into products across web, mobile, cloud and AI.",
+          "I care about the details most people never notice — the half-second of polish, the interaction that feels alive. When the editor closes, you'll find me under a barbell, deep in a game or a film, or with a pen in hand.",
+        ],
+        languages: ['English', 'Arabic', 'Finnish'],
+        hobbies: [
+          { label: 'Gym workout', icon: '🏋' },
+          { label: 'Gaming', icon: '🎮' },
+          { label: 'Movies', icon: '🎬' },
+          { label: 'Drawing', icon: '✏️' },
+          { label: 'Tattoo artist', icon: '🖋' },
+        ],
+        cv: '/Muhannad-Alobaidi-CV.pdf',
+      },
     },
     {
       label: 'SKILLS',
