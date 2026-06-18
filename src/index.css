@@ -45,9 +45,22 @@ html {
   scroll-snap-type: y mandatory;
 }
 .snap-section {
-  height: 100vh;
+  height: 100vh; /* fallback for browsers without dvh */
+  height: 100dvh; /* tracks the mobile address bar so sections fill the screen */
   scroll-snap-align: start;
   scroll-snap-stop: always;
+}
+
+/* touch devices: hard mandatory snap + scroll-snap-stop:always fights
+   momentum scrolling and the address-bar show/hide, so relax to proximity
+   and drop the forced per-section stop for a natural feel */
+@media (pointer: coarse) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+  .snap-section {
+    scroll-snap-stop: normal;
+  }
 }
 
 @layer base {

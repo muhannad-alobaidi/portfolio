@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { createBrain } from './brainEngine';
@@ -25,7 +26,7 @@ const GLYPH_ICONS = (
   dive into its sub-brain; hover a node for details; click the core (or
   BACK) to surface again.
 */
-const BrainSection = () => {
+const BrainSection = ({ active = true }) => {
   const canvasRef = useRef(null);
   const cardRef = useRef(null);
   const brainRef = useRef(null);
@@ -103,7 +104,11 @@ const BrainSection = () => {
       {/* GPU particle glyphs for the contact nodes, anchored by the engine */}
       {GLYPH_ICONS.length > 0 && (
         <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 5 }}>
-          <ContactParticles tracker={glyphTracker} icons={GLYPH_ICONS} />
+          <ContactParticles
+            tracker={glyphTracker}
+            icons={GLYPH_ICONS}
+            active={active}
+          />
         </div>
       )}
 
@@ -143,7 +148,7 @@ const BrainSection = () => {
       {/* hover details card */}
       <div
         ref={cardRef}
-        className={`absolute z-10 w-65 pointer-events-none border border-neon/40 bg-[#020e16]/95 shadow-[0_0_24px_rgba(75,232,255,0.18)] p-3 font-mono text-[11px] leading-relaxed transition-opacity duration-150 ${
+        className={`absolute z-10 w-[min(260px,86vw)] pointer-events-none border border-neon/40 bg-[#020e16]/95 shadow-[0_0_24px_rgba(75,232,255,0.18)] p-3 font-mono text-[11px] leading-relaxed transition-opacity duration-150 ${
           hovered ? 'opacity-100' : 'opacity-0'
         }`}
         style={{ transform: 'translateX(-50%) translateY(-100%)' }}

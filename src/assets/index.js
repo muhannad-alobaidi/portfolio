@@ -37,10 +37,10 @@ import email from './someIcons/email.png';
 import phone from './someIcons/phone.png';
 
 import project4 from './projects/4.webp';
-import project5 from './projects/5.png';
-import project7 from './projects/7.png';
-import project10 from './projects/myPortfolio.png';
-import project11 from './projects/salomaa.png';
+import project5 from './projects/5.webp';
+import project7 from './projects/7.webp';
+import project10 from './projects/myPortfolio.webp';
+import project11 from './projects/salomaa.webp';
 import baityApp from './projects/baity-app.svg';
 import baityWebsite from './projects/baity-website.svg';
 import baityDashboard from './projects/baity-dashboard.svg';
@@ -51,11 +51,11 @@ import finnairCargoShot from './projects/finnair-cargo.jpg';
 import backImage from './icons8-return-30.png';
 
 // about / identity
-import portraitArt from './B8C0FF60-B21A-46CA-A72C-2C41AD34AE3C.png'; // caricature
-import portraitPhoto from './76.jpg'; // clean headshot
-import photoSuit from './198.jpg';
-import photoHood from './147.jpg';
-import gymPixel from './3989.png'; // pixel-art gym character
+import portraitArt from './B8C0FF60-B21A-46CA-A72C-2C41AD34AE3C.webp'; // caricature
+import portraitPhoto from './76.webp'; // clean headshot
+import photoSuit from './198.webp';
+import photoHood from './147.webp';
+import gymPixel from './3989.webp'; // pixel-art gym character
 
 export {
   logo,

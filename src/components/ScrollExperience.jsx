@@ -1,8 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import HeroParticles from './hero/HeroParticles';
 import LogoParticles from './hero/LogoParticles';
-import PCSection from './PCSection';
-import BrainSection from './brain/BrainSection';
+import ErrorBoundary from './ErrorBoundary';
+
+// the two heavy scenes (3D workstation + ~70MB model, and the brain core with
+// its GPU glyph swarm) are split into their own chunks and only mounted once
+// the user scrolls near them, so first paint loads just the hero swarm
+const PCSection = lazy(() => import('./PCSection'));
+const BrainSection = lazy(() => import('./brain/BrainSection'));
 
 /*
   The whole site is one full-screen canvas experience, igloo-style:
@@ -13,6 +18,13 @@ import BrainSection from './brain/BrainSection';
 const ScrollExperience = () => {
   const progress = useRef(0); // continuous, read by the particle sim
   const [p, setP] = useState(0); // throttled copy for layer styling
+  // Each WebGL scene is mounted only within a scroll window and UNMOUNTED when
+  // far away, so its GPU context is released (display:none keeps the context
+  // alive — and three live contexts + the model's would exhaust the browser's
+  // limit, losing the model's context). Hysteresis bands [enter/exit] keep a
+  // scene from thrashing if the user parks on a threshold. At any steady
+  // section at most two contexts are live; transitions briefly touch three.
+  const [mounted, setMounted] = useState({ hero: true, pc: false, brain: false });
 
   useEffect(() => {
     let raf = 0;
@@ -23,6 +35,21 @@ const ScrollExperience = () => {
         const v = Math.max(0, Math.min(2, window.scrollY / vh));
         progress.current = v;
         setP(Math.round(v * 100) / 100);
+        setMounted(prev => {
+          // hero swarm: only near the top. Its opacity (heroO) already hits 0
+          // by p≈0.71, so unmounting by 0.85 frees its WebGL context before the
+          // PC scene settles — shrinking the hero+PC context overlap window.
+          const hero = v < 0.7 ? true : v > 0.85 ? false : prev.hero;
+          // workstation: across the whole middle, released at either extreme
+          const pc =
+            v > 0.1 && v < 1.9 ? true : v < 0.05 || v > 1.95 ? false : prev.pc;
+          // brain core: only once clearly leaving the PC section, so its GPU
+          // sim never spins up a context while the model is on screen
+          const brain = v > 1.15 ? true : v < 1.05 ? false : prev.brain;
+          if (hero === prev.hero && pc === prev.pc && brain === prev.brain)
+            return prev;
+          return { hero, pc, brain };
+        });
       });
     };
     onScroll();
@@ -41,6 +68,11 @@ const ScrollExperience = () => {
   const brainO = Math.max(0, (p - 1) * 1.4 - 0.15);
   // a layer owns the pointer only when settled on it
   const active = Math.abs(p - Math.round(p)) < 0.3 ? Math.round(p) : -1;
+  // which layers are mounted/visible — drives each canvas's render loop so
+  // off-screen scenes stop their GPU work instead of rendering invisibly
+  const heroVisible = p < 1.02;
+  const pcVisible = p > 0.05 && p < 1.95;
+  const brainVisible = p > 1.05;
 
   const layer = (visible, opacity, interactive, z) => ({
     opacity,
@@ -52,25 +84,37 @@ const ScrollExperience = () => {
   return (
     <>
       {/* fixed scene stack */}
-      <div className="fixed inset-0" style={layer(p < 1.02, heroO, active === 0, 1)}>
-        <HeroParticles progress={progress} />
+      <div className="fixed inset-0" style={layer(heroVisible, heroO, active === 0, 1)}>
+        {mounted.hero && <HeroParticles progress={progress} active={heroVisible} />}
       </div>
 
       <div
         className="fixed inset-0"
         style={{
-          ...layer(p > 0.05 && p < 1.95, pcO, active === 1, 2),
+          ...layer(pcVisible, pcO, active === 1, 2),
           transform: `scale(${0.94 + 0.06 * pcO})`,
         }}
       >
-        <PCSection />
+        {mounted.pc && (
+          <ErrorBoundary>
+            <Suspense fallback={null}>
+              <PCSection active={pcVisible} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
       </div>
 
       <div
         className="fixed inset-0"
-        style={layer(p > 1.05, brainO, active === 2, 3)}
+        style={layer(brainVisible, brainO, active === 2, 3)}
       >
-        <BrainSection />
+        {mounted.brain && (
+          <ErrorBoundary>
+            <Suspense fallback={null}>
+              <BrainSection active={brainVisible} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
       </div>
 
       {/* corner monogram: a logo-sized echo of the hero swarm, alive on

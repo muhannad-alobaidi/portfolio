@@ -29,13 +29,16 @@ import {
   sphereSeed,
   refsGeometry,
 } from './particleLib';
+import { particleSize, maxDpr } from '../../utils/device';
+import { useWebGLRecovery } from '../../utils/useContextRecovery';
 
-const SIZE = 256; // 256^2 = 65,536 particles
+// 256^2 = 65,536 particles on desktop; a lighter 160^2 = 25,600 on mobile
+const SIZE = particleSize(256, 160);
 const COUNT = SIZE * SIZE;
 
 function ParticleField({ progress }) {
   const { gl } = useThree();
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const dpr = maxDpr(2);
   const pointsMatRef = useRef();
   const mouse = useRef(new THREE.Vector3(0, 0, 0));
   const mouseOn = useRef(0);
@@ -211,13 +214,18 @@ function ParticleField({ progress }) {
   );
 }
 
-const HeroParticles = ({ progress }) => {
+const HeroParticles = ({ progress, active = true }) => {
+  const { canvasKey, onCreated } = useWebGLRecovery();
   return (
     <Canvas
+      key={canvasKey}
+      onCreated={onCreated}
       flat
       camera={{ position: [0, 0, 7.5], fov: 50 }}
       gl={{ antialias: false, alpha: true }}
-      dpr={[1, 2]}
+      dpr={[1, maxDpr(2)]}
+      // pause the whole GPU sim when the hero is scrolled away
+      frameloop={active ? 'always' : 'never'}
       className="touch-pan-y"
     >
       <ParticleField progress={progress} />

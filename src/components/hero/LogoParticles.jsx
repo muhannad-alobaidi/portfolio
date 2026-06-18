@@ -23,13 +23,15 @@ import {
   sphereSeed,
   refsGeometry,
 } from './particleLib';
+import { particleSize, maxDpr } from '../../utils/device';
+import { useWebGLRecovery } from '../../utils/useContextRecovery';
 
-const SIZE = 64; // 64^2 = 4,096 particles
+const SIZE = particleSize(64, 48); // 64^2 = 4,096 particles (48^2 on mobile)
 const COUNT = SIZE * SIZE;
 
 function MiniField() {
   const { gl } = useThree();
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const dpr = maxDpr(2);
   const pointsMatRef = useRef();
 
   const sim = useMemo(() => {
@@ -154,12 +156,15 @@ function MiniField() {
 }
 
 const LogoParticles = () => {
+  const { canvasKey, onCreated } = useWebGLRecovery();
   return (
     <Canvas
+      key={canvasKey}
+      onCreated={onCreated}
       flat
       camera={{ position: [0, 0, 2.7], fov: 50 }}
       gl={{ antialias: false, alpha: true }}
-      dpr={[1, 2]}
+      dpr={[1, maxDpr(2)]}
     >
       <MiniField />
     </Canvas>

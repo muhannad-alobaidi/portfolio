@@ -38,7 +38,7 @@ const rectsDiffer = (a, b) =>
   Math.abs(a.height - b.height) > 0.5;
 
 export default function Screen(props) {
-  const { nodes, materials } = useGLTF('/muha/muha.gltf');
+  const { nodes, materials } = useGLTF('/muha/muha.glb');
 
   const { showUI, setShowUI, setScreenRect } = props;
 

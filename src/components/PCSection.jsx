@@ -1,13 +1,17 @@
+/* eslint-disable react/prop-types */
 import { motion, AnimatePresence } from 'framer-motion';
 import { ComputersCanvas } from './canvas';
-import MonitorUI from './monitor/MonitorUI';
-import { useState, useEffect } from 'react';
+import { Suspense, lazy, useState, useEffect } from 'react';
+
+// the fake VS Code UI is a sizeable tree pulled in only when the user clicks
+// into the monitor — keep it out of the scene's initial chunk
+const MonitorUI = lazy(() => import('./monitor/MonitorUI'));
 
 /*
   Full-screen 3D workstation scene. Clicking the monitor flies the camera in
   and overlays the project UI exactly over the panel (screenRect).
 */
-const PCSection = () => {
+const PCSection = ({ active = true }) => {
   const [showUi, setShowUi] = useState(false);
   const [exit, setExit] = useState(false);
   const [screenRect, setScreenRect] = useState(null);
@@ -41,6 +45,7 @@ const PCSection = () => {
   return (
     <div className="relative w-full h-full">
       <ComputersCanvas
+        active={active}
         exit={exit}
         setExit={setExit}
         showUI={showUi}
@@ -58,15 +63,31 @@ const PCSection = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
             className="z-60 rounded-[4px] bg-[#070b14] ring-1 ring-[#4be8ff]/20 shadow-[0_0_90px_rgba(75,232,255,0.14),0_25px_80px_rgba(0,0,0,0.6)]"
-            style={{
-              position: 'fixed',
-              left: screenRect.left,
-              top: screenRect.top,
-              width: screenRect.width,
-              height: screenRect.height,
-            }}
+            // the 3D monitor occupies only a sliver of a phone screen, so when
+            // its reported rect is too small to use, blow the IDE up to a
+            // near-fullscreen panel (its @container queries then size text up)
+            style={
+              screenRect.width < 560
+                ? {
+                    position: 'fixed',
+                    left: '50%',
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 'min(96vw, 900px)',
+                    height: 'min(88dvh, 620px)',
+                  }
+                : {
+                    position: 'fixed',
+                    left: screenRect.left,
+                    top: screenRect.top,
+                    width: screenRect.width,
+                    height: screenRect.height,
+                  }
+            }
           >
-            <MonitorUI setShowUi={setShowUi} />
+            <Suspense fallback={null}>
+              <MonitorUI setShowUi={setShowUi} />
+            </Suspense>
           </motion.div>
         )}
       </AnimatePresence>

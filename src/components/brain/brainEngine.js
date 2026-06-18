@@ -1,3 +1,5 @@
+import { maxDpr } from '../../utils/device';
+
 /*
   Neural-core renderer, ported from the Jarvis HUD and stripped of the live
   Claude/VS Code bridge. Pure canvas-2D: polyhedra shells + gyro rings +
@@ -174,7 +176,7 @@ export function createBrain(canvas, opts = {}) {
   // GPU particle overlay; the engine just streams anchors into this ref
   const glyphTracker = opts.glyphTracker || null;
 
-  let DPR = Math.min(2, window.devicePixelRatio || 1);
+  let DPR = maxDpr(2);
   let W = 0, H = 0, CW = 0, CH = 0;
   let disposed = false;
   let running = false;
@@ -254,7 +256,7 @@ export function createBrain(canvas, opts = {}) {
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
-    DPR = Math.min(2, window.devicePixelRatio || 1);
+    DPR = maxDpr(2);
     W = canvas.width = Math.max(1, Math.round(rect.width * DPR));
     H = canvas.height = Math.max(1, Math.round(rect.height * DPR));
     CW = W / 2;
@@ -897,8 +899,13 @@ export function createBrain(canvas, opts = {}) {
   // ---------- main loop ----------
   function draw(t) {
     if (disposed) return;
+    // off-screen: stop ticking entirely (the IntersectionObserver below
+    // restarts the loop on re-entry) instead of burning a RAF every frame
+    if (!running) {
+      rafId = 0;
+      return;
+    }
     rafId = requestAnimationFrame(draw);
-    if (!running) return;
 
     const dt = Math.min(60, lastT ? t - lastT : 16);
     lastT = t;
@@ -1088,11 +1095,13 @@ export function createBrain(canvas, opts = {}) {
   }
   rafId = requestAnimationFrame(draw);
 
-  // only animate while visible
+  // only animate while visible; restart the loop on re-entry since draw()
+  // now halts itself (rafId=0) when scrolled away
   const io = new IntersectionObserver(
     entries => {
       running = entries[0].isIntersecting;
       lastT = 0;
+      if (running && !rafId && !disposed) rafId = requestAnimationFrame(draw);
     },
     { threshold: 0.05 }
   );

@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { portraitArt, portraitPhoto, photoSuit, photoHood, gymPixel } from '../../assets';
+import { isTouch } from '../../utils/device';
 
 /*
   The ABOUT node's focused content: a neon HUD "dossier" — portrait that
@@ -10,6 +11,10 @@ import { portraitArt, portraitPhoto, photoSuit, photoHood, gymPixel } from '../.
   on ABOUT, floating over the dimmed brain core.
 */
 const AboutDossier = ({ data, onExit }) => {
+  // touch has no hover, so the portrait crossfade is also tap-toggleable
+  const [flip, setFlip] = useState(false);
+  const tapHint = isTouch() ? 'TAP ⟳' : 'HOVER ⟳';
+
   // ESC closes the dossier and flies the camera back to the brain
   useEffect(() => {
     const onKey = e => {
@@ -66,23 +71,32 @@ const AboutDossier = ({ data, onExit }) => {
         </div>
 
         <div className="p-5 sm:p-6 grid gap-6 md:grid-cols-[210px_1fr] relative">
-          {/* portrait: caricature -> photo on hover */}
+          {/* portrait: caricature -> photo on hover (or tap on touch) */}
           <div className="flex flex-col gap-3">
-            <div className="group relative aspect-[4/5] w-full overflow-hidden border border-neon/30 bg-[#04121c]">
+            <button
+              type="button"
+              onClick={() => setFlip(f => !f)}
+              aria-label="Toggle portrait between illustration and photo"
+              className="group relative aspect-[4/5] w-full overflow-hidden border border-neon/30 bg-[#04121c] cursor-pointer"
+            >
               <img
                 src={portraitArt}
                 alt="Muhannad Alobaidi — illustration"
-                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                  flip ? 'opacity-0' : 'group-hover:opacity-0'
+                }`}
               />
               <img
                 src={portraitPhoto}
                 alt="Muhannad Alobaidi"
-                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                  flip ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                }`}
               />
               <span className="absolute bottom-1.5 right-2 text-[8px] tracking-[2px] text-neon/70 [text-shadow:0_0_6px_#02070d]">
-                HOVER ⟳
+                {tapHint}
               </span>
-            </div>
+            </button>
             {/* ID thumbnails */}
             <div className="flex gap-2">
               {[photoSuit, photoHood].map((src, i) => (

@@ -15,7 +15,7 @@ import { TOWER_HIDDEN } from './towerHidden';
 
 export default function Muha(props) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF('/muha/muha.gltf');
+  const { nodes, materials, animations } = useGLTF('/muha/muha.glb');
   const { actions } = useAnimations(animations, group);
   const { showUI, setShowUI, exit, setExit, setScreenRect } = props;
 
@@ -36,8 +36,6 @@ export default function Muha(props) {
       anim.clampWhenFinished = true; // Stop at the last frame
       anim.play();
     }
-
-    console.log('run');
 
     // Cleanup function to stop the animation when the component unmounts
     return () => {
@@ -11138,4 +11136,4 @@ export default function Muha(props) {
   );
 }
 
-useGLTF.preload('/muha/muha.gltf');
+useGLTF.preload('/muha/muha.glb');

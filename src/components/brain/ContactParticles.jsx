@@ -11,8 +11,11 @@
 import { useMemo, useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { particleSize, maxDpr } from '../../utils/device';
+import { useWebGLRecovery } from '../../utils/useContextRecovery';
 
-const SIZE = 192; // 192^2 = 36,864 particles across the glyphs
+// 192^2 = 36,864 particles across the glyphs; 128^2 = 16,384 on mobile
+const SIZE = particleSize(192, 128);
 const COUNT = SIZE * SIZE;
 const GLYPHS = 3;
 const GLYPH_PX = 130; // glyph size at focus scale 1
@@ -242,7 +245,7 @@ function sampleIcon(src) {
 
 function GlyphField({ tracker, icons }) {
   const { gl, size } = useThree();
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const dpr = maxDpr(2);
   const pointsMatRef = useRef();
   const mouse = useRef([1e6, 1e6]);
 
@@ -426,15 +429,22 @@ function GlyphField({ tracker, icons }) {
   );
 }
 
-const ContactParticles = ({ tracker, icons }) => (
-  <Canvas
-    flat
-    gl={{ antialias: false, alpha: true }}
-    dpr={[1, 2]}
-    style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
-  >
-    <GlyphField tracker={tracker} icons={icons} />
-  </Canvas>
-);
+const ContactParticles = ({ tracker, icons, active = true }) => {
+  const { canvasKey, onCreated } = useWebGLRecovery();
+  return (
+    <Canvas
+      key={canvasKey}
+      onCreated={onCreated}
+      flat
+      gl={{ antialias: false, alpha: true }}
+      dpr={[1, maxDpr(2)]}
+      // glyph swarm only animates while the brain scene is on screen
+      frameloop={active ? 'always' : 'never'}
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+    >
+      <GlyphField tracker={tracker} icons={icons} />
+    </Canvas>
+  );
+};
 
 export default ContactParticles;
