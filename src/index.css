@@ -69,7 +69,9 @@ html {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    scroll-behavior: smooth;
+    /* scroll-behavior deliberately NOT set here: applied to every element it
+       fights the snap container, and the only place that wants smooth scrolling
+       (the back-to-top monogram) already passes behavior:'smooth' itself */
     color-scheme: dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

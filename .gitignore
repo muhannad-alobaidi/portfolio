@@ -13,6 +13,16 @@ dist-ssr
 *.local
 planet
 
+# asset pipeline (see scripts/build-assets.mjs, tools/README.md):
+# - assets-src/ holds the original, uncompressed .glb/.hdr sources. Not
+#   committed for size, but not at risk either — they're already in git
+#   history under public/muha/*.glb prior to the KTX2/meshopt pass.
+# - .cache/ is scratch output from the strip/compress steps
+# - tools/gltfpack is a downloaded platform binary, not source
+assets-src/
+.cache/
+tools/gltfpack
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { primeKTX2 } from './gltfLoader';
 
 /*
   WebGL context-loss recovery for @react-three/fiber canvases.
@@ -33,6 +34,10 @@ export function useWebGLRecovery({ maxRetries = 3, cooldownMs = 300 } = {}) {
     setCanvasEl(state.gl.domElement);
     // a clean (re)mount means earlier pressure cleared — allow future recoveries
     recovering.current = false;
+    // every canvas routes onCreated through here, which makes this the earliest
+    // point a WebGLRenderer reliably exists — what KTX2 transcoding needs before
+    // it can decode the models' textures. Idempotent past the first canvas.
+    primeKTX2(state.gl);
   }, []);
 
   useEffect(() => {

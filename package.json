@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "assets:models": "node scripts/build-assets.mjs",
+    "assets:hdr": "node scripts/build-hdr.mjs",
+    "assets:all": "npm run assets:models && npm run assets:hdr"
   },
   "dependencies": {
     "@react-three/drei": "^10.0.0",
@@ -15,17 +18,18 @@
     "@react-three/postprocessing": "^3.0.4",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.7.0",
-    "@tweenjs/tween.js": "^25.0.0",
     "framer-motion": "^12.0.0",
-    "lottie-react": "^2.4.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0",
-    "react-tilt": "^1.0.2",
     "tech-stack-icons": "^3.7.1",
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "@babel/generator": "^7.29.8",
+    "@babel/parser": "^7.29.8",
+    "@babel/traverse": "^7.29.8",
+    "@babel/types": "^7.29.8",
     "@eslint/js": "^9.0.0",
     "@gltf-transform/cli": "^4.4.0",
     "@tailwindcss/postcss": "^4.0.0",
@@ -38,6 +42,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.0",
     "globals": "^15.0.0",
+    "meshoptimizer": "^1.2.0",
     "postcss": "^8.4.49",
     "prettier": "^3.4.0",
     "sharp": "^0.35.1",

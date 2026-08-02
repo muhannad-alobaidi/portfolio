@@ -11,7 +11,7 @@ const MonitorUI = lazy(() => import('./monitor/MonitorUI'));
   Full-screen 3D workstation scene. Clicking the monitor flies the camera in
   and overlays the project UI exactly over the panel (screenRect).
 */
-const PCSection = ({ active = true }) => {
+const PCSection = ({ active = true, moving = false }) => {
   const [showUi, setShowUi] = useState(false);
   const [exit, setExit] = useState(false);
   const [screenRect, setScreenRect] = useState(null);
@@ -46,6 +46,7 @@ const PCSection = ({ active = true }) => {
     <div className="relative w-full h-full">
       <ComputersCanvas
         active={active}
+        moving={moving}
         exit={exit}
         setExit={setExit}
         showUI={showUi}

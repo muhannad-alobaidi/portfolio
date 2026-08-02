@@ -255,10 +255,14 @@ export function createBrain(canvas, opts = {}) {
   const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 
   function resize() {
-    const rect = canvas.getBoundingClientRect();
     DPR = maxDpr(2);
-    W = canvas.width = Math.max(1, Math.round(rect.width * DPR));
-    H = canvas.height = Math.max(1, Math.round(rect.height * DPR));
+    // clientWidth/Height, NOT getBoundingClientRect: the scene layer carries a
+    // CSS scale during transitions, which the rect includes and the layout box
+    // does not. Measuring the rect sized the backing store to whatever mid-
+    // transition scale happened to be applied, permanently offsetting every
+    // node's hit area from where it was drawn.
+    W = canvas.width = Math.max(1, Math.round(canvas.clientWidth * DPR));
+    H = canvas.height = Math.max(1, Math.round(canvas.clientHeight * DPR));
     CW = W / 2;
     CH = H / 2;
     if (mode === 'focus') emitFocus(); // button positions follow the layout
@@ -446,8 +450,13 @@ export function createBrain(canvas, opts = {}) {
     return { nodes: [], frame: mainFrame(), sub: null };
   }
   function toLocal(e) {
+    // rect here IS the transformed box, which is what a pointer coordinate
+    // lives in — so derive the scale from it rather than assuming DPR. Reduces
+    // to (client - left) * DPR when the layer is untransformed.
     const r = canvas.getBoundingClientRect();
-    return [(e.clientX - r.left) * DPR, (e.clientY - r.top) * DPR];
+    const sx = r.width ? W / r.width : DPR;
+    const sy = r.height ? H / r.height : DPR;
+    return [(e.clientX - r.left) * sx, (e.clientY - r.top) * sy];
   }
   function onPointerDown(e) {
     dragging = true;

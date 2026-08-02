@@ -12,6 +12,8 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import * as THREE from 'three';
 import screenIdleClip from '../assets/screen.mp4';
+import { MUHA_MODEL } from './modelPaths';
+import { extendGLTFLoader } from '../utils/gltfLoader';
 
 const FLY_IN_DURATION = 2.4; // seconds, camera flight toward the screen
 const FLY_BACK_DURATION = 2; // seconds, camera flight back out
@@ -38,7 +40,12 @@ const rectsDiffer = (a, b) =>
   Math.abs(a.height - b.height) > 0.5;
 
 export default function Screen(props) {
-  const { nodes, materials } = useGLTF('/muha/muha.glb');
+  const { nodes, materials } = useGLTF(
+    MUHA_MODEL,
+    true,
+    true,
+    extendGLTFLoader
+  );
 
   const { showUI, setShowUI, setScreenRect } = props;
 

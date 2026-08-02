@@ -1,15 +1,47 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import { Suspense, memo, useEffect } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import { OrbitControls, Environment, AdaptiveDpr } from '@react-three/drei';
 import Muha from '../Muha2';
 import Desk from './Desk';
-import { useState } from 'react';
 import CanvasLoader from '../Loader';
 import { maxDpr } from '../../utils/device';
 import { useWebGLRecovery } from '../../utils/useContextRecovery';
+
+/*
+  Compiles every material in the scene once, while the layer is still
+  transparent, so the first frame the user actually sees isn't also the frame
+  that compiles ~50 shader programs.
+
+  Deliberately NOT drei's <Preload all/>: that also renders the scene through a
+  CubeCamera (six passes) to force every material variant, and that burst is
+  what used to lose this canvas's WebGL context — the reason the original code
+  had a comment ruling Preload out. gl.compile() alone is the cheap 90%.
+*/
+const PrecompileShaders = () => {
+  const gl = useThree(state => state.gl);
+  const scene = useThree(state => state.scene);
+  const camera = useThree(state => state.camera);
+  useEffect(() => {
+    gl.compile(scene, camera);
+  }, [gl, scene, camera]);
+  return null;
+};
+
+/*
+  Holds r3f in its regressed (lower-resolution) state for as long as the page is
+  mid-transition. `regress()` is a one-shot that decays after `debounce` ms, so
+  it has to be re-asserted each frame while movement continues; AdaptiveDpr is
+  what actually acts on it.
+*/
+const TransitionRegression = ({ moving }) => {
+  const regress = useThree(state => state.performance.regress);
+  useFrame(() => {
+    if (moving) regress();
+  });
+  return null;
+};
 
 // OrbitControls sets touch-action:none on the canvas when it connects;
 // restore vertical panning so the page can still be scrolled by touch
@@ -29,8 +61,8 @@ const ComputersCanvas = ({
   setExit,
   setScreenRect,
   active = true,
+  moving = false,
 }) => {
-  const [zoom, setzoom] = useState(true);
   // recover from WebGL context loss (GPU memory pressure on this heavy scene)
   // by remounting the canvas instead of staying permanently white
   const { canvasKey, onCreated } = useWebGLRecovery();
@@ -40,12 +72,18 @@ const ComputersCanvas = ({
       key={canvasKey}
       onCreated={onCreated}
       className="m-auto"
-      shadows
+      // no `shadows`: not one light in this scene casts any, so the shadow map
+      // and the per-mesh castShadow/receiveShadow bookkeeping that came with it
+      // were pure cost for zero pixels
       dpr={[1, maxDpr(2)]}
       // stop rendering the workstation (orbit + lights + model) when the
       // scene is scrolled off; resumes seamlessly on return
       frameloop={active ? 'always' : 'never'}
       camera={{ position: [8, 5, 0], fov: 75 }}
+      // r3f's regression system: while the page is mid-transition, drop
+      // resolution to protect frame rate, then ramp back once settled. Nobody
+      // can resolve detail on a scaling, half-faded layer.
+      performance={{ min: 0.5, debounce: 200 }}
       // no preserveDrawingBuffer: nothing reads the pixels back, and keeping a
       // second full back-buffer alive added needless GPU memory pressure that
       // (with the HDR's PMREM cubemap) could lose this canvas's context
@@ -56,11 +94,13 @@ const ComputersCanvas = ({
       <pointLight intensity={0.1} />
       <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight position={[-20, 50, 10]} angle={0.12} penumbra={1} />
+      <TransitionRegression moving={moving} />
+      {/* no `pixelated`: the browser's smooth upscale is what keeps the
+          resolution drop invisible — nearest-neighbour would announce it */}
+      <AdaptiveDpr />
       {/* Environment lives INSIDE this Suspense so the HDR's async load/PMREM
           pass suspends to the CanvasLoader here — not up to the page-level
-          boundary, which would blank and remount the whole section.
-          No <Preload all/>: let the 28MB model + HDR upload to the GPU lazily
-          per-frame instead of one synchronous burst that can lose the context */}
+          boundary, which would blank and remount the whole section. */}
       <Suspense fallback={<CanvasLoader />}>
         <Environment
           files="/images/blue_photo_studio_2k.hdr"
@@ -91,6 +131,7 @@ const ComputersCanvas = ({
           setScreenRect={setScreenRect}
         />
         <Desk />
+        <PrecompileShaders />
       </Suspense>
     </Canvas>
   );

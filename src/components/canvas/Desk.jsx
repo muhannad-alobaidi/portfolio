@@ -23,8 +23,10 @@
   below the desk covers x -4.76..3.11, z 1.08..6.51.
 */
 import { useGLTF } from '@react-three/drei';
+import { extendGLTFLoader } from '../../utils/gltfLoader';
+import { DESK_MODEL } from '../modelPaths';
 
-const MODEL = '/muha/desk.glb';
+const MODEL = DESK_MODEL;
 
 /* height of this model's own desk mesh, office_manager_desk.003 */
 const DESK_TOP_LOCAL = 0.752;
@@ -40,7 +42,7 @@ const SCALE = 3.391; // 3.391 == real-world size for this scene's units
 const Y = SURFACE_Y - DESK_TOP_LOCAL * SCALE;
 
 export default function Desk() {
-  const { scene } = useGLTF(MODEL);
+  const { scene } = useGLTF(MODEL, true, true, extendGLTFLoader);
   return (
     <primitive
       object={scene}
@@ -51,4 +53,6 @@ export default function Desk() {
   );
 }
 
-useGLTF.preload(MODEL);
+// preload lives in src/utils/preloadScenes.js: KTX2 textures can't be
+// transcoded until a renderer has primed the loader, so fetching at module
+// scope would race the first Canvas

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
 /*
   Logo-sized sibling of the hero swarm for the PC/brain sections: ~4k GPU
@@ -155,7 +156,7 @@ function MiniField() {
   );
 }
 
-const LogoParticles = () => {
+const LogoParticles = ({ active = true }) => {
   const { canvasKey, onCreated } = useWebGLRecovery();
   return (
     <Canvas
@@ -165,6 +166,9 @@ const LogoParticles = () => {
       camera={{ position: [0, 0, 2.7], fov: 50 }}
       gl={{ antialias: false, alpha: true }}
       dpr={[1, maxDpr(2)]}
+      // this canvas used to run unconditionally, unlike every other scene —
+      // a fourth GPU sim burning frames through every transition
+      frameloop={active ? 'always' : 'never'}
     >
       <MiniField />
     </Canvas>
