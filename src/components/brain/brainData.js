@@ -112,9 +112,9 @@ export const BRAIN_GRAPH = {
         {
           label: 'MOBILE',
           sub: 'flutter · react native',
-          info: 'Cross-platform mobile apps — production Flutter work on the Baity app.',
+          info: 'Cross-platform mobile apps — production Flutter work on the Baity app, and React Native + Expo on my own product, Temrinak.',
           stat: 'cross-platform',
-          tags: ['Flutter', 'Dart', 'React Native'],
+          tags: ['Flutter', 'Dart', 'React Native', 'Expo'],
         },
         {
           label: 'BACKEND',
@@ -193,8 +193,31 @@ export const BRAIN_GRAPH = {
       label: 'PROJECTS',
       sub: 'selected work',
       info: 'A few things shipped into the world — most open in a new tab.',
-      stat: '10 highlighted',
+      stat: '13 highlighted',
       children: [
+        {
+          label: 'TEMRINAK APP',
+          sub: 'react native · expo',
+          info: 'My own product — an Iraqi fitness app in React Native and Expo. 1,000+ illustrated exercises, set-by-set logging, Iraqi food calorie tracking, coach programs and friends to compete with.',
+          stat: 'in development',
+          href: 'https://temrinak.app',
+          tags: ['React Native', 'Expo', 'TypeScript', 'tRPC'],
+        },
+        {
+          label: 'TEMRINAK WEB',
+          sub: 'react · vite',
+          info: 'The Temrinak product site and subscription flow — RTL-first and trilingual (Arabic, English, Kurdish), with Plus checkout over local Iraqi payment rails.',
+          stat: 'temrinak.app',
+          href: 'https://temrinak.app',
+          tags: ['React', 'Vite', 'TypeScript', 'tRPC'],
+        },
+        {
+          label: 'TEMRINAK ADMIN',
+          sub: 'content console',
+          info: 'The console behind Temrinak — bilingual exercise library, Iraqi food and diet database, trainer approvals, support inbox and media-coverage dashboards.',
+          stat: 'in production',
+          tags: ['React', 'TypeScript', 'tRPC', 'Analytics'],
+        },
         {
           label: 'BAITY APP',
           sub: 'flutter mobile',

@@ -4,11 +4,15 @@
   `folder` and `lang` drive the fake filesystem and syntax highlighting,
   the rest feeds the preview panel, code view and terminal.
 
+  A project may carry a `gallery` of { src, label } screens instead of a
+  single `image` — the phone frame turns that into a browsable carousel.
+
   TODO(muhannad): the Baity App + Dashboard entries still use generated
   mockup images (src/assets/projects/baity-app.svg, baity-dashboard.svg)
   and have no public links — drop real screenshots into src/assets/projects
   and fill `links.preview` when those URLs can be shared. (The Baity
-  Website + both Finnair entries now use real captured screenshots.)
+  Website, both Finnair entries and all three Temrinak entries now use real
+  captured screenshots.)
   NOTE(muhannad): confirm the finnair.com `tech` list + scope — it reflects
   agency (SEK) campaign/marketing work, not the in-house booking platform.
 */
@@ -23,6 +27,9 @@ import {
   baityWebsiteShot,
   finnairShot,
   finnairCargoShot,
+  temrinakWebsiteShot,
+  temrinakDashboardShot,
+  temrinakScreens,
 } from '../assets';
 
 export const LANG_META = {
@@ -35,6 +42,93 @@ export const LANG_META = {
 };
 
 export const PROJECTS = [
+  {
+    id: 'temrinak-app',
+    file: 'app.tsx',
+    folder: 'temrinak-platform',
+    lang: 'tsx',
+    type: 'mobile',
+    title: 'Temrinak App',
+    client: 'Personal product',
+    role: 'Founder & Solo Developer',
+    year: '2026',
+    status: 'in development',
+    blurb: 'The Iraqi fitness app — React Native & Expo.',
+    description:
+      'My own product, built end to end. Temrinak (تمرينك — “your workout”) is a fitness app that actually speaks Iraqi: over a thousand illustrated exercises, set-by-set logging with a live session timer, calorie tracking against a database of Iraqi food, coach-built programs, and friends to compete with. Written in Iraqi dialect first, with English and Kurdish alongside.',
+    highlights: [
+      'Iraqi-dialect Arabic UI — plus English & Kurdish',
+      '1,000+ illustrated exercises with muscle maps',
+      'Set-by-set logging with a live session timer',
+      'Iraqi food database — calories & macros',
+      'Trainers, friends and weekly leaderboards',
+    ],
+    tech: ['React Native', 'Expo', 'TypeScript', 'tRPC', 'i18n', 'RTL'],
+    image: temrinakScreens.home,
+    gallery: [
+      { src: temrinakScreens.welcome, label: 'welcome · pick a language' },
+      { src: temrinakScreens.home, label: 'home · today at a glance' },
+      { src: temrinakScreens.program, label: 'program · week by week' },
+      { src: temrinakScreens.session, label: 'live session · log a set' },
+      { src: temrinakScreens.muscles, label: 'library · pick a muscle' },
+      { src: temrinakScreens.library, label: 'library · exercise grid' },
+      { src: temrinakScreens.addFood, label: 'nutrition · log a meal' },
+      { src: temrinakScreens.friends, label: 'social · friends & ranking' },
+      { src: temrinakScreens.trainers, label: 'social · find a trainer' },
+    ],
+    links: { preview: 'https://temrinak.app', github: '' },
+    devHost: 'expo start · temrinak',
+  },
+  {
+    id: 'temrinak-website',
+    file: 'website.tsx',
+    folder: 'temrinak-platform',
+    lang: 'tsx',
+    type: 'web',
+    title: 'Temrinak Website',
+    client: 'Personal product',
+    role: 'Founder & Solo Developer',
+    year: '2026',
+    status: 'live',
+    blurb: 'Product site and subscription flow — React + Vite.',
+    description:
+      'The storefront for Temrinak and the place people subscribe. An RTL-first, trilingual site (Arabic, English, Kurdish) on React and Vite, animated section by section, sharing the app’s account system so members sign in with the same credentials and unlock Temrinak Plus through local Iraqi payment rails.',
+    highlights: [
+      'RTL-first and trilingual — Arabic, English, Kurdish',
+      'Sign-in shared with the mobile app’s backend',
+      'Temrinak Plus checkout — monthly & yearly plans',
+      'Local payment rails: ZainCash, FIB, Visa/Mastercard',
+    ],
+    tech: ['React', 'Vite', 'TypeScript', 'React Router', 'tRPC', 'TanStack Query'],
+    image: temrinakWebsiteShot,
+    links: { preview: 'https://temrinak.app', github: '' },
+    devHost: 'temrinak.local:5173',
+  },
+  {
+    id: 'temrinak-admin',
+    file: 'admin.tsx',
+    folder: 'temrinak-platform',
+    lang: 'tsx',
+    type: 'web',
+    title: 'Temrinak Admin',
+    client: 'Personal product',
+    role: 'Founder & Solo Developer',
+    year: '2026',
+    status: 'in production',
+    blurb: 'Content & operations console behind the platform.',
+    description:
+      'Everything the app serves is authored here. A bilingual content console for the exercise library, the Iraqi food and dish database, supplements, smoothies and diet plans — plus trainer approvals, user management, a support inbox, social moderation and coverage dashboards that show exactly which entries are still missing art or video.',
+    highlights: [
+      'Bilingual EN/AR exercise library — 1,000+ entries',
+      'Foods, dishes, supplements, smoothies & diet plans',
+      'Trainer approvals, users and a support inbox',
+      'Coverage dashboards for missing media',
+    ],
+    tech: ['React', 'TypeScript', 'tRPC', 'TanStack Query', 'Analytics'],
+    image: temrinakDashboardShot,
+    links: { preview: '', github: '' },
+    devHost: 'admin.temrinak.local:5174',
+  },
   {
     id: 'baity-app',
     file: 'app.dart',
@@ -302,7 +396,7 @@ export const PROJECTS = [
 ];
 
 /* explorer tree: folders in display order, root files last */
-export const FOLDERS = ['baity-platform', 'client-work'];
+export const FOLDERS = ['temrinak-platform', 'baity-platform', 'client-work'];
 
 export const projectsInFolder = folder =>
   PROJECTS.filter(p => p.folder === folder);

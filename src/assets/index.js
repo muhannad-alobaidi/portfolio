@@ -47,6 +47,32 @@ import baityDashboard from './projects/baity-dashboard.svg';
 import baityWebsiteShot from './projects/baity-website.jpg';
 import finnairShot from './projects/finnair.jpg';
 import finnairCargoShot from './projects/finnair-cargo.jpg';
+import temrinakWebsiteShot from './projects/temrinak-website.jpg';
+import temrinakDashboardShot from './projects/temrinak-dashboard.jpg';
+
+/* Temrinak app screens, cropped out of the App Store marketing shots.
+   Keyed rather than an array so the gallery can't drift out of order. */
+import twWelcome from './projects/temrinak/01-welcome.webp';
+import twHome from './projects/temrinak/02-home.webp';
+import twAddFood from './projects/temrinak/03-addfood.webp';
+import twMuscles from './projects/temrinak/04-muscles.webp';
+import twLibrary from './projects/temrinak/05-library.webp';
+import twSession from './projects/temrinak/06-session.webp';
+import twProgram from './projects/temrinak/07-program.webp';
+import twFriends from './projects/temrinak/08-friends.webp';
+import twTrainers from './projects/temrinak/09-trainers.webp';
+
+const temrinakScreens = {
+  welcome: twWelcome,
+  home: twHome,
+  addFood: twAddFood,
+  muscles: twMuscles,
+  library: twLibrary,
+  session: twSession,
+  program: twProgram,
+  friends: twFriends,
+  trainers: twTrainers,
+};
 
 import backImage from './icons8-return-30.png';
 
@@ -100,6 +126,9 @@ export {
   baityWebsiteShot,
   finnairShot,
   finnairCargoShot,
+  temrinakWebsiteShot,
+  temrinakDashboardShot,
+  temrinakScreens,
   backImage,
   linkedin,
   email,

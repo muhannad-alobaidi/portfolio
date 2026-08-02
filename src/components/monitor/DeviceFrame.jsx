@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { LockIcon } from './icons';
+import { useState } from 'react';
+import { LockIcon, ChevronIcon } from './icons';
 
 /*
   Wraps a project screenshot in device chrome: a browser window for web
@@ -7,7 +8,8 @@ import { LockIcon } from './icons';
   chip for internal products) and a phone for the mobile app.
 
   Tall page screenshots slowly pan to the bottom on hover — like
-  scrolling the page.
+  scrolling the page. A phone project with a `gallery` gets arrows and
+  dots under the device so every screen is browsable.
 */
 const hostOf = url => {
   try {
@@ -52,20 +54,71 @@ const BrowserFrame = ({ project }) => {
   );
 };
 
-const PhoneFrame = ({ project }) => (
-  <div className="mx-auto w-[150px] @3xl:w-[180px] @6xl:w-[200px]">
-    <div className="relative rounded-[26px] border-[5px] border-[#070c16] ring-1 ring-[#1b2a42] bg-black overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
-      <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-14 h-[12px] bg-[#070c16] rounded-full z-10" />
-      <div className="aspect-[400/860]">
-        <img
-          src={project.image}
-          alt={`${project.title} screenshot`}
-          className="w-full h-full object-cover"
-        />
-      </div>
-    </div>
-  </div>
+const Arrow = ({ dir, onClick }) => (
+  <button
+    onClick={onClick}
+    aria-label={dir === 1 ? 'next screen' : 'previous screen'}
+    className="shrink-0 p-1 -m-1 text-[#46587a] hover:text-[#4be8ff] transition-colors"
+  >
+    <span className="block" style={{ transform: dir === 1 ? 'none' : 'rotate(180deg)' }}>
+      <ChevronIcon size={11} />
+    </span>
+  </button>
 );
+
+const PhoneFrame = ({ project }) => {
+  const shots = project.gallery?.length
+    ? project.gallery
+    : [{ src: project.image, label: '' }];
+  const [i, setI] = useState(0);
+  const go = d => setI(prev => (prev + d + shots.length) % shots.length);
+
+  return (
+    <div className="mx-auto w-[150px] @3xl:w-[180px] @6xl:w-[200px]">
+      <div className="relative rounded-[26px] border-[5px] border-[#070c16] ring-1 ring-[#1b2a42] bg-black overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
+        <div className="absolute top-[5px] left-1/2 -translate-x-1/2 w-14 h-[12px] bg-[#070c16] rounded-full z-10" />
+        <div className="relative aspect-[400/860]">
+          {/* all screens stay mounted so switching is a crossfade, not a reload */}
+          {shots.map((shot, n) => (
+            <img
+              key={shot.src}
+              src={shot.src}
+              alt={`${project.title} — ${shot.label || 'screenshot'}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                n === i ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {shots.length > 1 && (
+        <div className="mt-2.5 flex flex-col items-center gap-1">
+          <div className="flex items-center gap-2">
+            <Arrow dir={-1} onClick={() => go(-1)} />
+            <div className="flex items-center gap-[3px]">
+              {shots.map((shot, n) => (
+                <button
+                  key={shot.src}
+                  onClick={() => setI(n)}
+                  aria-label={shot.label}
+                  aria-current={n === i}
+                  className={`w-1 h-1 rounded-full transition-colors ${
+                    n === i ? 'bg-[#4be8ff]' : 'bg-[#28374f] hover:bg-[#46587a]'
+                  }`}
+                />
+              ))}
+            </div>
+            <Arrow dir={1} onClick={() => go(1)} />
+          </div>
+          <p className="font-mono text-[8.5px] @3xl:text-[9.5px] text-[#5d7290] text-center">
+            {shots[i].label}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const DeviceFrame = ({ project }) =>
   project.type === 'mobile' ? (
