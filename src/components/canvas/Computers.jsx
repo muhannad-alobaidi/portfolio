@@ -5,7 +5,7 @@ import { Suspense, memo, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment } from '@react-three/drei';
 import Muha from '../Muha2';
-import Macbook from './Macbook';
+import Desk from './Desk';
 import { useState } from 'react';
 import CanvasLoader from '../Loader';
 import { maxDpr } from '../../utils/device';
@@ -90,7 +90,7 @@ const ComputersCanvas = ({
           setShowUI={setShowUI}
           setScreenRect={setScreenRect}
         />
-        <Macbook />
+        <Desk />
       </Suspense>
     </Canvas>
   );

@@ -11,7 +11,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 
 import * as THREE from 'three';
 import Screen from './screen';
-import { TOWER_HIDDEN } from './towerHidden';
+import { TOWER_HIDDEN, DESK_MESH } from './towerHidden';
 
 export default function Muha(props) {
   const group = useRef();
@@ -19,11 +19,12 @@ export default function Muha(props) {
   const { actions } = useAnimations(animations, group);
   const { showUI, setShowUI, exit, setExit, setScreenRect } = props;
 
-  // hide the PC tower (case + internals) — only monitor/keyboard/mouse stay
+  // hide the PC tower (case + internals) and the built-in desk slab — only
+  // monitor/keyboard/mouse stay, and the desk comes from Desk.jsx instead
   useEffect(() => {
     if (!group.current) return;
     group.current.traverse(o => {
-      if (TOWER_HIDDEN.has(o.name)) o.visible = false;
+      if (TOWER_HIDDEN.has(o.name) || o.name === DESK_MESH) o.visible = false;
     });
   }, [nodes]);
 

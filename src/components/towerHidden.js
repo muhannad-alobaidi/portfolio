@@ -1,6 +1,11 @@
 // Mesh names of the PC tower (case + internals), found by world-space
 // bounding-box analysis of public/muha/muha.gltf (see git history for the
 // generator). Hidden at runtime so only monitor/keyboard/mouse remain.
+// The desk slab that ships inside muha.glb — a single mesh covering the top
+// and the legs. Hidden so the Desk.jsx model can take its place; verified by
+// hiding it alone, which leaves monitor/keyboard/mouse floating and nothing else.
+export const DESK_MESH = 'Cube_Material_0';
+
 export const TOWER_HIDDEN = new Set([
   "BezierCircle_Material104_0",
   "BezierCurve001_Material085_0",
