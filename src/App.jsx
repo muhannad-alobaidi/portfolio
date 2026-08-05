@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Particals from './components/extaras/Skynight';
 import ScrollExperience from './components/ScrollExperience';
+import SectionNav from './components/SectionNav';
 import SplashScreen from './components/SplashScreen';
 import { preloadScenes } from './utils/preloadScenes';
 
@@ -22,6 +23,7 @@ function App() {
       <div className="relative z-0 grey-gradient">
         <Particals />
         <Navbar />
+        <SectionNav />
         <ScrollExperience />
         <SplashScreen />
       </div>
