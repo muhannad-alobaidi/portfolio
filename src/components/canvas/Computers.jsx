@@ -6,6 +6,7 @@ import { OrbitControls, Environment, AdaptiveDpr } from '@react-three/drei';
 import Muha from '../Muha2';
 import Desk from './Desk';
 import CanvasLoader from '../Loader';
+import Materialize from './Materialize';
 import { maxDpr } from '../../utils/device';
 import { useWebGLRecovery } from '../../utils/useContextRecovery';
 
@@ -123,14 +124,20 @@ const ComputersCanvas = ({
           autoRotateSpeed={1}
           enablePan={false}
         />
-        <Muha
-          exit={exit}
-          setExit={setExit}
-          showUI={showUI}
-          setShowUI={setShowUI}
-          setScreenRect={setScreenRect}
-        />
-        <Desk />
+        {/* the models build in rather than popping: blueprint -> sweep ->
+            textured. Materialize patches their materials in a layout effect,
+            which is why it has to sit above them AND before PrecompileShaders
+            in the tree — gl.compile() should warm the patched programs. */}
+        <Materialize>
+          <Muha
+            exit={exit}
+            setExit={setExit}
+            showUI={showUI}
+            setShowUI={setShowUI}
+            setScreenRect={setScreenRect}
+          />
+          <Desk />
+        </Materialize>
         <PrecompileShaders />
       </Suspense>
     </Canvas>
